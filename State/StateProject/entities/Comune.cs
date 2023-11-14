@@ -11,12 +11,14 @@ namespace StateProject.entities
     {
         string _name;
         List<Cittadino> _list;
+        List<City> _listCity;
         Provincia _provincia;
         GeographicArea _geographicArea;
         public Comune(string name) 
         {
             Name = name;
             _list = new List<Cittadino>();
+            _listCity = new List<City>();   
         }
 
         public string Name { get => _name; set => _name = value; }
@@ -32,6 +34,18 @@ namespace StateProject.entities
         {
             cittadino.Comune = null;
             _list.Remove(cittadino);
+        }
+
+        public void AddCity(City city)
+        {
+            city.Comune = this;
+            _listCity.Add(city);  
+        }
+
+        public void RemoveCity(City city)
+        {
+            city.Comune = null;
+            _listCity.Remove(city);
         }
 
     }
