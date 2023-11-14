@@ -21,9 +21,6 @@ namespace Esercizio2
             country.CheckHumanRights(country);
             country2.CheckHumanRights(country2);
             country3.CheckHumanRights(country3);
-
-          
-
             
         }
     }
