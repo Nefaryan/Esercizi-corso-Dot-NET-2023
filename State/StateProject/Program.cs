@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StateProject.entities;
+using System;
 
 namespace StateProject
 {
@@ -6,7 +7,14 @@ namespace StateProject
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            EuropeanUnion EU = new EuropeanUnion();
+
+            State EuState = new EUState("Italy", "Euro", "Italy", 341, "Svizzera", 30, 399999);
+            EuroZoneState EuZoneState = new EuroZoneState("Germany", "Euro", "Germany", 344444, "Confine", 232, 122222222, 34);
+
+            EU.AddEUState((EUState)EuState);
+            EU.AddEUZoneState(EuZoneState);
+            
         }
     }
 }
