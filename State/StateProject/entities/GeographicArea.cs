@@ -71,5 +71,6 @@ namespace StateProject.entities
             _comune.Remove(comune);
         
         }
+
     }
 }

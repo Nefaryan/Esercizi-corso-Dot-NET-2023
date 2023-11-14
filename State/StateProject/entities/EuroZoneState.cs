@@ -25,5 +25,6 @@ namespace StateProject.entities
         {
             Console.WriteLine($"The state adopted the euro from {TimeWhitEuro} years ");
         }
+
     }
 }

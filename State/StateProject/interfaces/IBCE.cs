@@ -9,5 +9,6 @@ namespace StateProject.interfaces
     internal interface IBCE
     {
         public void adoptingEuro();
+
     }
 }

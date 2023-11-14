@@ -28,7 +28,6 @@ namespace StateProject.entities
         { 
             comune.Provincia = this;
             _comunes.Add(comune);
-        
         }
 
         public void RemouveComune(Comune comune) 
@@ -36,5 +35,6 @@ namespace StateProject.entities
             comune.Provincia = null;
             _comunes.Remove(comune);
         }
+
     }
 }

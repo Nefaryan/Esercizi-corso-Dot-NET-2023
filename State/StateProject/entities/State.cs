@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StateProject.interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StateProject.entities
 {
-    public abstract class State
+    public abstract class State: IONU
     {
         string name;
         string money;
@@ -31,5 +32,16 @@ namespace StateProject.entities
         public decimal Expenses { get => expenses; set => expenses = value; }
         public string Confine { get => confine; set => confine = value; }
         public GeographicArea Area { get => area; set => area = value; }
+
+        public void PopulationControll()
+        {
+            Console.WriteLine("Controll");
+        }
+
+        public void TerritoryDefense()
+        {
+            Console.WriteLine("Defense");
+        }
     }
+
 }

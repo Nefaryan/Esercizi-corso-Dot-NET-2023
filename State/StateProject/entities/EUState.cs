@@ -43,5 +43,6 @@ namespace StateProject.entities
         {
             Console.WriteLine("Your state respect human right");
         }
+
     }
 }

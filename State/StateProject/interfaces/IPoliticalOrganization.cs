@@ -9,5 +9,6 @@ namespace StateProject.interfaces
     internal interface IPoliticalOrganization
     {
         public void Enter();
+
     }
 }

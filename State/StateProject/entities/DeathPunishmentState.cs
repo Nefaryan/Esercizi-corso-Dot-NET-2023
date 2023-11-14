@@ -25,5 +25,6 @@ namespace StateProject.entities
         {
             Console.WriteLine("Death");
         }
+
     }
 }

@@ -8,5 +8,7 @@ namespace StateProject.interfaces
 {
     internal interface IONU
     {
+        public void TerritoryDefense();
+        public void PopulationControll();
     }
 }

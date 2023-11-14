@@ -28,5 +28,6 @@ namespace StateProject.entities
         {
             Console.WriteLine("Military Spending 2%");
         }
+
     }
 }

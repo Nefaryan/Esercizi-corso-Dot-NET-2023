@@ -11,7 +11,6 @@ namespace StateProject
 
             State EuState = new EUState("Italy", "Euro", "Italy", 341, "Svizzera", 30, 399999);
             EuroZoneState EuZoneState = new EuroZoneState("Germany", "Euro", "Germany", 344444, "Confine", 232, 122222222, 34);
-
             EU.AddEUState((EUState)EuState);
             EU.AddEUZoneState(EuZoneState);         
         }

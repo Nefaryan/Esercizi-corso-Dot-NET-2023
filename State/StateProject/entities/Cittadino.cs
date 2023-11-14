@@ -8,6 +8,7 @@ namespace StateProject.entities
 {
     public class Cittadino
     {
+
         string _name;
         string _surname;
         Comune comune;

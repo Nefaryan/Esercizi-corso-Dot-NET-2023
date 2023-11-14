@@ -27,14 +27,12 @@ namespace StateProject.entities
         {
             provincia.Regione = this;
             _provinciaList.Add(provincia);
-        
         }
 
         public void RemoveProvincia(Provincia provincia)
         {
             provincia.Regione = null;
             _provinciaList?.Remove(provincia);
-
         }
     }
 }

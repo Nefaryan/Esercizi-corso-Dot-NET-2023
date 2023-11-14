@@ -9,5 +9,6 @@ namespace StateProject.interfaces
     internal interface INATO
     {
         public void MilitarySpending();
+
     }
 }

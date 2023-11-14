@@ -11,5 +11,6 @@ namespace StateProject.interfaces
         public void EMA();
         public void CostitutionIntegration();
         public void HumanRightTribunal();
+
     }
 }

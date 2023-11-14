@@ -18,5 +18,6 @@ namespace StateProject.entities
 
         public string CityName { get => _cityName; set => _cityName = value; }
         public Comune Comune { get => comune; set => comune = value; }
+
     }
 }

@@ -9,5 +9,6 @@ namespace StateProject.interfaces
     internal interface IDeathPunishementState
     {
         public void death();
+
     }
 }

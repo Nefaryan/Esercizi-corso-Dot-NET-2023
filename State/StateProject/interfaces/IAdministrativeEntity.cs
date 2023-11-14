@@ -8,5 +8,6 @@ namespace StateProject.interfaces
 {
     internal interface IAdministrativeEntity
     {
+
     }
 }

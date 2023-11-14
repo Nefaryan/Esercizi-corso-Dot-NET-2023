@@ -48,5 +48,6 @@ namespace StateProject.entities
             _listCity.Remove(city);
         }
 
+
     }
 }
