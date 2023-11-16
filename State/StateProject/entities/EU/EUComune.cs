@@ -44,7 +44,7 @@ namespace StateProject.entities.EU
 
         public override void WellfareServices()
         {
-            Console.WriteLine("Not Europena wellfare");
+            Console.WriteLine("Not Implemented for now");
         }
 
         public override void HSN(EUID eUID)

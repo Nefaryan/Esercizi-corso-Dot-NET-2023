@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StateProject.interfaces
+namespace StateProject.interfaces.EUInterfaces
 {
-    internal interface IEuropeanUnion: IPoliticalOrganization
+    internal interface IEuropeanUnion : IPoliticalOrganization
     {
         public void EMA();
         public void CostitutionIntegration();

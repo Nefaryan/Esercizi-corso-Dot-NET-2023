@@ -30,10 +30,7 @@ namespace StateProject
 
             Castrovillari.EducationalSystem(c2);
 
-           
-
-            EuState.BoarderRedefinition(parliament);
-                   
+                                   
         }
     }
 }

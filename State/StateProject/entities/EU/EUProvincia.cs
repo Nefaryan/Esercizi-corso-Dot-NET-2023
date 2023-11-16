@@ -12,7 +12,6 @@ namespace StateProject.entities.EU
     {
         string _name;
         List<EUComune> _comunes;
-        GeographicArea _geographicArea;
         EURegione regione;
 
         public EUProvincia(string name)
@@ -22,7 +21,6 @@ namespace StateProject.entities.EU
         }
 
         public string Name { get => _name; set => _name = value; }
-        public GeographicArea GeographicArea { get => _geographicArea; set => _geographicArea = value; }
         public EURegione Regione { get => regione; set => regione = value; }
 
         public void AddCoumne(EUComune comune)
@@ -37,18 +35,29 @@ namespace StateProject.entities.EU
             _comunes.Remove(comune);
         }
 
-        public override void EducationalSystem(EUID eUID)
+        public EUComune GetComune(string nomeCoumne)
         {
-            Console.WriteLine("Municipality's task");
+            EUComune comune = _comunes.FirstOrDefault(c => c.Name == nomeCoumne);
+            return comune;
         }
-        public override void HNS(EUID eUID) 
+        public void ChangeProvinciaForComune(string NomeComune, EUProvincia ProvinciaDiDestinazione)
         {
-            Console.WriteLine("Municipality's task");
+            EUComune comune = GetComune(NomeComune);
+            if(comune!= null)
+            {
+                Console.WriteLine($"Il comune {comune.Name} cambia provincia di appartenaza da {comune.Provincia}");
+                comune.Provincia.RemouveComune(comune);
+                comune.Provincia = ProvinciaDiDestinazione;
+                ProvinciaDiDestinazione.AddCoumne(comune);
+                Console.WriteLine($"La nuova provincia del comune {comune.Name} è {ProvinciaDiDestinazione.Name} ");
+            }
+            else
+            {
+                Console.WriteLine("Operazione non riuscita");
+            }
         }
-        public override void WellfareService(EUID eUID) 
-        {
-            Console.WriteLine("Municipality's task");
-        }
+
+      
 
     }
 }

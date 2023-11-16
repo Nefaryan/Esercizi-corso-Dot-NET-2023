@@ -37,18 +37,28 @@ namespace StateProject.entities.EU
             _provinciaList?.Remove(provincia);
         }
 
+        public EUProvincia GetEUProvincia(string NomeProvincia)
+        {
+            return _provinciaList.FirstOrDefault(p => p.Name == NomeProvincia);
+        }
 
-        public override void EducationalSystem(EUID eUID)
-        { Console.WriteLine("Municipality's task"); }
-        
+        public void ChangeRegioneAtProvincia(string NomeProvincia, EURegione RegioneDiDestinazione)
+        {
+            EUProvincia eUProvincia = GetEUProvincia(NomeProvincia);
+            if(eUProvincia != null)
+            {
+                Console.WriteLine($"La provincia {eUProvincia.Name} sta cambiando regiona da {eUProvincia.Regione.Name}");
+                eUProvincia.Regione = RegioneDiDestinazione;
+                RegioneDiDestinazione.AddProvincia(eUProvincia);
+                Console.WriteLine($"La provincia {eUProvincia.Name} ha cambiato la sua regione a {RegioneDiDestinazione.Name}");
+            }
+            else
+            {
+                Console.WriteLine("NOn è stato possibile eseguire l'operazione");
+            }
+        }
 
-        public override void HNS(EUID eUID)
-        { Console.WriteLine("Municipality's task"); }
-        
 
        
-        public override void WellfareService(EUID eUID)
-        { Console.WriteLine("Municipality's task"); }
-        
     }
 }

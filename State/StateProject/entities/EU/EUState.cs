@@ -1,5 +1,5 @@
 ﻿using StateProject.entities.EU;
-using StateProject.interfaces;
+using StateProject.interfaces.EUInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,20 +41,7 @@ namespace StateProject.entities
             _regions.Remove(region);
         }
 
-        public void BoarderRedefinition(EUParliament eUParliament)
-        {
-            Console.WriteLine($"The State{Name} ask for change er border {Confine} ");
-            if (eUParliament.Permision)
-            {
-                string confine = Console.ReadLine();
-                Console.WriteLine($"New border is {confine}");
-                Console.WriteLine($"The State {Name} has changed is border whit {Confine = confine}");
-            }
-            else
-            {
-                Console.WriteLine("The state can't change er border");
-            }
-        }
+       
         public void EducationalSystem()
         {
             Console.WriteLine("");
@@ -70,6 +57,11 @@ namespace StateProject.entities
         public void WellfareService()
         {
             Console.WriteLine("");
+        }
+
+        public void BoarderRedefinition(State destionation)
+        {
+            throw new NotImplementedException();
         }
     }
 }

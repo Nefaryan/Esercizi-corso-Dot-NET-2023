@@ -1,4 +1,4 @@
-﻿using StateProject.interfaces;
+﻿using StateProject.interfaces.EUInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +7,31 @@ using System.Threading.Tasks;
 
 namespace StateProject.entities.EU.Abstract
 {
-    public abstract class EUPublicAdministration : IEUAdministrativeEntity
+    public abstract class EUPublicAdministration : GeographicArea, IEUAdministrativeEntity
     {
-        public void BoarderRedefinition(EUParliament eUParliament) { }
-        public void EducationalSystem() { }
-        public void HNS() { }
-        public void LawSystem() { }
-        public void WellfareService() { }
-        public abstract void EducationalSystem(EUID eUID);
-        public abstract void HNS(EUID eUID);
-        public abstract void WellfareService(EUID eUID);
-        public void EMA() { }
-        public void CostitutionIntegration() { }
-        public void HumanRightTribunal() { }
-        public void Enter() { }
-        
+        public void BoarderRedefinition(State destionation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EducationalSystem()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HNS()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LawSystem()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WellfareService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
