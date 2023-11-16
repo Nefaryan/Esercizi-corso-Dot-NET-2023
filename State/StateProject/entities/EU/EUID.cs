@@ -29,9 +29,6 @@ namespace StateProject.entities.EU
         public string Genere { get => _genere; set => _genere = value; }
         public string DateOfBirth { get => _dateOfBirth; set => _dateOfBirth = value; }
         public int Age { get => _age; set => _age = value; }
-
-      
-
         
     }
 }

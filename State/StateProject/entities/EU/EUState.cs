@@ -3,6 +3,7 @@ using StateProject.interfaces.EUInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,9 @@ namespace StateProject.entities
         int _timeInEU;
         int _population;
         List<EURegione> _regions;
+        List<EUProvincia> _provinciaList;
+        List<EUComune> _comuneList;
+     
         
 
         public EUState(string name, string money,
@@ -40,8 +44,24 @@ namespace StateProject.entities
             region.State = null;
             _regions.Remove(region);
         }
-
-       
+        public void AddProvincia(EUProvincia provincia)
+        {
+            _provinciaList.Add(provincia);
+        }
+        public void RemoveProvincia(EUProvincia provincia)
+        {
+            _provinciaList.Remove(provincia);
+        
+        }
+        public void AddComune(EUComune comune)
+        {
+          _comuneList.Add(comune);
+        }
+        public void RemoveComune(EUComune comune)
+        {
+            _comuneList.Remove(comune);
+        }
+ 
         public void EducationalSystem()
         {
             Console.WriteLine("");
@@ -58,7 +78,6 @@ namespace StateProject.entities
         {
             Console.WriteLine("");
         }
-
         public void BoarderRedefinition(State destionation)
         {
             throw new NotImplementedException();

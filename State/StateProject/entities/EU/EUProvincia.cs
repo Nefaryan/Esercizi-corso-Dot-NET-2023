@@ -35,14 +35,14 @@ namespace StateProject.entities.EU
             _comunes.Remove(comune);
         }
 
-        public EUComune GetComune(string nomeCoumne)
+        public EUComune GetComune(EUComune euC)
         {
-            EUComune comune = _comunes.FirstOrDefault(c => c.Name == nomeCoumne);
+            EUComune comune = _comunes.Find(c => c.Name == euC.Name);
             return comune;
         }
-        public void ChangeProvinciaForComune(string NomeComune, EUProvincia ProvinciaDiDestinazione)
+        public void ChangeProvinciaForComune(EUComune euC, EUProvincia ProvinciaDiDestinazione)
         {
-            EUComune comune = GetComune(NomeComune);
+            EUComune comune = GetComune(euC);
             if(comune!= null)
             {
                 Console.WriteLine($"Il comune {comune.Name} cambia provincia di appartenaza da {comune.Provincia}");

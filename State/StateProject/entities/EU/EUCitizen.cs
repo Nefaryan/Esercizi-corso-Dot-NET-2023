@@ -60,5 +60,6 @@ namespace StateProject.entities.EU
             Console.WriteLine($"Citizen Document detail's:\n{EUID.Name} {EUID.Surname}" +
                 $"\ndate of birth: {EUID.DateOfBirth}");
         }
+
     }
 }

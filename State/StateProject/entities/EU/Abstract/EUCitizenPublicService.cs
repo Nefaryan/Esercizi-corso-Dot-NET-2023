@@ -23,5 +23,6 @@ namespace StateProject.entities.EU.Abstract
         public abstract void WellfareServices();
         public abstract void HSN(EUID eUID);
         public abstract void EducationalSystem(EUID eUID);
+
     }
 }

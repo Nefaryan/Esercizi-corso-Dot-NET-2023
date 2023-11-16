@@ -54,7 +54,7 @@ namespace StateProject.entities.EU
             }
             else
             {
-                Console.WriteLine("NOn è stato possibile eseguire l'operazione");
+                Console.WriteLine("Non è stato possibile eseguire l'operazione");
             }
         }
 
