@@ -10,7 +10,6 @@ namespace StateProject.entities
     public class EuroZoneState : EUState, IBCE
     {
         int _timeWhitEuro;
-
         public EuroZoneState(string name, string money,
             string banner, decimal expenses, string confine,
             int timeInEU, int population, int timeWhitEuro):base

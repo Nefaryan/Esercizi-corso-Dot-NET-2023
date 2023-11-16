@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StateProject.entities
+namespace StateProject.entities.NATO
 {
     public class NATO
     {
@@ -15,7 +15,7 @@ namespace StateProject.entities
             _states = new List<NatoState>();
         }
 
-        public void addNatoState (NatoState state)
+        public void addNatoState(NatoState state)
         {
             _states.Add(state);
         }

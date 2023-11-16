@@ -37,6 +37,23 @@ namespace StateProject.entities
             _eUZones.Remove(e);
         }
 
+        public void EnterINEU(State state, int population)
+        {
+
+            if (state is EUState)
+            {
+                Console.WriteLine("The provided state is already an EUState.");
+            }
+            else
+            {
+
+                EUState euState = new EUState(state.Name, state.Money, state.Banner, state.Expenses, state.Confine, 0, population);
+                euState.TimeInEU++;
+                euState.Population = population;
+                AddEUState(euState);
+                Console.WriteLine($"State {state.Name} enter in EU");
+            }
+        }
 
 
     }

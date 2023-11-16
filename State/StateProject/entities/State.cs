@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StateProject.entities
 {
-    public abstract class State: IONU
+    public  class State: IONU
     {
         string name;
         string money;
@@ -16,7 +16,7 @@ namespace StateProject.entities
         string confine;
         GeographicArea area;
 
-        protected State(string name, string money, 
+        public State(string name, string money, 
             string banner, decimal expenses, string confine)
         {
             this.name = name;

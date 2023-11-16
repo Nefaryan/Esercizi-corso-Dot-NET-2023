@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace StateProject.interfaces
 {
-    internal interface IAdministrativeEntity
+    public interface IAdministrativeEntity
     {
+        public void HNS();
+        public void LawSystem();
+        public void EducationalSystem();
 
     }
 }

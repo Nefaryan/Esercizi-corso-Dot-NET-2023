@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StateProject.entities.EU;
 
 namespace StateProject.entities
 {
-    public class City
+    public class City:EUComune
     {
         string _cityName;
-        Comune comune;
+        Country _country;
 
-        public City(string CityName)
+        public City(string name) : base(name)
         {
-            _cityName = CityName;
+            _cityName = name;
         }
 
         public string CityName { get => _cityName; set => _cityName = value; }
-        public Comune Comune { get => comune; set => comune = value; }
-
+        public Country Country { get => _country; set => _country = value; }
     }
 }

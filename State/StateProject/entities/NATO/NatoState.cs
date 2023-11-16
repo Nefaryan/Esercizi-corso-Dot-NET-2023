@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StateProject.entities
+namespace StateProject.entities.NATO
 {
-    public class NatoState: State,INATO
+    public class NatoState : State, INATO
     {
         int _timeInNato;
         int _population;
 
         public NatoState(string name, string money,
             string banner, decimal expenses, string confine,
-            int timeInNato, int population): base(name, money, banner,
-                expenses,confine)
+            int timeInNato, int population) : base(name, money, banner,
+                expenses, confine)
         {
             _timeInNato = timeInNato;
             _population = population;
