@@ -47,9 +47,8 @@ namespace StateProject.entities
             else
             {
 
-                EUState euState = new EUState(state.Name, state.Money, state.Banner, state.Expenses, state.Confine, 0, population);
+                EUState euState = new EUState(state.Name, state.Money, state.Banner, state.Expenses, state.Confine, 0);
                 euState.TimeInEU++;
-                euState.Population = population;
                 AddEUState(euState);
                 Console.WriteLine($"State {state.Name} enter in EU");
             }

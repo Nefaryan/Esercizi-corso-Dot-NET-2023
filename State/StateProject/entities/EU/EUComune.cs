@@ -15,15 +15,22 @@ namespace StateProject.entities.EU
         EUCitizen[] _citizenList;
         EUProvincia _provincia;
         GeographicArea _geographicArea;
-        public EUComune(string name)
+        int _capacita;
+        int _popolazione;
+        public EUComune(string name,int capacita)
         {
             Name = name;
             _citizenList = new EUCitizen[0];
+            _capacita = capacita;
+            
         }
 
         public string Name { get => _name; set => _name = value; }
         public EUProvincia Provincia { get => _provincia; set => _provincia = value; }
         public GeographicArea GeographicArea { get => _geographicArea; set => _geographicArea = value; }
+        public int Capacita { get => _capacita; set => _capacita = value; }
+        public int Popolazione { get => _popolazione; set => _popolazione = value; }
+        public EUCitizen[] CitizenList { get => _citizenList; set => _citizenList = value; }
 
         public void AddCittadino(EUCitizen cittadino)
         {

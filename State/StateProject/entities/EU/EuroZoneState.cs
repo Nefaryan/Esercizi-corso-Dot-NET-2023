@@ -13,7 +13,7 @@ namespace StateProject.entities
         public EuroZoneState(string name, string money,
             string banner, decimal expenses, string confine,
             int timeInEU, int population, int timeWhitEuro):base
-            (name,money,banner,expenses,confine,timeInEU,population)
+            (name,money,banner,expenses,confine,timeInEU)
         {
             _timeWhitEuro = timeWhitEuro;
         }

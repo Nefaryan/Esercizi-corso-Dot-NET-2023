@@ -12,7 +12,7 @@ namespace StateProject.entities
         string _cityName;
         Country _country;
 
-        public City(string name) : base(name)
+        public City(string name,int capacità) : base(name, capacità)
         {
             _cityName = name;
         }

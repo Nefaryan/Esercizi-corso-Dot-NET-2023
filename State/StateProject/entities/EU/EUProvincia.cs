@@ -11,34 +11,37 @@ namespace StateProject.entities.EU
     public class EUProvincia : EUPublicAdministration
     {
         string _name;
-        EUComune[] _comunes;
+        EUComune[] _comuni;
         EURegione regione;
+        int _popolazione;
 
         public EUProvincia(string name)
         {
             Name = name;
-            _comunes = new EUComune[0];
+            _comuni = new EUComune[0];
         }
 
         public string Name { get => _name; set => _name = value; }
         public EURegione Regione { get => regione; set => regione = value; }
+        public int Popolazione { get => _popolazione; set => _popolazione = value; }
+        public EUComune[] Comuni { get => _comuni; set => _comuni = value; }
 
         public void AddCoumne(EUComune comune)
         {
-            Array.Resize(ref _comunes, _comunes.Length +1);
+            Array.Resize(ref _comuni, _comuni.Length +1);
             comune.Provincia = this;
-            _comunes[_comunes.Length - 1] = comune;
+            _comuni[_comuni.Length - 1] = comune;
         }
 
         public void RemoveComune(EUComune comune)
         {
-          _comunes = _comunes.Where(c => c != comune).ToArray();
+          _comuni = _comuni.Where(c => c != comune).ToArray();
           comune.Provincia = null;
         }
 
         public EUComune GetComune(string nomeComune)
         {
-            EUComune comune = Array.Find(_comunes, c=> c.Name == nomeComune);
+            EUComune comune = Array.Find(_comuni, c=> c.Name == nomeComune);
             return comune;
         }
         public void ChangeProvinciaForComune(string comune, EUProvincia ProvinciaDiDestinazione)

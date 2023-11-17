@@ -13,6 +13,7 @@ namespace StateProject.entities.EU
         EUProvincia[] _provinciaList;
         GeographicArea _geographicArea;
         EUState state;
+        int _popolazioneRegione;
 
         public EURegione(string name)
         {
@@ -26,6 +27,7 @@ namespace StateProject.entities.EU
         public GeographicArea GeographicArea { get => _geographicArea; set => _geographicArea = value; }
         public EUState State { get => state; set => state = value; }
         public EUProvincia[] ProvinciaList { get => _provinciaList; set => _provinciaList = value; }
+        public int PopolazioneRegione { get => _popolazioneRegione; set => _popolazioneRegione = value; }
 
         public void AddProvincia(EUProvincia provincia)
         {
