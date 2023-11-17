@@ -13,9 +13,8 @@ namespace StateProject.entities
     {
         int _timeInEU;
         int _population;
-        List<EURegione> _regions;
-        List<EUProvincia> _provinciaList;
-        List<EUComune> _comuneList;
+        EURegione[] _regioni;   
+       
      
         
 
@@ -26,42 +25,28 @@ namespace StateProject.entities
         {
             _timeInEU = timeInEU;
             _population = population;
-            _regions = new List<EURegione>();
+            _regioni = new EURegione[0];
+            
 
         }
 
         public int TimeInEU { get => _timeInEU; set => _timeInEU = value; }
         public int Population { get => _population; set => _population = value; }
+        public EURegione[] Regioni { get => _regioni; set => _regioni = value; }
 
-        public void AddRegions(EURegione region)
+        public void AddRegion(EURegione region)
         {
+            Array.Resize(ref _regioni, _regioni.Length + 1);
             region.State = this;
-            _regions.Add(region);
+            _regioni[_regioni.Length - 1] = region;
+        }
 
-        }
-        public void RemoveRegions(EURegione region)
+        public void RemoveRegione(EURegione region)
         {
+            _regioni = _regioni.Where(r => r != region).ToArray();
             region.State = null;
-            _regions.Remove(region);
         }
-        public void AddProvincia(EUProvincia provincia)
-        {
-            _provinciaList.Add(provincia);
-        }
-        public void RemoveProvincia(EUProvincia provincia)
-        {
-            _provinciaList.Remove(provincia);
-        
-        }
-        public void AddComune(EUComune comune)
-        {
-          _comuneList.Add(comune);
-        }
-        public void RemoveComune(EUComune comune)
-        {
-            _comuneList.Remove(comune);
-        }
- 
+
         public void EducationalSystem()
         {
             Console.WriteLine("");

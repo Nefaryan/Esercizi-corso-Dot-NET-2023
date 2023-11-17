@@ -11,13 +11,13 @@ namespace StateProject.entities.EU
     public class EUProvincia : EUPublicAdministration
     {
         string _name;
-        List<EUComune> _comunes;
+        EUComune[] _comunes;
         EURegione regione;
 
         public EUProvincia(string name)
         {
             Name = name;
-            _comunes = new List<EUComune>();
+            _comunes = new EUComune[0];
         }
 
         public string Name { get => _name; set => _name = value; }
@@ -25,39 +25,45 @@ namespace StateProject.entities.EU
 
         public void AddCoumne(EUComune comune)
         {
+            Array.Resize(ref _comunes, _comunes.Length +1);
             comune.Provincia = this;
-            _comunes.Add(comune);
+            _comunes[_comunes.Length - 1] = comune;
         }
 
-        public void RemouveComune(EUComune comune)
+        public void RemoveComune(EUComune comune)
         {
-            comune.Provincia = null;
-            _comunes.Remove(comune);
+          _comunes = _comunes.Where(c => c != comune).ToArray();
+          comune.Provincia = null;
         }
 
-        public EUComune GetComune(EUComune euC)
+        public EUComune GetComune(string nomeComune)
         {
-            EUComune comune = _comunes.Find(c => c.Name == euC.Name);
+            EUComune comune = Array.Find(_comunes, c=> c.Name == nomeComune);
             return comune;
         }
-        public void ChangeProvinciaForComune(EUComune euC, EUProvincia ProvinciaDiDestinazione)
+        public void ChangeProvinciaForComune(string comune, EUProvincia ProvinciaDiDestinazione)
         {
-            EUComune comune = GetComune(euC);
-            if(comune!= null)
+            EUComune eUComune = GetComune(comune);
+            if (eUComune != null)
             {
-                Console.WriteLine($"Il comune {comune.Name} cambia provincia di appartenaza da {comune.Provincia}");
-                comune.Provincia.RemouveComune(comune);
-                comune.Provincia = ProvinciaDiDestinazione;
-                ProvinciaDiDestinazione.AddCoumne(comune);
-                Console.WriteLine($"La nuova provincia del comune {comune.Name} è {ProvinciaDiDestinazione.Name} ");
+                Console.WriteLine($"Il comune {eUComune.Name} cambia provincia di appartenenza da {eUComune.Provincia.Name} a {ProvinciaDiDestinazione.Name}");
+
+                eUComune.Provincia.RemoveComune(eUComune);
+
+                eUComune.Provincia = ProvinciaDiDestinazione;
+
+                ProvinciaDiDestinazione.AddCoumne(eUComune);
+
+                Console.WriteLine($"La nuova provincia del comune {eUComune.Name} è {ProvinciaDiDestinazione.Name}");
             }
             else
             {
-                Console.WriteLine("Operazione non riuscita");
+                Console.WriteLine("Operazione non riuscita. Il comune non è stato trovato.");
             }
+
         }
-
-      
-
+            
+          
     }
+    
 }

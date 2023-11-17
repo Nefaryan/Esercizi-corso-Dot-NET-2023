@@ -12,13 +12,13 @@ namespace StateProject.entities.EU
     public class EUComune : EUCitizenPublicService
     {
         string _name;
-        List<EUCitizen> _citizenList;
+        EUCitizen[] _citizenList;
         EUProvincia _provincia;
         GeographicArea _geographicArea;
         public EUComune(string name)
         {
             Name = name;
-            _citizenList = new List<EUCitizen>();
+            _citizenList = new EUCitizen[0];
         }
 
         public string Name { get => _name; set => _name = value; }
@@ -27,13 +27,14 @@ namespace StateProject.entities.EU
 
         public void AddCittadino(EUCitizen cittadino)
         {
+            Array.Resize(ref _citizenList, _citizenList.Length);
             cittadino.Comune = this;
-            _citizenList.Add(cittadino);
+            _citizenList[_citizenList.Length - 1] = cittadino;
         }
         public void RemoveCittadino(EUCitizen cittadino)
         {
+            _citizenList = _citizenList.Where(c => c != cittadino).ToArray();
             cittadino.Comune = null;
-            _citizenList.Remove(cittadino);
         }
 
         private EUCitizen GetCitizen(EUID eUID)
