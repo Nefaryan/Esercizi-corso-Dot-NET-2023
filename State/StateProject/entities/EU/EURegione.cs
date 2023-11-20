@@ -18,8 +18,7 @@ namespace StateProject.entities.EU
         public EURegione(string name)
         {
             _name = name;
-            ProvinciaList = new EUProvincia[0];
-            
+            ProvinciaList = new EUProvincia[0]; 
         }
 
         public string Name { get => _name; set => _name = value; }
@@ -62,9 +61,6 @@ namespace StateProject.entities.EU
             {
                 Console.WriteLine("Non è stato possibile eseguire l'operazione");
             }
-        }
-
-
-       
+        }     
     }
 }

@@ -32,7 +32,6 @@ namespace StateProject.entities.EU
         {
             throw new NotImplementedException();
         }
-
         public void WellfareService()
         {
             throw new NotImplementedException();

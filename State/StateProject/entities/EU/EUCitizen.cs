@@ -55,11 +55,7 @@ namespace StateProject.entities.EU
             }
         }
 
-        public void EuIdDocument()
-        {
-            Console.WriteLine($"Citizen Document detail's:\n{EUID.Name} {EUID.Surname}" +
-                $"\ndate of birth: {EUID.DateOfBirth}");
-        }
+      
 
     }
 }

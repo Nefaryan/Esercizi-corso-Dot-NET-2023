@@ -63,10 +63,6 @@ namespace StateProject.entities.EU
             {
                 Console.WriteLine("Operazione non riuscita. Il comune non è stato trovato.");
             }
-
-        }
-            
-          
-    }
-    
+        }         
+    }  
 }

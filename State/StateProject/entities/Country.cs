@@ -16,11 +16,12 @@ namespace StateProject.entities
         }
 
         public string Name { get => _name; set => _name = value; }
+        public List<City> Cities { get => _cities; set => _cities = value; }
 
-        public void addCountry(City city)
+        public void AddCountry(City city)
         {
             city.Country = this;
-            _cities.Add(city);
+            Cities.Add(city);
         }
     }
 }

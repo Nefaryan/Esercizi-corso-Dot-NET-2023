@@ -54,7 +54,7 @@ namespace StateProject
             Viterbo.AddCoumne(c8);
             Latina.AddCoumne(c9);
 
-            italia.DistribuisciPopolazione(12900000);
+            italia.DistribuisciPopolazione(129000);
             
 
 

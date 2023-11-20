@@ -88,6 +88,12 @@ namespace StateProject.entities.EU
                 Console.WriteLine("EUID not found");
             }
         }
+
+         public void RelaseEuIdDocument(EUCitizen citizen)
+        {
+            Console.WriteLine($"Citizen Document detail's:\n{citizen.EUID.Name} {citizen.EUID.Surname}" +
+                $"\nGenre: {citizen.EUID.Genere} \ndate of birth: {citizen.EUID.DateOfBirth}");
+        }
     }
 
 }
