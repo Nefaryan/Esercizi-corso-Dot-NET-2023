@@ -13,7 +13,7 @@ namespace Spotifake.Entities
         string _duration;
         string _relaseDate;
         List<Album> _albums;
-        List<Gruop> _group;
+        List<Group> _group;
         List<Artist> _artists;
     
 
@@ -24,7 +24,7 @@ namespace Spotifake.Entities
             _duration = duration;
             _relaseDate = relaseDate;
             _albums = new List<Album>();
-            _group = new List<Gruop>();
+            _group = new List<Group>();
             _artists = new List<Artist>();
         }
         public string Name { get => _name; set => _name = value; }
@@ -32,7 +32,7 @@ namespace Spotifake.Entities
         public string Duration { get => _duration; set => _duration = value; }
         public string RelaseDate { get => _relaseDate; set => _relaseDate = value; }
         internal List<Album> Albums { get => _albums; set => _albums = value; }
-        internal List<Gruop> Group { get => _group; set => _group = value; }
+        internal List<Group> Group { get => _group; set => _group = value; }
         internal List<Artist> Artists { get => _artists; set => _artists = value; }
     }
 }

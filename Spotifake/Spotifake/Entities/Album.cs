@@ -10,7 +10,7 @@ namespace Spotifake.Entities
     {
         string _title;
         Artist _artist;
-        Gruop _gruop;
+        Group _gruop;
         bool _isLiveVersionAlbum;
         List<Song> _song;
         int _nOfTrack;
@@ -26,10 +26,9 @@ namespace Spotifake.Entities
         }
 
         //Costruttore per gli album legati ad un gruppo
-        public Album(string title, Gruop gruop, bool live)
+        public Album(string title, bool live)
         {
             _title = title;
-            _gruop = gruop;
             _song = new List<Song>();
             _isLiveVersionAlbum = live;
             _nOfTrack = _song.Count;
@@ -39,7 +38,7 @@ namespace Spotifake.Entities
         public bool IsLiveVersionAlbum { get => _isLiveVersionAlbum; set => _isLiveVersionAlbum = value; }
         public int NOfTrack { get => _nOfTrack; set => _nOfTrack = value; }
         internal Artist Artist { get => _artist; set => _artist = value; }
-        internal Gruop Gruop { get => _gruop; set => _gruop = value; }
+        internal Group Gruop { get => _gruop; set => _gruop = value; }
         internal List<Song> Song { get => _song; set => _song = value; }
     }
 }

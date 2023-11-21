@@ -77,6 +77,11 @@ namespace Spotifake.Entities
 
         }
 
+        public void ModifySetting(bool darkTheme, string equalizer,bool Premium, int deviceConnected)
+        {
+            Setting setting = new Setting(darkTheme, equalizer, Premium, deviceConnected);
+            setting.User = this;
+        }
         private Playlist GetPlayListByName(string name)
         {
             Playlist playlist = _playlist.Find(x => x.Name == name);
@@ -85,7 +90,9 @@ namespace Spotifake.Entities
                 return playlist;
             }
             else
-            { return null; }
+            {
+                return null;
+            }
         }
     }
 }

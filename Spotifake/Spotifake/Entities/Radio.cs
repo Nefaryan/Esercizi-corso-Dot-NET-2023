@@ -8,5 +8,8 @@ namespace Spotifake.Entities
 {
     internal class Radio
     {
+        List<Song> _songs;
+        List<Album> _albums;
+        string _name;
     }
 }

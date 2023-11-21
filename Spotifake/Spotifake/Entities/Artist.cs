@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Spotifake.Entities
@@ -23,7 +22,7 @@ namespace Spotifake.Entities
             _album = new List<Album>();
             _songs = new List<Song>();
             _bio = biog;
-            _group = group;
+            _group = group ;
         }
 
         //Costruttore per Artista singolo
