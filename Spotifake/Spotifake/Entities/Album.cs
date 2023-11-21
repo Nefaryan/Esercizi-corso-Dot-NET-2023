@@ -33,7 +33,6 @@ namespace Spotifake.Entities
             _song = new List<Song>();
             _isLiveVersionAlbum = live;
             _nOfTrack = _song.Count;
-
         }
 
         public string Title { get => _title; set => _title = value; }
