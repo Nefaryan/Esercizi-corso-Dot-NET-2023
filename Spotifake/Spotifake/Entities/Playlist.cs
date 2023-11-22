@@ -20,6 +20,7 @@ namespace Spotifake.Entities
 
         public string Name { get => _name; set => _name = value; }
         internal User User { get => _user; set => _user = value; }
+        internal List<Song> Songs { get => _songs; set => _songs = value; }
 
         public void AddSong(Song song)
         {

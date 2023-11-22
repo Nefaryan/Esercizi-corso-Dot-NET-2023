@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Spotifake.Entities
 {
-    //TODO: Implementare la gestione delle eccezzioni
     internal class Artist : Person
     {
         string _artistName;
@@ -42,12 +41,36 @@ namespace Spotifake.Entities
         internal List<Song> Songs { get => _songs; set => _songs = value; }
 
         public void createNewSong(string name,string genre,
-            string duration,string relaseDate)
-        { 
-            Song newSong = new Song(name, genre, duration, relaseDate);
+            int duration,string relaseDate)
+        {
+            try 
+            {
+                Song newSong = new Song(name, genre, duration, relaseDate);
 
-            newSong.Artists.Add(this);
-            _songs.Add(newSong);
+                newSong.Artists.Add(this);
+                _songs.Add(newSong);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            
+            }
+         
+        }
+
+        public void createNewAlbum(string title,bool isLiveAlbum)
+        {
+            try
+            {
+                Album album = new Album(title, this, isLiveAlbum);
+                _album.Add(album);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());   
+            }
         }
 
         public void AddSongToAlbum(string songName, string AlbumName)

@@ -3,32 +3,82 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Spotifake.Entities
 {
+    //TODO: COMPLETARE L'IMPLEMENTAZIONE
+
     internal class MediaPlayer : IMedia
     {
-        List<Song> songs;
+        List<Song> _songs;
+        List<Playlist> _playlist;
+        int _currentSongIndex;
+        bool _isPlaying;
 
-        public void NextSong()
+        public void NextSong(User user)
         {
-            throw new NotImplementedException();
+            if (user.Setting.IsPremium)
+            {
+                if (_currentSongIndex < _songs.Count - 1)
+                {
+                    _currentSongIndex++;
+                    PlayCurrentSong();
+                }
+                else
+                {
+                    Console.WriteLine("Playlist terminata");
+                }
+            } 
+            else 
+            {
+                Console.WriteLine("Attiva L'abbonamento per usufruire della funzione");            
+            }
         }
 
         public void PauseSong()
         {
-            throw new NotImplementedException();
+            _isPlaying = false;
+            Console.WriteLine("");
         }
 
         public void PlayAlbum(string albumName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var SongInTheAlbum = _songs.Where(song
+                => song.Albums.Any(album => album.Title == albumName)).ToList();
+
+                if (SongInTheAlbum.Any())
+                {
+                    Console.WriteLine($"Riproduco L'album: {albumName}");
+
+                    foreach (var song in SongInTheAlbum)
+                    {
+                        Console.WriteLine($"Brano in riproduzione : {song.Name}");
+                        Thread.Sleep(song.Duration * 1000);
+                    }
+                }
+            }
+            catch(Exception ex)
+            { 
+                Console.WriteLine(ex.ToString());
+            } 
         }
 
         public void PlayPlaylist(string playlistName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var PlayList = _playlist.FirstOrDefault(p => p.Name == playlistName);
+                if(PlayList != null)
+                {
+                   // var SongInPlayList = PlayList.Songs
+                
+                }
+            }
+            
         }
 
         public void PlaySong(string songName)
@@ -36,7 +86,7 @@ namespace Spotifake.Entities
             throw new NotImplementedException();
         }
 
-        public void PreviousSong()
+        public void PreviousSong(User user)
         {
             throw new NotImplementedException();
         }
@@ -44,6 +94,12 @@ namespace Spotifake.Entities
         public void StopSong()
         {
             throw new NotImplementedException();
+        }
+
+        private void PlayCurrentSong()
+        {
+            _isPlaying = true;
+            Console.WriteLine($"Ridproduzione di: {_songs[_currentSongIndex].Name} in corso");
         }
     }
 }

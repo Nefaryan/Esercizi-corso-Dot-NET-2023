@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spotifake.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,8 @@ namespace Spotifake.Interfaces
         public void PlayPlaylist(string playlistName);
         public void StopSong();
         public void PauseSong();
-        public void NextSong();
-        public void PreviousSong();
+        public void NextSong(User user);
+        public void PreviousSong(User user);
 
 
     }
