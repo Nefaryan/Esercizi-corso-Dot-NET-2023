@@ -40,7 +40,7 @@ namespace Spotifake.Entities
         internal List<Album> Album { get => _album; set => _album = value; }
         internal List<Song> Songs { get => _songs; set => _songs = value; }
 
-        public void createNewSong(string name,string genre,
+        public void CreateNewSong(string name,string genre,
             int duration,string relaseDate)
         {
             try 
@@ -72,7 +72,7 @@ namespace Spotifake.Entities
             _songs.Add(song1);
         }
 
-        public void createNewAlbum(string title,bool isLiveAlbum)
+        public void CreateNewAlbum(string title,bool isLiveAlbum)
         {
             try
             {
@@ -88,8 +88,8 @@ namespace Spotifake.Entities
 
         public void AddSongToAlbum(string songName, string AlbumName)
         {
-            Song song =  findSongByName(songName);
-            Album album = findAlbumByName(AlbumName);
+            Song song =  FindSongByName(songName);
+            Album album = FindAlbumByName(AlbumName);
 
             if(song != null && album != null) 
             {
@@ -98,7 +98,7 @@ namespace Spotifake.Entities
             }
         }
 
-        private Song findSongByName(string name)
+        private Song FindSongByName(string name)
         {
             Song song = _songs.Find(x => x.Name == name); 
             if(song != null)
@@ -111,7 +111,7 @@ namespace Spotifake.Entities
             }
         }
 
-        private Album findAlbumByName(string title)
+        private Album FindAlbumByName(string title)
         {
             Album album = _album.Find(x => x.Title == title);
             if(album != null)

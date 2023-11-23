@@ -56,8 +56,8 @@ namespace Spotifake.Entities
 
         public void AddSongToAlbum(string songName, string AlbumName)
         {
-            Song song = findSongByName(songName);
-            Album album = findAlbumByName(AlbumName);
+            Song song = FindSongByName(songName);
+            Album album = FindAlbumByName(AlbumName);
 
             if (song != null && album != null)
             {
@@ -66,7 +66,7 @@ namespace Spotifake.Entities
             }
         }
 
-        private Song findSongByName(string name)
+        private Song FindSongByName(string name)
         {
             Song song = _song.Find(x => x.Name == name);
             if (song != null)
@@ -79,7 +79,7 @@ namespace Spotifake.Entities
             }
         }
 
-        private Album findAlbumByName(string title)
+        private Album FindAlbumByName(string title)
         {
             Album album = _albums.Find(x => x.Title == title);
             if (album != null)
