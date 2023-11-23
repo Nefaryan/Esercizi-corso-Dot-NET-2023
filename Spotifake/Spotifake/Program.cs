@@ -19,20 +19,10 @@ namespace Spotifake
 
             Console.WriteLine("Benvenuto in Spotifake!!");
             string check;
-            while (true)
+            do
             {
-                Console.WriteLine("\nMenu:");
-                Console.WriteLine("A. Mostra tutti gli artisti");
-                Console.WriteLine("D. Mostra tutti gli album");
-                Console.WriteLine("P. Mostra le playlist");
-                Console.WriteLine("P1. Riproduci playlist");
-                Console.WriteLine("C. Cerca una canzone");
-                Console.WriteLine("L. Riproduci una canzone");
-                Console.WriteLine("F. Passa alla prossima canzone");
-                Console.WriteLine("B. Riproduci la canzone precedente");
-                Console.WriteLine("S. Ferma la riproduzione");
-                Console.WriteLine("Z. Metti in pausa la riproduzione");
-                Console.WriteLine("X. Chiudi L'applicazione");
+                DisplayMenu();
+
 
                 Console.Write("Scelta: ");
                 check = Console.ReadLine();
@@ -82,16 +72,29 @@ namespace Spotifake
                     case "X":
                         Console.WriteLine();
                         Environment.Exit(0);
-                        break;         
+                        break;
                     default:
                         Console.WriteLine("Scelta non valida. Riprova.");
                         break;
                 }
-            }
+            } while (check.ToUpper() != "X");
 
+        }
 
-
-
+        static void DisplayMenu()
+        {
+            Console.WriteLine("\nMenu:");
+            Console.WriteLine("A. Mostra tutti gli artisti");
+            Console.WriteLine("D. Mostra tutti gli album");
+            Console.WriteLine("P. Mostra le playlist");
+            Console.WriteLine("P1. Riproduci playlist");
+            Console.WriteLine("C. Cerca una canzone");
+            Console.WriteLine("L. Riproduci una canzone");
+            Console.WriteLine("F. Passa alla prossima canzone");
+            Console.WriteLine("B. Riproduci la canzone precedente");
+            Console.WriteLine("S. Ferma la riproduzione");
+            Console.WriteLine("Z. Metti in pausa la riproduzione");
+            Console.WriteLine("X. Chiudi L'applicazione");
         }
 
         static FakeDB InitFakeDb() 
@@ -130,4 +133,5 @@ namespace Spotifake
             
         }
     }
+
 }
