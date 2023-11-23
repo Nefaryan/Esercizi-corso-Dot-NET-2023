@@ -42,7 +42,7 @@ namespace Spotifake.Entities
             artist.Group = null;
         }
 
-        public void CreateSong(string name,string genre,string duration, string relaseDate)
+        public void CreateSong(string name,string genre,int duration, string relaseDate)
         {
             Song song = new Song(name, genre, duration, relaseDate);
             _song.Add(song);

@@ -58,6 +58,19 @@ namespace Spotifake.Entities
             }
          
         }
+        
+        //Metodo per inserire nella lista una song già creata
+        public void AddSon(Song song)
+        {
+            _songs.Add(song);
+        }
+
+        //Metodo per inserire nella lista una song che vado a creare
+        public void AddSong(string name, string genre, int duration, string relaseDate)
+        {
+            Song song1 = new Song(name,genre, duration, relaseDate);
+            _songs.Add(song1);
+        }
 
         public void createNewAlbum(string title,bool isLiveAlbum)
         {

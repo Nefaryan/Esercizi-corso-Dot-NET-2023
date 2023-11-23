@@ -16,12 +16,12 @@ namespace Spotifake.Entities
         List<Radio> _radio;
         Setting _setting;
 
-        public User(string name, string surname, string dateOfBirth, string userName, string password, Setting setting, List<Playlist> playlist = null) : base(name, surname, dateOfBirth)
+        public User(string name, string surname, string dateOfBirth, string userName, string password, Setting setting) : base(name, surname, dateOfBirth)
         {
             _username = userName;
             _password = password;
             _setting = setting;
-            _playlist = playlist;
+           
             _playlist= new List<Playlist>();
             _preferitSong = new List<Song>();
             _radio = new List<Radio>();
