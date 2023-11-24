@@ -1,5 +1,5 @@
 ﻿using Spotifake.Interfaces;
-using Spotifake.Utils;
+using Spotifake.Model.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +11,14 @@ namespace Spotifake.Entities
 {
     //TODO: COMPLETARE L'IMPLEMENTAZIONE
 
-    internal class MediaPlayer : IMedia
+    public class MediaPlayerOLD : IMedia
     {
         List<Song> _songs;
         List<Playlist> _playlist;
         int _currentSongIndex;
         bool _isPlaying;
 
-        public MediaPlayer()
+        public MediaPlayerOLD()
         {
             _currentSongIndex = 0;
             _isPlaying = false;

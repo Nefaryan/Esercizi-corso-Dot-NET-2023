@@ -4,24 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Spotifake.Entities
+namespace Spotifake.Model.Music
 {
     //TODO: Inserire gestione delle eccezioni
-    internal class Group
+    public class Group
     {
+        int _id;
         string _gruopName;
         List<Artist> _artists;
         List<Album> _albums;
         List<Song> _song;
         string _bio;
 
-        public Group(string name,string bio) 
+        public Group(int id, string name, string bio)
         {
+            _id = id;
             _bio = bio;
             _gruopName = name;
             _artists = new List<Artist>();
             _albums = new List<Album>();
-            _song = new List<Song>();       
+            _song = new List<Song>();
         }
 
         public string GruopName { get => _gruopName; set => _gruopName = value; }
@@ -29,11 +31,12 @@ namespace Spotifake.Entities
         internal List<Artist> Artists { get => _artists; set => _artists = value; }
         internal List<Song> Song { get => _song; set => _song = value; }
         internal List<Album> Albums { get => _albums; set => _albums = value; }
+        public int Id { get => _id; set => _id = value; }
 
         public void AddArtist(Artist artist)
         {
-             artist.Group = this;
-            _artists.Add(artist);      
+            artist.Group = this;
+            _artists.Add(artist);
         }
 
         public void RemoveArtist(Artist artist)
@@ -42,14 +45,14 @@ namespace Spotifake.Entities
             artist.Group = null;
         }
 
-        public void CreateSong(string name,string genre,int duration, string relaseDate)
+        public void CreateSong(int id, string name, string genre, int duration, string relaseDate)
         {
-            Song song = new Song(name, genre, duration, relaseDate);
+            Song song = new Song(id, name, genre, duration, relaseDate);
             _song.Add(song);
         }
-        public void CreateAlbum(string title,bool live)
+        public void CreateAlbum(int id, string title, bool live)
         {
-            Album album = new Album(title, live);
+            Album album = new Album(id, title, live);
             album.Gruop = this;
             _albums.Add(album);
         }

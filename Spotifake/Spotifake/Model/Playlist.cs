@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spotifake.Model.Music;
 
 namespace Spotifake.Entities
 {
-    internal class Playlist
+    public class Playlist
     {
        User _user;
        List<Song> _songs;

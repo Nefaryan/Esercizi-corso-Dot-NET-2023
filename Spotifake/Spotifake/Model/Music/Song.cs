@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Spotifake.Entities
+namespace Spotifake.Model.Music
 {
-    internal class Song
+    public class Song
     {
+        int _Id;
         string _name;
         string _genre;
         int _duration;
@@ -15,10 +16,11 @@ namespace Spotifake.Entities
         List<Album> _albums;
         List<Group> _group;
         List<Artist> _artists;
-    
 
-        public Song(string name, string genre, int duration, string relaseDate)
+
+        public Song(int id, string name, string genre, int duration, string relaseDate)
         {
+            _Id = id;
             _name = name;
             _genre = genre;
             _duration = duration;

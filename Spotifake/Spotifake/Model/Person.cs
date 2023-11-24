@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spotifake.Entities
 {
-    internal abstract class Person
+    public abstract class Person
     {
         string _name;
         string _surname;

@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Spotifake.Entities
+namespace SpotifakeDB.Repository
 {
-    internal class Radio
+    internal class ArtistRepo
     {
-        List<Song> _songs;
-        List<Album> _albums;
-        string _name;
     }
 }

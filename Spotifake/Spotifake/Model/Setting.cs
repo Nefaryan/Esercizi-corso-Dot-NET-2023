@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spotifake.Entities
 {
-    internal class Setting
+    public class Setting
     {
         bool _darkTheme;
         string _equalaizer;

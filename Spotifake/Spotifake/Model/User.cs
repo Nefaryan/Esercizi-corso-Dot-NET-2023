@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spotifake.Model.Music;
 
 namespace Spotifake.Entities
 {
     //TODO : IMPLEMENT TRY-CATCH FOR EXCEPTION
-    internal class User : Person
+    public class User : Person
     {
+        int _Id;
         string _username;
         string _password;
         List<Playlist> _playlist;
@@ -16,8 +18,9 @@ namespace Spotifake.Entities
         List<Radio> _radio;
         Setting _setting;
 
-        public User(string name, string surname, string dateOfBirth, string userName, string password, Setting setting) : base(name, surname, dateOfBirth)
+        public User(int id, string name, string surname, string dateOfBirth, string userName, string password, Setting setting) : base(name, surname, dateOfBirth)
         {
+            _Id = id;
             _username = userName;
             _password = password;
             _setting = setting;
@@ -33,6 +36,7 @@ namespace Spotifake.Entities
         internal List<Playlist> Playlist { get => _playlist; set => _playlist = value; }
         internal List<Radio> Radio { get => _radio; set => _radio = value; }
         internal Setting Setting { get => _setting; set => _setting = value; }
+        public int Id { get => _Id; set => _Id = value; }
 
         public void CreatePlayList(Playlist playlist)
         {
