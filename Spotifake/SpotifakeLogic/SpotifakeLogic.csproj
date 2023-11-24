@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Spotifake\Spotifake.csproj" />
+    <ProjectReference Include="..\SpotifakeDB\SpotifakeDB.csproj" />
   </ItemGroup>
 
 </Project>

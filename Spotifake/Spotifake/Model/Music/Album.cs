@@ -15,6 +15,7 @@ namespace Spotifake.Model.Music
         bool _isLiveVersionAlbum;
         List<Song> _song;
         int _nOfTrack;
+        private string albumTitle;
 
         //Costruttore per gli album legati ad un artista
         public Album(int id, string title, Artist artist, bool live)
@@ -35,6 +36,11 @@ namespace Spotifake.Model.Music
             _song = new List<Song>();
             _isLiveVersionAlbum = live;
             _nOfTrack = _song.Count;
+        }
+
+        public Album(string albumTitle)
+        {
+            this.albumTitle = albumTitle;
         }
 
         public string Title { get => _title; set => _title = value; }

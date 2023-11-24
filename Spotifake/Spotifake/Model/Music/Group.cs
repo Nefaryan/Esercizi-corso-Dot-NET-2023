@@ -15,6 +15,7 @@ namespace Spotifake.Model.Music
         List<Album> _albums;
         List<Song> _song;
         string _bio;
+        private string groupName;
 
         public Group(int id, string name, string bio)
         {
@@ -24,6 +25,11 @@ namespace Spotifake.Model.Music
             _artists = new List<Artist>();
             _albums = new List<Album>();
             _song = new List<Song>();
+        }
+
+        public Group(string groupName)
+        {
+            this.groupName = groupName;
         }
 
         public string GruopName { get => _gruopName; set => _gruopName = value; }

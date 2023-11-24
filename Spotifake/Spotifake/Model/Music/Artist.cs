@@ -37,6 +37,11 @@ namespace Spotifake.Model.Music
 
         }
 
+        public Artist(string name, string surname, string dateOfB, string artistName): base(name, surname, dateOfB) 
+        {
+            ArtistName = artistName;
+        }
+
         public string ArtistName { get => _artistName; set => _artistName = value; }
         public string Bio { get => _bio; set => _bio = value; }
         public Group Group { get => _group; set => _group = value; }
