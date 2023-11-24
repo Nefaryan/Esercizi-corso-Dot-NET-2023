@@ -18,6 +18,7 @@ namespace Spotifake.Model.Music
         List<Group> _group;
         List<Artist> _artists;
 
+        public Song() { }
 
         public Song(int id, string name, string genre, int duration, string relaseDate)
         {
