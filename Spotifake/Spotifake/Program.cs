@@ -2,7 +2,7 @@
 using Spotifake.Model.Music;
 using System;
 using System.Collections.Generic;
-using SpotifakeDB.Repository;
+
 
 
 namespace Spotifake
@@ -11,13 +11,6 @@ namespace Spotifake
     {
         static void Main(string[] args)
         {
-         
-            SongRepo songRepo = new SongRepo();
-            songRepo.CreateSong(1, "Test Song", "Pop", 200, "2023-11-24");
-        
-
-
-
 
             //    FakeDB db = InitFakeDb();
 
