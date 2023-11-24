@@ -2,7 +2,7 @@
 
 namespace SpotifakeLogic
 {
-    public class Class1
+    public class GroupLogic
     {
     }
 }

@@ -99,42 +99,7 @@ namespace Spotifake
             //    Console.WriteLine("Z. Metti in pausa la riproduzione");
             //    Console.WriteLine("X. Chiudi L'applicazione");
             //}
-
-            //static FakeDB InitFakeDb() 
-            //{
-            //    FakeDB fakeDB = new FakeDB();
-
-            //    Song song = new Song(1,"Song1","Rock",180,"2023-02-01");
-            //    Song song1 = new Song(2,"Song2", "Rock", 180, "2023-02-01");
-            //    Song song2 = new Song(3,"Song3", "Rock", 180, "2023-02-01");
-            //    Song song3 = new Song(4,"Song4", "Rock", 180, "2023-02-01");
-
-            //    fakeDB.AddSong(song);
-            //    fakeDB.AddSong(song1);
-            //    fakeDB.AddSong(song2);
-            //    fakeDB.AddSong(song3);
-
-            //    Album album1 = new Album(1,"Album1", false);
-            //    Album album2 = new Album(2,"Album2", false);
-
-            //    album1.Song.Add(song);
-            //    album2.Song.Add(song1);
-            //    album2.Song.Add(song2);
-            //    album1.Song.Add(song3);
-
-            //    fakeDB.addAlbum(album1);
-            //    fakeDB.addAlbum(album2);
-
-            //    Playlist playlist = new Playlist("Ciccio");
-
-            //    playlist.AddSong(song);
-            //    playlist.AddSong(song1);
-
-            //    fakeDB.addPlaylist(playlist);
-
-            //    return fakeDB;
-
         }
     }
-
 }
+

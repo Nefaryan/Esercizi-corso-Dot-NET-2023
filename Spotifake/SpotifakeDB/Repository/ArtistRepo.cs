@@ -16,6 +16,7 @@ namespace SpotifakeDB.Repository
         private const string FullArtistPath = FolderPath + ArtistFilePath;
 
         private readonly SongRepo SongRepo;
+        private readonly AlbumRepo AlbumRepo;
 
         public void CreateArtist(string artName,string bio)
         {
@@ -36,17 +37,43 @@ namespace SpotifakeDB.Repository
                 SongRepo.WriteSongOnFile(song); 
             }
         }
+
+        public void CreateAlbum(string ArtistName, int id, string title, bool isLive)
+        {
+            Artist artist= FindArtistByName(ArtistName);
+            if(artist != null)
+            {
+                Album album = new Album(id,title,isLive);
+                album.Artist= artist;
+                AlbumRepo.WriteAlbumOnFile(album);    
+            }
+
+        }
+
+        public void AddSongToAlbum(string albumName, string songName)
+        {
+            Album album = AlbumRepo.FindAlbumByName(albumName);
+            Song song = SongRepo.FindSongByName(songName);
+            if (album != null && song != null)
+            {
+                album.Song.Add(song);
+            }
+        }
+
+
         public Artist FindArtistByName(string artistName) 
         {
             List<Artist> artists = ReadArtistFromFile();
             return artists.FirstOrDefault(ar => ar.ArtistName == artistName);
         
         }
+      
         public void WriteArtistOnfile(Artist artist)
         {
             List<Artist> list = new List<Artist>() {artist};
             CSVData<Artist>.WriteonFile(FullArtistPath, list);
         }
+      
         public List<Artist> ReadArtistFromFile()
         {
             return CSVData<Artist>.CreateObject(File.ReadAllLines(FullArtistPath).ToList());

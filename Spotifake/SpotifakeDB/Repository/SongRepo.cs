@@ -13,6 +13,14 @@ namespace SpotifakeDB.Repository
 
         private const string FullPath= FolderPath + SongFilePath;
 
+        public Song FindSongByName(string name)
+        {
+            List<Song> list = ReadSongFromFile();
+            return list.FirstOrDefault(s => s.Name == name);
+
+            
+        }
+
         public void WriteSongOnFile(Song song)
         {
             List<Song> songs = new List<Song> { song };
