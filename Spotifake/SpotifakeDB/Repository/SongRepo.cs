@@ -13,7 +13,7 @@ namespace SpotifakeDB.Repository
 
         private const string FullPath= FolderPath + SongFilePath;
 
-        public void WriteOnFile(Song song)
+        public void WriteSongOnFile(Song song)
         {
             List<Song> songs = new List<Song> { song };
             CSVData<Song>.WriteonFile(FullPath, songs);
