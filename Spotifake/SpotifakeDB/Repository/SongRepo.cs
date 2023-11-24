@@ -56,7 +56,7 @@ namespace SpotifakeDB.Repository
             {
                 string[] lines = File.ReadAllLines(FullPath);
 
-                foreach (string item in lines)
+                foreach (string item in lines.Skip(1))//Header Skip
                 {
                     string[] values = item.Split(',');
                     if (values.Length == 9)

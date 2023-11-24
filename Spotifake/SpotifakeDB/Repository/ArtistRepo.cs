@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpotifakeDB.Repository
 {
-    internal class ArtistRepo
+    public class ArtistRepo
     {
+        private const string FolderPath = @"C:\\Users\\giuse\\Desktop\\SpotiFake\";
+        private const string SongFilePath = "Artist.csv";
     }
 }
