@@ -14,16 +14,8 @@ namespace SpotifakeDB.Repository
 
         private const string FullPath = FolderPath + SongFilePath;
 
-        public void CreateArtistAlbum() { }
-        public void CreateGroupAlmun() { }
 
-        public Album SearchAlbumByName(string name)
-        {
-            return null;
-        
-        }
-        public void AddSongToAlbum(string albumName, string songName) { }
-        
+
 
     }
 }

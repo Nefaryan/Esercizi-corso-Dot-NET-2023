@@ -23,74 +23,74 @@ namespace SpotifakeDB.Repository
             {
                 File.Delete(path);
             }
-            foreach (var col in cols)// cicla tutte i menbri  della classe.( Diventeranno le colonne del File CSV ).
+            foreach (var col in cols)
             {
-                sb.Append(col.Name); // "Name" non è il nome di una proprietà di una class.  Property Name --> REFLECTION
+                sb.Append(col.Name);
                 sb.Append(',');
             }
 
-            list.Add(sb.ToString().Substring(0, sb.Length - 1)); // Rimuovi l'ultima virgola 
+            list.Add(sb.ToString().Substring(0, sb.Length - 1));
 
-            foreach (var row in data) // Le nuove righe del file csv
+            foreach (var row in data)
             {
 
                 sb = new StringBuilder();
-                foreach (var col in cols) // cicla tutte Entity della classe in oggetto
+                foreach (var col in cols)
                 {
-                    sb.Append(col.GetValue(row)); // Prendi il valore della property. 
+                    sb.Append(col.GetValue(row));
                     sb.Append(',');
                 }
 
-                list.Add(sb.ToString().Substring(0, sb.Length - 1)); // Rimuovi l'ultima virgola 
+                list.Add(sb.ToString().Substring(0, sb.Length - 1));
             }
             File.AppendAllLines(path, list);
         }
         public static List<T> CreateObject(List<string> csv)
         {
             List<T> list = new List<T>();
-            string[] headers = csv.ElementAt(0).Split(',');// Header
-            csv.RemoveAt(0); // Rimuovo la prima riga (nome colonne) del mio datasource
+            string[] headers = csv.ElementAt(0).Split(',');
+            csv.RemoveAt(0);
 
             bool isDatset = true;
-            T entry = new T(); // Creo istanza per poter estrarre le properties
-            PropertyInfo[] prop = entry.GetType().GetProperties(); // Prendo le sue properties 
+            T entry = new T();
+            PropertyInfo[] prop = entry.GetType().GetProperties();
 
             if (isDatset)
             {
-                //VERIFICO SE IL FILE CARICATO HA LA LO STESSO DATASET DELL'OGGETTO T
-                for (int i = 0; i < prop.Length; i++) // Ciclo le properties dell'oggetto  T
+
+                for (int i = 0; i < prop.Length; i++)
                 {
-                    if (prop.ElementAt(i).Name == headers[i]) // ciclo le colonne e le properties insieme non col stesso index
+                    if (prop.ElementAt(i).Name == headers[i])
                     {
                         continue;
                     }
                     else
                     {
-                        isDatset = false; // Se fallisce almeno una volta , non il dataset. 
+                        isDatset = false;
                     }
                 }
             }
             if (isDatset)
             {
-                // INIZIO AD ESTRARRE LE RIGHE CON I DATI  
-                csv.RemoveAt(0); // Rimuovi la prima riga che raprensenta il HEADER [Name,Age]
+
+                csv.RemoveAt(0);
                 foreach (var line in csv)
                 {
-                    entry = new T();// Per ogni riga del CSV creo un nuovo oggetto di tipo T
+                    entry = new T();
 
                     #region eXTRACION
                     int j = 0;
                     string[] columns = line.Split(',');
 
-                    foreach (var col in columns) // cicle le colonne del CSV
+                    foreach (var col in columns)
                     {
                         try
                         {
-                            entry.GetType().GetProperty(headers[j]) // prendo  proprietà dell'oggetto Person  tramite i nomi delle colonne del file 
-                              .SetValue(entry, // Vado a settare il valore predendo invece il valore della cella che corrisponde alla colonna 
-                                 Convert.ChangeType(col, //   singola cella del CSV (il valore da settare )
+                            entry.GetType().GetProperty(headers[j])
+                              .SetValue(entry,
+                                 Convert.ChangeType(col,
                                      entry.GetType().GetProperty(headers[j])
-                                       .PropertyType)  //ritorna il tipo del property dell'oggetto. Mi server per convertire il valore che in qeusto momento non altro che una stringa dal file. 
+                                       .PropertyType)
                               );
                         }
                         catch

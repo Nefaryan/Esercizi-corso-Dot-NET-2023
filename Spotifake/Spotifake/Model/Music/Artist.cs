@@ -7,7 +7,7 @@ using Spotifake.Entities;
 
 namespace Spotifake.Model.Music
 {
-    public class Artist : Person
+    public class Artist 
     {
         int _Id;
         string _artistName;
@@ -16,8 +16,9 @@ namespace Spotifake.Model.Music
         string _bio;
         Group _group;
 
+        public Artist() { }
         //Costruttore per un artista che si trova in un gruppo
-        public Artist(int id, string name, string surname, string dateOfB, string artistName, string biog, Group group) : base(name, surname, dateOfB)
+        public Artist(int id,  string artistName, string biog, Group group) 
         {
             _Id = id;
             _artistName = artistName;
@@ -28,7 +29,7 @@ namespace Spotifake.Model.Music
         }
 
         //Costruttore per Artista singolo
-        public Artist(string name, string surname, string dateOfB, string artistName, string biog) : base(name, surname, dateOfB)
+        public Artist(string artistName, string biog) 
         {
             _artistName = artistName;
             _album = new List<Album>();
@@ -37,10 +38,7 @@ namespace Spotifake.Model.Music
 
         }
 
-        public Artist(string name, string surname, string dateOfB, string artistName): base(name, surname, dateOfB) 
-        {
-            ArtistName = artistName;
-        }
+      
 
         public string ArtistName { get => _artistName; set => _artistName = value; }
         public string Bio { get => _bio; set => _bio = value; }
@@ -49,36 +47,9 @@ namespace Spotifake.Model.Music
         internal List<Song> Songs { get => _songs; set => _songs = value; }
         public int Id { get => _Id; set => _Id = value; }
 
-        public void CreateNewSong(int id, string name, string genre,
-            int duration, string relaseDate)
-        {
-            try
-            {
-                Song newSong = new Song(id, name, genre, duration, relaseDate);
-
-                newSong.Artists.Add(this);
-                _songs.Add(newSong);
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-
-            }
-
-        }
-
-        //Metodo per inserire nella lista una song già creata
-        public void AddSon(Song song)
+        public void AddSong(Song song)
         {
             _songs.Add(song);
-        }
-
-        //Metodo per inserire nella lista una song che vado a creare
-        public void AddSong(int id, string name, string genre, int duration, string relaseDate)
-        {
-            Song song1 = new Song(id, name, genre, duration, relaseDate);
-            _songs.Add(song1);
         }
 
         public void CreateNewAlbum(int id, string title, bool isLiveAlbum)
