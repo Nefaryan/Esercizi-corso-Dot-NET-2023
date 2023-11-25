@@ -5,10 +5,6 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotifake", "Spotifake\Spotifake.csproj", "{AEE3ED99-1EA1-4EC8-86C5-3C4DEA03224A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifakeLogic", "SpotifakeLogic\SpotifakeLogic.csproj", "{93A24267-D608-4F4C-9DC1-A29099D32402}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifakeDB", "SpotifakeDB\SpotifakeDB.csproj", "{1B8F1E31-64CC-4902-9DEA-6091FB323FAF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{AEE3ED99-1EA1-4EC8-86C5-3C4DEA03224A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEE3ED99-1EA1-4EC8-86C5-3C4DEA03224A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEE3ED99-1EA1-4EC8-86C5-3C4DEA03224A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93A24267-D608-4F4C-9DC1-A29099D32402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93A24267-D608-4F4C-9DC1-A29099D32402}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93A24267-D608-4F4C-9DC1-A29099D32402}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93A24267-D608-4F4C-9DC1-A29099D32402}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B8F1E31-64CC-4902-9DEA-6091FB323FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B8F1E31-64CC-4902-9DEA-6091FB323FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B8F1E31-64CC-4902-9DEA-6091FB323FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B8F1E31-64CC-4902-9DEA-6091FB323FAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

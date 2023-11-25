@@ -8,5 +8,5 @@ namespace Spotifake
     internal class UIClass
     {
        
-}
+    }
 }
