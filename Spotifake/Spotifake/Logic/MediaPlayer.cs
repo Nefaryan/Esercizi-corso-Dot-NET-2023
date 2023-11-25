@@ -21,10 +21,10 @@ namespace SpotifakeLogic.Logic
         private bool _isPlaying;
 
 
-        public MediaPlayer(SongRepo songRepo, PlaylistRepo playlistRepo)
+        public MediaPlayer()
         {
-            this.songRepo = songRepo;
-            this.playlistRepo = playlistRepo;
+            songRepo = new SongRepo();
+            playlistRepo = new PlaylistRepo();
             currentSongIndex = 0;
             _isPlaying = false;
         }
@@ -145,6 +145,25 @@ namespace SpotifakeLogic.Logic
             {
                 return "No song is currently playing";
             }
+        }
+
+        public List<Song> TopRatingSongs()
+        {
+            List<Song> songs = songRepo.ReadSongFromFile();
+
+            
+            List<Song> topRatedSongs = songs.OrderByDescending(song => song.Rating).ToList();
+
+           
+            topRatedSongs = topRatedSongs.Take(5).ToList();
+
+            Console.WriteLine("Top 5 rated songs:");
+            foreach (var song in topRatedSongs)
+            {
+                Console.WriteLine($"Song: {song.Name}, Rating: {song.Rating}");
+            }
+
+            return topRatedSongs;
         }
 
         private string PlayCurrentSong(Song song)
