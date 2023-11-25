@@ -28,7 +28,9 @@ namespace Spotifake.Model.Music
             _song = new List<Song>();
         }
 
- 
+        public Group(string groupName)
+        {
+        }
 
         public string GruopName { get => _gruopName; set => _gruopName = value; }
         public string Bio { get => _bio; set => _bio = value; }

@@ -9,13 +9,13 @@ namespace Spotifake.Interfaces
 {
     internal interface IMedia
     {
-        public void PlaySong(string songName);
-        public void PlayAlbum(string albumName);
-        public void PlayPlaylist(string playlistName);
-        public void StopSong();
-        public void PauseSong();
-        public void NextSong(User user);
-        public void PreviousSong(User user);
+        public string PlaySong(string songName);
+        public string PlayAlbum(string albumName);
+        public string PlayPlaylist(string playlistName);
+        public string StopSong();
+        public string PauseSong();
+        public string NextSong(User user);
+        public string PreviousSong(User user);
 
 
     }

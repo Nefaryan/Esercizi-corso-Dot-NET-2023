@@ -26,7 +26,12 @@ namespace Spotifake.Model.Music
             _isLiveVersionAlbum = live;  
         }
 
-       
+        public Album(int id, string title, Artist artist, bool isLiveAlbum)
+        {
+            ID = id;
+            Title = title;
+            Artist = artist;
+        }
 
         public string Title { get => _title; set => _title = value; }
         public bool IsLiveVersionAlbum { get => _isLiveVersionAlbum; set => _isLiveVersionAlbum = value; }

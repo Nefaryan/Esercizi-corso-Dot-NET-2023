@@ -32,10 +32,10 @@ namespace Spotifake.Entities
 
         public string Username { get => _username; set => _username = value; }
         public string Password { get => _password; set => _password = value; }
-        internal List<Song> PreferitSong { get => _preferitSong; set => _preferitSong = value; }
-        internal List<Playlist> Playlist { get => _playlist; set => _playlist = value; }
-        internal List<Radio> Radio { get => _radio; set => _radio = value; }
-        internal Setting Setting { get => _setting; set => _setting = value; }
+        public List<Song> PreferitSong { get => _preferitSong; set => _preferitSong = value; }
+        public List<Playlist> Playlist { get => _playlist; set => _playlist = value; }
+        public List<Radio> Radio { get => _radio; set => _radio = value; }
+        public Setting Setting { get => _setting; set => _setting = value; }
         public int Id { get => _Id; set => _Id = value; }
 
         public void CreatePlayList(Playlist playlist)
