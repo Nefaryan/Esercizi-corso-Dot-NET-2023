@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
+using SpotifakeDateAndLogic.Logic;
+using SpotifakeDateAndLogic.LogicAndData;
 
 namespace SpotifakeClasses
 {
-    public class Menus
+    public class Menu
     {
-        public Menus() { }
+        public Menu() { }
         public static void StartMenu(User user) {
             Console.Clear();
             string menu = "╔═════════════════════════════════════════════╗" +
@@ -22,10 +24,10 @@ namespace SpotifakeClasses
             char check = Console.ReadKey().KeyChar;
             switch(check){
                 case '1':
-                    user.Culture = CultureInfo.CreateSpecificCulture("en-US"); Menu1(user, new MediaComponent(), new Database());
+                    user.Culture = CultureInfo.CreateSpecificCulture("en-US"); Menu1(user, new MediaComponent(user), new Database());
                     break;
                 case '2':
-                    user.Culture = CultureInfo.CreateSpecificCulture("it-IT");Menu1(user, new MediaComponent(), new Database());
+                    user.Culture = CultureInfo.CreateSpecificCulture("it-IT");Menu1(user, new MediaComponent(user), new Database());
                     break;
             }            
 
@@ -33,7 +35,7 @@ namespace SpotifakeClasses
         public static void Menu1(User user,MediaComponent media,Database datas) {
             while (true)
             {
-                if (user.RemainingTime == 0)
+                if (user.Settings.RemainigTime == 0) 
                 {
                     string menu = "╔═════════════════════════════════════════════╗" +
                                 "\n║  Premi A per riprodurre una canzone casuale ║" +

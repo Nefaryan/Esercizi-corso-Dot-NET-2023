@@ -5,29 +5,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace SpotifakeClasses.Entities
+namespace SpotifakeDateAndLogic.LogicAndData
 {
     public class Database  //we'll fake a database with this class
     {
         private List<Artist> _artists;
         private List<Group> _groups;
         User _user;
-        public Database() { 
-            _artists = new List<Artist>();  
-            _groups = new List<Group>();    
+        public Database()
+        {
+            _artists = new List<Artist>();
+            _groups = new List<Group>();
         }
-        public Database(List<String> artistFile,List<String> groupFile)
+        public Database(List<string> artistFile, List<string> groupFile)
         {
             _artists = FileHandler<Artist>.CreateObject(artistFile);
             _groups = FileHandler<Group>.CreateObject(groupFile);
         }
         public void ShowArtists()
         {
-           foreach(Artist artist in _artists) { 
+            foreach (Artist artist in _artists)
+            {
                 ShowArtist(artist);
             }
         }
-        public void ShowGroups() {
+        public void ShowGroups()
+        {
             foreach (Group group in _groups)
             {
                 ShowGroup(group);
@@ -35,9 +38,9 @@ namespace SpotifakeClasses.Entities
         }
         public void ShowSongs()
         {
-            foreach(Artist artist in _artists)
+            foreach (Artist artist in _artists)
             {
-                if(artist != null)
+                if (artist != null)
                     artist.ShowSongs();
             }
             foreach (Group group in _groups)
@@ -50,17 +53,18 @@ namespace SpotifakeClasses.Entities
         {
             foreach (Artist artist in _artists)
             {
-                if(artist!=null)
+                if (artist != null)
                     artist.ShowAlbums();
             }
             foreach (Group group in _groups)
             {
-                if(group!=null)
+                if (group != null)
                     group.ShowAlbums();
             }
         }
-        public void SearchSong(String s) {
-            List<Song> foundSong=new List<Song>();
+        public void SearchSong(string s)
+        {
+            List<Song> foundSong = new List<Song>();
             try
             {
                 foreach (Artist artist in _artists)
@@ -90,17 +94,20 @@ namespace SpotifakeClasses.Entities
         }
         public Song SelectSong(int id) //returns the first song with the desired id
         {
-            Song song=null;
-            try {
+            Song song = null;
+            try
+            {
                 foreach (Artist artist in _artists)
                 {
                     song = artist.Songs.FirstOrDefault(song => song.Id.Equals(id));
                     if (song != null)
                         return song;
                 }
-            } catch (NullReferenceException ex) {
+            }
+            catch (NullReferenceException ex)
+            {
                 List<Exception> list = new List<Exception> { ex };
-                FileHandler<Exception>.WriteOnFile("Errors.txt", list); 
+                FileHandler<Exception>.WriteOnFile("Errors.txt", list);
             }
             try
             {
@@ -113,18 +120,20 @@ namespace SpotifakeClasses.Entities
                 Console.WriteLine("Nessuna canzone con quel titolo");
                 return null;
             }
-            catch(NullReferenceException ex) {
+            catch (NullReferenceException ex)
+            {
                 List<Exception> list = new List<Exception> { ex };
                 FileHandler<Exception>.WriteOnFile("Errors.txt", list); ;
                 return null;
             }
-               
+
         }
 
-        public Playlist SelectPlaylist( int id) {
-            foreach(Playlist list in _user.Playlists)
+        public Playlist SelectPlaylist(int id)
+        {
+            foreach (Playlist list in _user.Playlists)
             {
-                if(list.Id.Equals(id)) 
+                if (list.Id.Equals(id))
                     return list;
             }
             return null;
@@ -142,17 +151,18 @@ namespace SpotifakeClasses.Entities
 
         public void AddArtist(Artist a)
         {
-            _artists.Add(a);    
+            _artists.Add(a);
         }
         public void setUser(User u)
         {
-            _user= u;
+            _user = u;
         }
         public void AddGroup(Group g)
         {
-            _groups.Add(g); 
+            _groups.Add(g);
         }
-        private void ShowArtist(Artist a) {
+        private void ShowArtist(Artist a)
+        {
 
             if (a == null)
                 return;
@@ -167,8 +177,8 @@ namespace SpotifakeClasses.Entities
             {
                 List<Exception> list = new List<Exception> { ex };
                 FileHandler<Exception>.WriteOnFile("Errors.txt", list); ;
-            }    
-                
+            }
+
         }
         public void ShowPlaylists()
         {
@@ -189,7 +199,5 @@ namespace SpotifakeClasses.Entities
             g.ShowAlbums();
             g.ShowSongs();
         }
-
-       
     }
 }

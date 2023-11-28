@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotifakeDateAndLogic;
+using System;
 
 namespace SpotifakeClasses.Entities
 {
@@ -7,9 +8,9 @@ namespace SpotifakeClasses.Entities
         private User _user;
         private bool _darkTheme;
         private string _equalizer;
-        private bool _isPremium;
-        private bool _isGold;
+        public PremiumType PremiumType { get; set; }
         private int _nOfDevices;
+        private int _remainigTime;
 
         public Setting()
         {
@@ -19,24 +20,36 @@ namespace SpotifakeClasses.Entities
             _user = user;
             _darkTheme= false;
             _equalizer = "default";
-            _isPremium= false;
-            _isGold= false;
             _nOfDevices=0;
         }
-        public Setting(User user, bool darkTheme, string equalizer, bool isPremium, int nOfDevices)
+        public Setting(bool darkTheme, string equalizer, PremiumType type, int nOfDevices)
         {
-            _user = user;
+           
             _darkTheme = darkTheme;
             _equalizer = equalizer;
-            _isPremium = isPremium;
+            switch (type)
+            {
+                case PremiumType.FREE:
+                    RemainigTime = 360000;//100 ore
+                    break;
+                case PremiumType.PREMIUM:
+                    RemainigTime = (int)3.6e+6;//1000 ore
+                    break;
+                case PremiumType.GOLD:
+                    RemainigTime = -1;//unlimited
+                    break;
+                default:
+                    RemainigTime = 360000;
+                    break;
+            }
             _nOfDevices = nOfDevices;
         }
 
         public bool DarkTheme { get => _darkTheme; set => _darkTheme = value; }
         public string Equalizer { get => _equalizer; private set => _equalizer = value; }
-        public bool IsPremium { get => _isPremium; private set => _isPremium = value; }
+    
         public int NOfDevices { get => _nOfDevices; private set => _nOfDevices = value; }
-        public bool IsGold { get => _isGold; set => _isGold = value; }
+        public int RemainigTime { get => _remainigTime; set => _remainigTime = value; }
 
         public void AddDevice() {
             _nOfDevices++;
@@ -44,10 +57,6 @@ namespace SpotifakeClasses.Entities
         public void RemoveDevice() { 
             _nOfDevices--;
         }
-        public void BuyPremium()
-        {
-            Console.WriteLine("Paga");
-            _isPremium = true;
-        }
+
     }
 }

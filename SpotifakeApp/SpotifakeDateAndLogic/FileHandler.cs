@@ -41,59 +41,34 @@ namespace SpotifakeClasses
         public static List<T> CreateObject(List<string> csv)
         {
             List<T> list = new List<T>();
-            string[] headers = csv.ElementAt(0).Split(',');// Header
-            csv.RemoveAt(0); // Rimuovo la prima riga (nome colonne) del mio datasource
+            string[] headers = csv.ElementAt(0).Split(',');
+            csv.RemoveAt(0); 
 
             bool isDatset = true;
-            T entry = new T(); // Creo istanza per poter estrarre le properties
-            PropertyInfo[] prop = entry.GetType().GetProperties(); // Prendo le sue properties 
+            T entry = new T(); 
+            PropertyInfo[] prop = entry.GetType().GetProperties(); 
 
             if (isDatset)
             {
-                //VERIFICO SE IL FILE CARICATO HA LA LO STESSO DATASET DELL'OGGETTO T
-                for (int i = 0; i < prop.Length; i++) // Ciclo le properties dell'oggetto  T
+               
+                for (int i = 0; i < prop.Length; i++) 
                 {
-                    if (prop.ElementAt(i).Name == headers[i]) // ciclo le colonne e le properties insieme non col stesso index
+                    if (prop.ElementAt(i).Name == headers[i]) 
                     {
                         continue;
                     }
                     else
                     {
-                        isDatset = false; // Se fallisce almeno una volta , non il dataset. 
+                        isDatset = false; 
                     }
                 }
             }
             if (isDatset)
             {
-                // INIZIO AD ESTRARRE LE RIGHE CON I DATI  
-                csv.RemoveAt(0); // Rimuovi la prima riga che raprensenta il HEADER [Name,Age]
+                csv.RemoveAt(0); 
                 foreach (var line in csv)
                 {
-                    entry = new T();// Per ogni riga del CSV creo un nuovo oggetto di tipo T
-
-                    #region eXTRACION
-                    int j = 0;
-                    string[] columns = line.Split(',');
-
-                    foreach (var col in columns) // cicle le colonne del CSV
-                    {
-                        try
-                        {
-                            entry.GetType().GetProperty(headers[j]) // prendo  proprietà dell'oggetto Person  tramite i nomi delle colonne del file 
-                              .SetValue(entry, // Vado a settare il valore predendo invece il valore della cella che corrisponde alla colonna 
-                                 Convert.ChangeType(col, //   singola cella del CSV (il valore da settare )
-                                     entry.GetType().GetProperty(headers[j])
-                                       .PropertyType)  //ritorna il tipo del property dell'oggetto. Mi server per convertire il valore che in qeusto momento non altro che una stringa dal file. 
-                              );
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                        j++;
-                    }
-                    #endregion
-
+                    entry = new T();
                     list.Add(entry);
                 }
             }

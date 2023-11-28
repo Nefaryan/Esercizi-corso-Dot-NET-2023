@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
+using SpotifakeDateAndLogic;
 
 namespace SpotifakeClasses.Entities
 {
@@ -17,17 +18,16 @@ namespace SpotifakeClasses.Entities
        private List<Radio> _favouriteRadios;
        private string _username;
        private string _password;
-       private int _remainingTime;
        private CultureInfo _culture;
+       
         public User()
         {
              _playlists = new List<Playlist>(); 
             _favouriteSongs = new List<Song>();
             _favouriteRadios = new List<Radio>();
-            _remainingTime = 0;
         }
         public User(string name, string surname, string dateOfBirth,
-            string username, string password):base(name,surname,dateOfBirth)
+            string username, string password,Setting s):base(name,surname,dateOfBirth)
         {
             _settings = new Setting(this);
             _username = username;
@@ -35,12 +35,7 @@ namespace SpotifakeClasses.Entities
             _favouriteRadios = new List<Radio>();
             _favouriteSongs = new List<Song>(); 
             _playlists = new List<Playlist>();
-            if (_settings.IsGold)
-                _remainingTime = -1;
-            else if (_settings.IsPremium)
-                _remainingTime = 3600000;
-            else
-                _remainingTime = 360000;
+            _settings = s;
         }
 
         public void CreatePlaylist(String name) {
@@ -81,7 +76,7 @@ namespace SpotifakeClasses.Entities
         public string Password { get => _password; set => _password = value; }
         internal Setting Settings { get => _settings; set => _settings = value; }
         public CultureInfo Culture { get => _culture; set => _culture = value; }
-        public int RemainingTime { get => _remainingTime; set => _remainingTime = value; }
+       
     }
 }
 

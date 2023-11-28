@@ -52,11 +52,11 @@ namespace SpotifakeClasses.Entities
             _albums.Add(new Album(Title, release, nTracks, live, this, songs));
         }
         public void AddSong(Song s)
-        { //used for feat songs
+        { 
             _songs.Add(s);
         }
         public void AddAlbum(Album a)
-        { //used for feat albums
+        { 
             _albums.Add(a);
         }
             public void JoinGroup(Group group)

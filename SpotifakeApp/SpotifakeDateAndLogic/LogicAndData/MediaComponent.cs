@@ -1,37 +1,60 @@
-﻿using SpotifakeClasses.Entities;
+﻿using SpotifakeClasses;
+using SpotifakeClasses.Entities;
 using SpotifakeClasses.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SpotifakeClasses.Entities
+namespace SpotifakeDateAndLogic.Logic
 {
     public class MediaComponent : IMedia
     {
+        User User { get; set; }
         private List<Song> _queue;
         private int _index;
-        public MediaComponent()
+        public MediaComponent(User user)
         {
-         _queue = new List<Song>();
-        _index = 0;
+            _queue = new List<Song>();
+            _index = 0;
+            User = user;
+
         }
 
-        public void AddToQueue(Song song) { 
-            if(song!=null)
-                _queue.Add(song); 
+        public void AddToQueue(Song song)
+        {
+            if (song != null)
+                _queue.Add(song);
         }
         public void RemoveFromQueue(Song song) => _queue.Remove(song);
         public void Play(Song s)
         {
-            AddToQueue(s);
+            if (User.Settings.PremiumType == PremiumType.GOLD)
+            {
+                AddToQueue(s);
+            }
+            else if (User.Settings.PremiumType == PremiumType.FREE || User.Settings.PremiumType == PremiumType.PREMIUM)
+            {
+                if (User.Settings.RemainigTime > 0)
+                {
+                    User.Settings.RemainigTime -= s.Duration;
+                    AddToQueue(s);
+                }
+                else
+                {
+                    Console.WriteLine("Tempo Esaurito, passa all'abonamento gold o aspetta il prossimo mese");
+                }
+            }
+
         }
 
         public void Play(Album a)
         {
-            foreach(Song item in a.Songs){
+            foreach (Song item in a.Songs)
+            {
                 AddToQueue(item);
             }
             PlayQueue();
@@ -43,17 +66,17 @@ namespace SpotifakeClasses.Entities
             {
                 AddToQueue(item);
             }
-            PlayQueue();    
+            PlayQueue();
         }
 
         public void Play(Radio r)
         {
             foreach (Song item in r.Songs)
             {
-                Play(item);//radios in spotify overwrite your current Queue,this is reflected here
+                Play(item);
             }
         }
-        public void Pause(  )
+        public void Pause()
         {
             try
             {
@@ -64,20 +87,22 @@ namespace SpotifakeClasses.Entities
                 List<Exception> list = new List<Exception> { ex };
                 FileHandler<Exception>.WriteOnFile("Errors.txt", list); ;
             }
-           
+
         }
 
-        public void Stop(   )
+        public void Stop()
         {
-            try {
+            try
+            {
                 Console.WriteLine($"Stopped reproduction of :{_queue[_index].Title}");
                 _queue.Clear();
             }
-            catch (ArgumentOutOfRangeException ex) {
-               List<Exception> list = new List<Exception> { ex };
+            catch (ArgumentOutOfRangeException ex)
+            {
+                List<Exception> list = new List<Exception> { ex };
                 FileHandler<Exception>.WriteOnFile("Errors.txt", list); ;
             }
-            
+
         }
 
         public void Forward()
@@ -91,27 +116,27 @@ namespace SpotifakeClasses.Entities
         public void Previous()
         {
             if (!CheckQueue())
-                return;    
+                return;
             _index--;
-            PlayQueue();    
+            PlayQueue();
         }
 
         public void PlayQueue()
         {
             try
             {
-                
-                if( _index<_queue.Count )
-                
+
+                if (_index < _queue.Count)
+
 
                     Console.WriteLine($"Now Playing : {_queue[_index].Title}");
-                   // System.Threading.Thread.Sleep(_queue[_index].Duration * 1000);//here we fake actually playing the song
+
 
             }
-            catch (System.NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 List<Exception> list = new List<Exception> { ex };
-                FileHandler<Exception>.WriteOnFile("Errors.txt", list); 
+                FileHandler<Exception>.WriteOnFile("Errors.txt", list);
             }
 
         }
@@ -122,6 +147,16 @@ namespace SpotifakeClasses.Entities
                 return true;
             Console.WriteLine("Non esiste una coda al momento!");
             return false;
+        }
+        // TODO IMPLEMENT RANDOM SONG PLAY
+        private Song RandomSong()
+        { 
+            if(User.Settings.RemainigTime == 0)
+            {
+
+            }
+            return null;
+        
         }
     }
 }
