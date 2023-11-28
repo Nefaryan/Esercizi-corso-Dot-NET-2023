@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace SpotifakeDateAndLogic.LogicAndData
 {
-    public class Database  //we'll fake a database with this class
+    public class Database  
     {
         private List<Artist> _artists;
         private List<Group> _groups;
@@ -22,6 +22,7 @@ namespace SpotifakeDateAndLogic.LogicAndData
             _artists = FileHandler<Artist>.CreateObject(artistFile);
             _groups = FileHandler<Group>.CreateObject(groupFile);
         }
+      
         public void ShowArtists()
         {
             foreach (Artist artist in _artists)
@@ -199,5 +200,7 @@ namespace SpotifakeDateAndLogic.LogicAndData
             g.ShowAlbums();
             g.ShowSongs();
         }
+
+        
     }
 }

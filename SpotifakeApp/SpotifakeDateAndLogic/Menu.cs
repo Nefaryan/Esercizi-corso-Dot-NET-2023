@@ -13,7 +13,7 @@ namespace SpotifakeClasses
     public class Menu
     {
         public Menu() { }
-        public static void StartMenu(User user) {
+        public static void StartMenu(User user,Database data) {
             Console.Clear();
             string menu = "╔═════════════════════════════════════════════╗" +
                         "\n║          Please select a language           ║" +
@@ -24,15 +24,15 @@ namespace SpotifakeClasses
             char check = Console.ReadKey().KeyChar;
             switch(check){
                 case '1':
-                    user.Culture = CultureInfo.CreateSpecificCulture("en-US"); Menu1(user, new MediaComponent(user), new Database());
+                    user.Culture = CultureInfo.CreateSpecificCulture("en-US"); Menu1(user, new MediaComponent(user), data);
                     break;
                 case '2':
-                    user.Culture = CultureInfo.CreateSpecificCulture("it-IT");Menu1(user, new MediaComponent(user), new Database());
+                    user.Culture = CultureInfo.CreateSpecificCulture("it-IT");Menu1(user, new MediaComponent(user), data);
                     break;
             }            
 
         }
-        public static void Menu1(User user,MediaComponent media,Database datas) {
+        public static void Menu1(User user,MediaComponent media,Database data) {
             while (true)
             {
                 if (user.Settings.RemainigTime == 0) 
@@ -52,9 +52,9 @@ namespace SpotifakeClasses
                 Console.WriteLine();
                 switch (check)
                 {
-                    case "A": datas.ShowSongs(); Menu2(user, media, datas); break;
-                    case "B": datas.ShowPlaylists(); Menu3(user, media, datas); break;
-                    case "C": datas.ShowRadios(); Menu4(user, media, datas); break;
+                    case "A": data.ShowSongs(); Menu2(user, media, data); break;
+                    case "B": data.ShowPlaylists(); Menu3(user, media, data); break;
+                    case "C": data.ShowRadios(); Menu4(user, media, data); break;
                     case "E": Environment.Exit(0); break;
                 }
             }
@@ -66,7 +66,7 @@ namespace SpotifakeClasses
                 int check = int.Parse(Console.ReadKey().KeyChar.ToString());
                 if (check == -1) { Menu1(user, media, datas); }
                 Song s = datas.SelectSong(check);
-                media.Play(s);
+                media.Play(user, s);
                 Menu5(user, media, datas);
             } 
         }
@@ -79,7 +79,7 @@ namespace SpotifakeClasses
                 int check = int.Parse(Console.ReadKey().KeyChar.ToString());
                 if (check == -1) { Menu1(user, media, datas); }
                 Playlist s = datas.SelectPlaylist(check);
-                media.Play(s);
+                media.PlayPlaylist(s);
                 Menu5(user, media, datas);
             }
         }
@@ -92,12 +92,12 @@ namespace SpotifakeClasses
                 int check = int.Parse(Console.ReadKey().KeyChar.ToString());
                 if (check == -1) { Menu1(user, media, datas); }
                 Radio r = datas.SelectRadio(check);
-                media.Play(r);
+                media.PlayRadio(r,user);
                 Menu5(user, media, datas);
             }
         }
 
-        public static void Menu5(User user, MediaComponent media, Database datas)
+        public static void Menu5(User user, MediaComponent media, Database data)
         {
             while (true)
             {
@@ -112,7 +112,7 @@ namespace SpotifakeClasses
                     case "F": media.Forward(); break;
                     case "P": media.Pause(); break;
                     case "B": media.Previous(); break;
-                    case "S": media.Stop(); Menu1(user, media, datas); break;
+                    case "S": media.Stop(); Menu1(user, media, data); break;
                     case "E": media.Stop(); return;
                 }
             }

@@ -9,7 +9,7 @@ namespace SpotifakeClasses.Interfaces
 {
     public interface IMedia
     {
-        public void Play(Song s);
+        public void Play(User u,Song s);
         public void Pause();
         public void Stop();
         public void Forward();

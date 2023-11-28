@@ -38,6 +38,11 @@ namespace SpotifakeClasses.Entities
             _songs = new List<Song>();
             _albums = new List<Album>();
         }
+        public string ArtName { get => _artName; }
+        public List<Album> Albums { get => _albums; }
+        public List<Song> Songs { get => _songs; }
+        public Group Group { get => _group; }
+        public string Bio { get => _bio; }
 
         public void PublishSong(Album a, int duration, string genre, string title, string release)
         {
@@ -93,11 +98,7 @@ namespace SpotifakeClasses.Entities
                     Console.WriteLine($"{album.Title}");
             }
         }
-        public string ArtName { get => _artName; }
-        public List<Album> Albums { get => _albums; }
-        public List<Song> Songs { get => _songs; }
-        public Group Group { get => _group; }
-        public string Bio { get => _bio; }
+    
 
         public override string ToString()
         {

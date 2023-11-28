@@ -24,28 +24,33 @@ namespace SpotifakeDateAndLogic.Logic
 
         }
 
+        public MediaComponent()
+        {
+        }
+
         public void AddToQueue(Song song)
         {
             if (song != null)
                 _queue.Add(song);
         }
         public void RemoveFromQueue(Song song) => _queue.Remove(song);
-        public void Play(Song s)
+        public void Play(User u,Song s)
         {
-            if (User.Settings.PremiumType == PremiumType.GOLD)
+            if (u.Settings.PremiumType == PremiumType.GOLD)
             {
                 AddToQueue(s);
             }
-            else if (User.Settings.PremiumType == PremiumType.FREE || User.Settings.PremiumType == PremiumType.PREMIUM)
+            else if (u.Settings.PremiumType == PremiumType.FREE || User.Settings.PremiumType == PremiumType.PREMIUM)
             {
-                if (User.Settings.RemainigTime > 0)
+                if( u.Settings.RemainigTime > 0)
                 {
-                    User.Settings.RemainigTime -= s.Duration;
+                    u.Settings.RemainigTime -= s.Duration;
                     AddToQueue(s);
                 }
                 else
                 {
                     Console.WriteLine("Tempo Esaurito, passa all'abonamento gold o aspetta il prossimo mese");
+                    //RandomSong(); Fa ascoltare una canzone radomica all'utente 
                 }
             }
 
@@ -60,7 +65,7 @@ namespace SpotifakeDateAndLogic.Logic
             PlayQueue();
         }
 
-        public void Play(Playlist p)
+        public void PlayPlaylist(Playlist p)
         {
             foreach (Song item in p.Songs)
             {
@@ -69,11 +74,11 @@ namespace SpotifakeDateAndLogic.Logic
             PlayQueue();
         }
 
-        public void Play(Radio r)
+        public void PlayRadio(Radio r,User u)
         {
             foreach (Song item in r.Songs)
             {
-                Play(item);
+                Play(u, item);
             }
         }
         public void Pause()
@@ -148,15 +153,18 @@ namespace SpotifakeDateAndLogic.Logic
             Console.WriteLine("Non esiste una coda al momento!");
             return false;
         }
-        // TODO IMPLEMENT RANDOM SONG PLAY
-        private Song RandomSong()
-        { 
-            if(User.Settings.RemainigTime == 0)
-            {
-
-            }
-            return null;
         
-        }
+       /* //Randomsong per utenti con minuti di ascolto terminati
+        private void RandomSong()
+        { 
+            List<Song> songs = new List<Song>();//Momentaneo PlaceOlder per DB
+
+            if (User.Settings.RemainigTime == 0)
+            {
+                Random random = new Random();
+                int randomSOng = random.Next(songs.Count);
+                AddToQueue(songs[randomSOng]);
+            } 
+        }*/
     }
 }
