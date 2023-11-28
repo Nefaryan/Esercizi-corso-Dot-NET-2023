@@ -19,7 +19,8 @@ namespace Spotifake.Entities
         List<Song> _preferitSong;
         List<Radio> _radio;
         PremiumType PremiumType { get; set; }
-        int _usingTime;  
+        int _usingTime;
+        bool _isLogged;
 
         public User(int id, string name, string surname, string dateOfBirth, string userName, string password) : base(name, surname, dateOfBirth)
         {
@@ -56,6 +57,8 @@ namespace Spotifake.Entities
         public List<Radio> Radio { get => _radio; set => _radio = value; }
 
         public int Id { get => _Id; set => _Id = value; }
+        public bool IsLogged { get => _isLogged; set => _isLogged = value; }
+        public int UsingTime { get => _usingTime; set => _usingTime = value; }
 
         public void CreatePlayList(Playlist playlist)
         {
@@ -69,6 +72,16 @@ namespace Spotifake.Entities
             _playlist.Remove(playlist);
             playlist.User = null;
             Console.WriteLine($"Playlist: {playlist.Name} deleted");
+        }
+        public void ShowPlaylists()
+        {
+            foreach (Playlist item in _playlist)
+            {
+                if (item == null)
+                    break;
+                Console.WriteLine($"{item.Name}");
+                
+            }
         }
 
         public void AddSongToPlayList(Song song, string playlistName)

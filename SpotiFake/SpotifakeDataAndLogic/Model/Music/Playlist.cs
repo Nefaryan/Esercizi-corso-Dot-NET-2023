@@ -21,6 +21,13 @@ namespace Spotifake.Model.Music
             _songs = new List<Song>();
             Id = id;
         }
+        public Playlist(User u,string name, int id)
+        {
+            User = u;
+            _name = name;
+            _songs = new List<Song>();
+            Id = id;
+        }
         public Playlist() { }
         public string Name { get => _name; set => _name = value; }
         public int Id { get => id; set => id = value; }
@@ -41,6 +48,16 @@ namespace Spotifake.Model.Music
         public void PlayListReting()
         {
             _rating = _songs.Sum(x => x.Rating);
+        }
+
+        public void ShowAllSong()
+        {
+            foreach (Song song in _songs)
+            {
+                if (song != null)
+                    Console.WriteLine($"{song.Name}");
+            }
+
         }
 
 

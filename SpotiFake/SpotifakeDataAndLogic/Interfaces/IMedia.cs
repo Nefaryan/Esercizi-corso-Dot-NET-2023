@@ -1,4 +1,5 @@
 ﻿using Spotifake.Entities;
+using Spotifake.Model.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,11 @@ namespace Spotifake.Interfaces
 {
     internal interface IMedia
     {
-        public string PlaySong(string songName);
-        public string PlayAlbum(string albumName);
-        public string PlayPlaylist(string playlistName);
-        public string StopSong();
-        public string PauseSong();
-        public string NextSong(User user);
-        public string PreviousSong(User user);
+        public void Play(Song s);
+        public void Pause();
+        public void Stop();
+        public void Forward();
+        public void Previous();
 
 
     }

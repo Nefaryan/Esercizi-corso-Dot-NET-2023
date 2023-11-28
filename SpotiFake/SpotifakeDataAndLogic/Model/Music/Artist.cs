@@ -7,7 +7,7 @@ using Spotifake.Entities;
 
 namespace Spotifake.Model.Music
 {
-    public class Artist 
+    public class Artist : Person
     {
         int _Id;
         string _artistName;
@@ -16,9 +16,10 @@ namespace Spotifake.Model.Music
         string _bio;
         Group _group;
 
-        public Artist() { }
+        
         //Costruttore per un artista che si trova in un gruppo
-        public Artist(int id,  string artistName, string biog, Group group) 
+        public Artist(string name, string surname, string bday,
+            int id,  string artistName, string biog, Group group)  : base(name,surname,bday)
         {
             _Id = id;
             _artistName = artistName;
@@ -29,7 +30,8 @@ namespace Spotifake.Model.Music
         }
 
         //Costruttore per Artista singolo
-        public Artist(string artistName, string biog) 
+        public Artist(string name, string surname, string bday, string artistName, string biog): 
+            base(name,surname,bday)    
         {
             _artistName = artistName;
             _album = new List<Album>();
@@ -50,20 +52,6 @@ namespace Spotifake.Model.Music
         public void AddSong(Song song)
         {
             _songs.Add(song);
-        }
-
-        public void CreateNewAlbum(int id, string title, bool isLiveAlbum)
-        {
-            try
-            {
-                Album album = new Album(id, title, this, isLiveAlbum);
-                _album.Add(album);
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
         }
 
         public void AddSongToAlbum(string songName, string AlbumName)
@@ -105,5 +93,31 @@ namespace Spotifake.Model.Music
 
         }
 
+        public void ShowSongs()
+        {
+            foreach (Song song in _songs)
+            {
+                if (song != null)
+                    Console.WriteLine($"{song.Name}");
+            }
+        }
+        public void ShowAlbums()
+        {
+            foreach (Album album in _album)
+            {
+                if (album != null)
+                    Console.WriteLine($"{album.Title}");
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{ArtistName},{Bio}";
+        }
+
+        internal void AddAlbum(Album album)
+        {
+            _album.Add(album);
+        }
     }
 }

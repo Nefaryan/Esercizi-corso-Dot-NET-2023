@@ -28,9 +28,7 @@ namespace Spotifake.Model.Music
             _song = new List<Song>();
         }
 
-        public Group(string groupName)
-        {
-        }
+     
 
         public string GruopName { get => _gruopName; set => _gruopName = value; }
         public string Bio { get => _bio; set => _bio = value; }
@@ -104,6 +102,25 @@ namespace Spotifake.Model.Music
             }
 
         }
+
+        public void ShowSongs()
+        {
+            foreach (Song song in _song)
+            {
+                if (song != null)
+                    Console.WriteLine($"{song.Name}");
+            }
+        }
+        public void ShowAlbums()
+        {
+            foreach (Album album in _albums)
+            {
+                if (album != null)
+                    Console.WriteLine($"{album.Title}");
+            }
+        }
+
+       
 
     }
 }
