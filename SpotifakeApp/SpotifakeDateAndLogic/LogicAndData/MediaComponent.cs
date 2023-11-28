@@ -35,7 +35,7 @@ namespace SpotifakeDateAndLogic.Logic
                 _queue.Add(song);
         }
         public void RemoveFromQueue(Song song) => _queue.Remove(song);
-        public void Play(User u,Song s)
+        public void Play(User u, Song s)
         {
             if (u.Settings.PremiumType == PremiumType.GOLD)
             {
@@ -44,7 +44,7 @@ namespace SpotifakeDateAndLogic.Logic
             }
             else if (u.Settings.PremiumType == PremiumType.FREE || User.Settings.PremiumType == PremiumType.PREMIUM)
             {
-                if( u.Settings.RemainigTime > 0)
+                if (u.Settings.RemainigTime > 0)
                 {
                     u.Settings.RemainigTime -= s.Duration;
                     s.UpdateRating();
@@ -77,7 +77,7 @@ namespace SpotifakeDateAndLogic.Logic
             PlayQueue();
         }
 
-        public void PlayRadio(Radio r,User u)
+        public void PlayRadio(Radio r, User u)
         {
             foreach (Song item in r.Songs)
             {
@@ -133,13 +133,8 @@ namespace SpotifakeDateAndLogic.Logic
         {
             try
             {
-
                 if (_index < _queue.Count)
-
-
-                    Console.WriteLine($"Now Playing : {_queue[_index].Title}");
-
-
+                Console.WriteLine($"Now Playing : {_queue[_index].Title}");
             }
             catch (NullReferenceException ex)
             {
@@ -156,10 +151,10 @@ namespace SpotifakeDateAndLogic.Logic
             Console.WriteLine("Non esiste una coda al momento!");
             return false;
         }
-        
+
         //Randomsong per utenti con minuti di ascolto terminati
         private void RandomSong()
-        { 
+        {
             List<Song> songs = database.GetAllSongs();
 
             if (User.Settings.RemainigTime == 0)
@@ -168,7 +163,7 @@ namespace SpotifakeDateAndLogic.Logic
                 int randomSong = random.Next(songs.Count);
                 songs[randomSong].UpdateRating();
                 AddToQueue(songs[randomSong]);
-            } 
+            }
         }
     }
 }
