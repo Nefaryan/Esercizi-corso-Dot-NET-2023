@@ -10,13 +10,13 @@ namespace SpotifakeClasses.Entities
     {
         private string _name;
         private string _surname;
-        private string _dateOfBirth;
+        private DateTime _dateOfBirth;
 
         public Person()
         {
                
         }
-        public Person(string name, string surname, string dateOfBirth)
+        public Person(string name, string surname, DateTime dateOfBirth)
         {
             _name = name;
             _surname = surname;
@@ -25,6 +25,6 @@ namespace SpotifakeClasses.Entities
 
         public string Name { get => _name; set => _name = value; }
         public string Surname { get => _surname; set => _surname = value; }
-        public string DateOfBirth { get => _dateOfBirth; set => _dateOfBirth = value; }
+        public DateTime DateOfBirth { get => _dateOfBirth; set => _dateOfBirth = value; }
     }
 }

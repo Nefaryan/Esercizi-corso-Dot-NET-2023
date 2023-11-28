@@ -105,7 +105,7 @@ namespace SpotifakeDateAndLogic.LogicAndData
                 {
                     song = artist.Songs.FirstOrDefault(song => song.Id.Equals(id));
                     if (song != null)
-                        return song;
+                    return song;
                 }
             }
             catch (NullReferenceException ex)

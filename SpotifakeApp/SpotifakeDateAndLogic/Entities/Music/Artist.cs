@@ -22,7 +22,7 @@ namespace SpotifakeDateAndLogic.Entities.Music
             _songs = new List<Song>();
         }
 
-        public Artist(string name, string surname, string dateOfBirth, string artName, List<Album> albums, List<Song> songs, string bio) :
+        public Artist(string name, string surname, DateTime dateOfBirth, string artName, List<Album> albums, List<Song> songs, string bio) :
             base(name, surname, dateOfBirth)
         {
             _artName = artName;
@@ -33,7 +33,7 @@ namespace SpotifakeDateAndLogic.Entities.Music
             _albums = new List<Album>();
         }
 
-        public Artist(string name, string surname, string dateOfBirth, string artName) : base(name, surname, dateOfBirth)
+        public Artist(string name, string surname, DateTime dateOfBirth, string artName) : base(name, surname, dateOfBirth)
         {
             _artName = artName;
             _songs = new List<Song>();

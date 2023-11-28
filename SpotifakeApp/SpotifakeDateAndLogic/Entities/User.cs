@@ -26,7 +26,7 @@ namespace SpotifakeClasses.Entities
             _favouriteSongs = new List<Song>();
             _favouriteRadios = new List<Radio>();
         }
-        public User(string name, string surname, string dateOfBirth,
+        public User(string name, string surname, DateTime dateOfBirth,
             string username, string password,Setting s):base(name,surname,dateOfBirth)
         {
             _settings = s;
