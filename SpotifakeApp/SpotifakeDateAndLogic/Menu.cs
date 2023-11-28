@@ -19,7 +19,7 @@ namespace SpotifakeClasses
                         "\n║          Please select a language           ║" +
                         "\n║                  1.English                  ║" +
                         "\n║                  2.Italian                  ║" +
-                        "\n╚═════════════════════════════════════════════╝";
+                        "\n╚═════════════════════════════════════════════╝\n";
             Console.WriteLine(menu);
             char check = Console.ReadKey().KeyChar;
             switch(check){
@@ -40,10 +40,11 @@ namespace SpotifakeClasses
                     string menu = "╔═════════════════════════════════════════════╗" +
                                 "\n║  Premi A per riprodurre una canzone casuale ║" +
                                 "\n║  Premi E per uscire dal programma           ║" +
-                                "\n╚═════════════════════════════════════════════╝";
+                                "\n╚═════════════════════════════════════════════╝\n";
                     Console.WriteLine(menu);
 
                 }
+                Console.WriteLine("");
                 Console.WriteLine("Premi A per vedere le canzoni");
                 Console.WriteLine("Premi B per vedere le playist");
                 Console.WriteLine("Premi C per vedere le radio");
@@ -62,7 +63,7 @@ namespace SpotifakeClasses
         public static void Menu2(User user,MediaComponent media, Database datas) {
             while (true)
             {
-                Console.WriteLine("Inserisci il numero della canzone da riprodurre o -1 per tornare indietro");
+                Console.WriteLine("Inserisci il numero della canzone da riprodurre o -1 per tornare indietro\n");
                 int check = int.Parse(Console.ReadKey().KeyChar.ToString());
                 if (check == -1) { Menu1(user, media, datas); }
                 Song s = datas.SelectSong(check);
