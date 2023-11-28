@@ -13,6 +13,7 @@ namespace Spotifake.Model.Music
         User _user;
         List<Song> _songs;
         string _name;
+        int _rating;
 
         public Playlist(string name, int id)
         {
@@ -29,11 +30,17 @@ namespace Spotifake.Model.Music
         public void AddSong(Song song)
         {
             _songs.Add(song);
+            
         }
 
         public void RemoveSong(Song song)
         {
             _songs.Remove(song);
+        }
+
+        public void PlayListReting()
+        {
+            _rating = _songs.Sum(x => x.Rating);
         }
 
 

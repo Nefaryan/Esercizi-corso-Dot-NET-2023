@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spotifake.Model.Music;
+using SpotifakeDataAndLogic.Model;
 
 namespace Spotifake.Entities
 {
@@ -16,18 +18,35 @@ namespace Spotifake.Entities
         List<Playlist> _playlist;
         List<Song> _preferitSong;
         List<Radio> _radio;
-        Setting _setting;
+        PremiumType PremiumType { get; set; }
+        int _usingTime;  
 
-        public User(int id, string name, string surname, string dateOfBirth, string userName, string password, Setting setting) : base(name, surname, dateOfBirth)
+        public User(int id, string name, string surname, string dateOfBirth, string userName, string password) : base(name, surname, dateOfBirth)
         {
             _Id = id;
             _username = userName;
             _password = password;
-            _setting = setting;
+         
            
             _playlist= new List<Playlist>();
             _preferitSong = new List<Song>();
             _radio = new List<Radio>();
+
+            switch(PremiumType) 
+            {
+                case PremiumType.FREE:
+                    _usingTime = 360000; // 100 ore in secondi per gli utenti free
+                    break;
+                case PremiumType.PREMIUM:
+                    _usingTime = 3600000; // 1000 0re in secondi per utenti premium
+                    break;
+                case PremiumType.GOLD:
+                    _usingTime = -1; // ilimitato
+                    break;
+                default:
+                    _usingTime = 360000;
+                    break;
+            }
         }
 
         public string Username { get => _username; set => _username = value; }
@@ -35,7 +54,7 @@ namespace Spotifake.Entities
         public List<Song> PreferitSong { get => _preferitSong; set => _preferitSong = value; }
         public List<Playlist> Playlist { get => _playlist; set => _playlist = value; }
         public List<Radio> Radio { get => _radio; set => _radio = value; }
-        public Setting Setting { get => _setting; set => _setting = value; }
+
         public int Id { get => _Id; set => _Id = value; }
 
         public void CreatePlayList(Playlist playlist)
@@ -81,11 +100,6 @@ namespace Spotifake.Entities
 
         }
 
-        public void ModifySetting(bool darkTheme, string equalizer,bool Premium, int deviceConnected)
-        {
-            Setting setting = new Setting(darkTheme, equalizer, Premium, deviceConnected);
-            setting.User = this;
-        }
         private Playlist GetPlayListByName(string name)
         {
             Playlist playlist = _playlist.Find(x => x.Name == name);

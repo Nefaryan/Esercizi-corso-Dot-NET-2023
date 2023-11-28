@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifakeDB.Repository
+namespace SpotifakeDataAndLogic.Model
 {
-    //TODO : IMPLEMENT
-    internal class RadioRepo
+    public enum PremiumType
     {
+        FREE = 0,
+        PREMIUM = 1,
+        GOLD = 2
     }
 }

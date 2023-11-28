@@ -15,6 +15,7 @@ namespace Spotifake.Model.Music
         bool _isLiveVersionAlbum;
         List<Song> _song;
         int _nOfTrack;
+        int _rating;
 
         public Album() { }
    
@@ -40,5 +41,16 @@ namespace Spotifake.Model.Music
         public Group Gruop { get => _gruop; set => _gruop = value; }
         public List<Song> Song { get => _song; set => _song = value; }
         public int ID { get => _ID; set => _ID = value; }
+
+        public void Add(Song song)
+        {
+            _song.Add(song);
+            _song.OrderByDescending(x => x.Rating).ToList();
+        }
+
+        public void AlbumRating()
+        {
+            _rating = _song.Sum(x => x.Rating);
+        }
     }
 }

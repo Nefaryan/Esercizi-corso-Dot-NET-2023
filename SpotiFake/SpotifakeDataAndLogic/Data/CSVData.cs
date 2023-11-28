@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifakeDB.Repository
+namespace SpotifakeDataAndLogic.Data
 {
     public class CSVData<T> where T : class, new()
     {
@@ -78,28 +78,7 @@ namespace SpotifakeDB.Repository
                 {
                     entry = new T();
 
-                    #region eXTRACION
-                    int j = 0;
-                    string[] columns = line.Split(',');
 
-                    foreach (var col in columns)
-                    {
-                        try
-                        {
-                            entry.GetType().GetProperty(headers[j])
-                              .SetValue(entry,
-                                 Convert.ChangeType(col,
-                                     entry.GetType().GetProperty(headers[j])
-                                       .PropertyType)
-                              );
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                        j++;
-                    }
-                    #endregion
 
                     list.Add(entry);
                 }
