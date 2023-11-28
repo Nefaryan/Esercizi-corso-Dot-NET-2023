@@ -21,6 +21,7 @@ namespace SpotifakeDateAndLogic.Logic
             _queue = new List<Song>();
             _index = 0;
             User = user;
+            database = new Database();
 
         }
 
