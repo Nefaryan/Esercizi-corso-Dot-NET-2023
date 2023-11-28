@@ -1,9 +1,10 @@
 ﻿using SpotifakeClasses.Entities;
-using SpotifakeClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
+using SpotifakeDateAndLogic.Entities.Music;
+using SpotifakeClasses;
+
 
 namespace SpotifakeDateAndLogic.LogicAndData
 {
@@ -11,11 +12,13 @@ namespace SpotifakeDateAndLogic.LogicAndData
     {
         private List<Artist> _artists;
         private List<Group> _groups;
+        private List<Song> _song;
         User _user;
         public Database()
         {
             _artists = new List<Artist>();
             _groups = new List<Group>();
+            _song = new List<Song>();
         }
         public Database(List<string> artistFile, List<string> groupFile)
         {
@@ -189,16 +192,24 @@ namespace SpotifakeDateAndLogic.LogicAndData
                 List<Exception> list = new List<Exception> { ex };
                 FileHandler<Exception>.WriteOnFile("Errors.txt", list); ;
             }
-
         }
         private void ShowGroup(Group g)
         {
-
             if (g == null)
                 return;
             Console.WriteLine(g.Name);
             g.ShowAlbums();
             g.ShowSongs();
+        }
+
+        public void AddSong(Song song) => _song.Add(song);
+
+        public List<Song> GetAllSongs() => _song;
+
+        public Database InitDB()
+        {
+            return null;
+        
         }
 
         

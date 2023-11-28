@@ -1,5 +1,4 @@
-﻿using SpotifakeClasses.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 using SpotifakeDateAndLogic;
+using SpotifakeDateAndLogic.Entities.Music;
 
 namespace SpotifakeClasses.Entities
 {
@@ -29,7 +29,7 @@ namespace SpotifakeClasses.Entities
         public User(string name, string surname, string dateOfBirth,
             string username, string password,Setting s):base(name,surname,dateOfBirth)
         {
-            _settings = new Setting(this);
+            _settings = s;
             _username = username;
             _password = password;
             _favouriteRadios = new List<Radio>();
@@ -38,7 +38,7 @@ namespace SpotifakeClasses.Entities
             _settings = s;
         }
 
-        public void CreatePlaylist(String name) {
+        public void CreatePlaylist(string name) {
             _playlists.Add(new Playlist(name, this));
         }
         public void RemovePlaylist(Playlist p) {

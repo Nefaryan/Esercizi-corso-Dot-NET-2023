@@ -1,11 +1,11 @@
-﻿using SpotifakeClasses.Entities;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifakeClasses.Entities
+namespace SpotifakeDateAndLogic.Entities.Music
 {
     public class Song
     {
@@ -26,7 +26,7 @@ namespace SpotifakeClasses.Entities
         }
         public Song(Artist artist, Album album, int duration, string genre, string title, string releaseDate)
         {
-            _artist =new List<Artist>();
+            _artist = new List<Artist>();
             _album = new List<Album>();
             _duration = duration;
             _genre = genre;
@@ -46,11 +46,11 @@ namespace SpotifakeClasses.Entities
             _groups.Add(group);
             _album.Add(album);
         }
-        public Song(Artist artist,Group group, Album album, int duration, string genre, string title, string releaseDate)
+        public Song(Artist artist, Group group, Album album, int duration, string genre, string title, string releaseDate)
         {
             _groups = new List<Group>();
             _album = new List<Album>();
-            _artist = new List<Artist>();   
+            _artist = new List<Artist>();
             _duration = duration;
             _genre = genre;
             _title = title;
@@ -77,6 +77,16 @@ namespace SpotifakeClasses.Entities
             _releaseDate = releaseDate;
             _groups.Add(group);
         }
+
+        public List<Artist> Artist { get => _artist; }
+        public List<Album> Album { get => _album; }
+        public int Duration { get => _duration; set => _duration = value; }
+        public string Genre { get => _genre; set => _genre = value; }
+        public string Title { get => _title; set => _title = value; }
+        public string ReleaseDate { get => _releaseDate; set => _releaseDate = value; }
+        public int Id { get => _id; set => _id = value; }
+        public int Rating { get => _rating; set => _rating = value; }
+
         public void AddArtist(Artist a)
         {
             _artist.Add(a);
@@ -93,13 +103,5 @@ namespace SpotifakeClasses.Entities
         {
             _rating++;
         }
-        public List<Artist> Artist { get => _artist; }
-        public List<Album> Album { get => _album; }
-        public int Duration { get => _duration; set => _duration = value; }
-        public string Genre { get => _genre; set => _genre = value; }
-        public string Title { get => _title; set => _title = value; }
-        public string ReleaseDate { get => _releaseDate; set => _releaseDate = value; }
-        public int Id { get => _id; set => _id = value; }
-        public int Rating { get => _rating; set => _rating = value; }
     }
 }

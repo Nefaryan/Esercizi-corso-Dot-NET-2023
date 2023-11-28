@@ -1,12 +1,11 @@
-﻿using SpotifakeClasses.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SpotifakeClasses.Entities
+namespace SpotifakeDateAndLogic.Entities.Music
 {
     public class Album
     {
@@ -20,13 +19,13 @@ namespace SpotifakeClasses.Entities
         private decimal _rating;
         public Album()
         {
-            _artists=new List<Artist>();
-            _groups=new List<Group>();  
-            _songs=new List<Song>();    
+            _artists = new List<Artist>();
+            _groups = new List<Group>();
+            _songs = new List<Song>();
         }
 
 
-        public Album(string title, string releaseDate, int nOfTracks, bool isLive, Artist artist,Group group, List<Song> songs)
+        public Album(string title, string releaseDate, int nOfTracks, bool isLive, Artist artist, Group group, List<Song> songs)
         {
             _title = title;
             _releaseDate = releaseDate;
@@ -45,7 +44,7 @@ namespace SpotifakeClasses.Entities
             _releaseDate = releaseDate;
             _nOfTracks = nOfTracks;
             _isLive = isLive;
-            _artists =new List<Artist>();
+            _artists = new List<Artist>();
             _songs = songs;
             _artists.Add(artist);
         }
@@ -61,7 +60,7 @@ namespace SpotifakeClasses.Entities
             _groups.Add(group);
         }
 
-        public Album(string title, string releaseDate, int nOfTracks, bool isLive, Artist artist,Song song)
+        public Album(string title, string releaseDate, int nOfTracks, bool isLive, Artist artist, Song song)
         {
             _title = title;
             _releaseDate = releaseDate;
@@ -77,7 +76,7 @@ namespace SpotifakeClasses.Entities
         {
             decimal rating = 0;
             foreach (Song song in _songs)
-                rating+= song.Rating;
+                rating += song.Rating;
             _rating = rating / _nOfTracks;
         }
         public string Title { get => _title; set => _title = value; }

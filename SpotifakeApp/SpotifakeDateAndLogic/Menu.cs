@@ -1,12 +1,10 @@
 ﻿using SpotifakeClasses.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 using SpotifakeDateAndLogic.Logic;
 using SpotifakeDateAndLogic.LogicAndData;
+using SpotifakeDateAndLogic.Entities.Music;
+
 
 namespace SpotifakeClasses
 {

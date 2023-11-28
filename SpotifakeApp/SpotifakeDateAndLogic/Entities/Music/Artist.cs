@@ -1,13 +1,14 @@
-﻿using SpotifakeClasses.Entities;
+﻿using SpotifakeClasses;
+using SpotifakeClasses.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifakeClasses.Entities
+namespace SpotifakeDateAndLogic.Entities.Music
 {
-       public class Artist : Person
+    public class Artist : Person
     {
         private string _artName;
         private List<Album> _albums;
@@ -18,21 +19,21 @@ namespace SpotifakeClasses.Entities
         public Artist()
         {
             _albums = new List<Album>();
-            _songs = new List<Song>();  
+            _songs = new List<Song>();
         }
 
-        public Artist(string name,string surname,string dateOfBirth,string artName, List<Album> albums, List<Song> songs, string bio):
-            base(name,surname,dateOfBirth)
+        public Artist(string name, string surname, string dateOfBirth, string artName, List<Album> albums, List<Song> songs, string bio) :
+            base(name, surname, dateOfBirth)
         {
             _artName = artName;
             _albums = albums;
             _songs = songs;
-            _bio=bio;
-            _songs=new List<Song>();  
-            _albums=new List<Album>();  
+            _bio = bio;
+            _songs = new List<Song>();
+            _albums = new List<Album>();
         }
 
-        public Artist(string name, string surname, string dateOfBirth,string artName):base(name,surname,dateOfBirth)
+        public Artist(string name, string surname, string dateOfBirth, string artName) : base(name, surname, dateOfBirth)
         {
             _artName = artName;
             _songs = new List<Song>();
@@ -57,27 +58,28 @@ namespace SpotifakeClasses.Entities
             _albums.Add(new Album(Title, release, nTracks, live, this, songs));
         }
         public void AddSong(Song s)
-        { 
+        {
             _songs.Add(s);
         }
         public void AddAlbum(Album a)
-        { 
+        {
             _albums.Add(a);
         }
-            public void JoinGroup(Group group)
+        public void JoinGroup(Group group)
         {
             group.AddMember(this);
             _group = group;
         }
-        public void LeaveGroup() {
+        public void LeaveGroup()
+        {
             try
             {
                 _group.RemoveMember(this);
                 _group = null;
             }
-            catch(System.NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
-                List<Exception> list = new List<Exception> { ex }; 
+                List<Exception> list = new List<Exception> { ex };
                 FileHandler<Exception>.WriteOnFile("Errors.txt", list); ;
             }
         }
@@ -98,11 +100,11 @@ namespace SpotifakeClasses.Entities
                     Console.WriteLine($"{album.Title}");
             }
         }
-    
+
 
         public override string ToString()
         {
-            return _artName + " " +base.Name+" "+base.Surname+" "+base.DateOfBirth + " " + Bio;
+            return _artName + " " + Name + " " + Surname + " " + DateOfBirth + " " + Bio;
         }
     }
 }

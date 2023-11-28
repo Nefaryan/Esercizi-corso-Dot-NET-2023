@@ -16,12 +16,6 @@ namespace SpotifakeClasses.Entities
         {
                 _user = new User();
         }
-        public Setting(User user) {
-            _user = user;
-            _darkTheme= false;
-            _equalizer = "default";
-            _nOfDevices=0;
-        }
         public Setting(bool darkTheme, string equalizer, PremiumType type, int nOfDevices)
         {
            
@@ -51,12 +45,6 @@ namespace SpotifakeClasses.Entities
         public int NOfDevices { get => _nOfDevices; private set => _nOfDevices = value; }
         public int RemainigTime { get => _remainigTime; set => _remainigTime = value; }
 
-        public void AddDevice() {
-            _nOfDevices++;
-        }
-        public void RemoveDevice() { 
-            _nOfDevices--;
-        }
 
     }
 }

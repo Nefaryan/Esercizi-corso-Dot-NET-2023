@@ -1,18 +1,18 @@
 ﻿using SpotifakeClasses;
 using SpotifakeClasses.Entities;
 using SpotifakeClasses.Interfaces;
+using SpotifakeDateAndLogic.Entities.Music;
+using SpotifakeDateAndLogic.LogicAndData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace SpotifakeDateAndLogic.Logic
 {
     public class MediaComponent : IMedia
     {
+        private readonly Database database;
+
         User User { get; set; }
         private List<Song> _queue;
         private int _index;
@@ -38,6 +38,7 @@ namespace SpotifakeDateAndLogic.Logic
         {
             if (u.Settings.PremiumType == PremiumType.GOLD)
             {
+                s.UpdateRating();
                 AddToQueue(s);
             }
             else if (u.Settings.PremiumType == PremiumType.FREE || User.Settings.PremiumType == PremiumType.PREMIUM)
@@ -45,6 +46,7 @@ namespace SpotifakeDateAndLogic.Logic
                 if( u.Settings.RemainigTime > 0)
                 {
                     u.Settings.RemainigTime -= s.Duration;
+                    s.UpdateRating();
                     AddToQueue(s);
                 }
                 else
@@ -154,17 +156,18 @@ namespace SpotifakeDateAndLogic.Logic
             return false;
         }
         
-       /* //Randomsong per utenti con minuti di ascolto terminati
+        //Randomsong per utenti con minuti di ascolto terminati
         private void RandomSong()
         { 
-            List<Song> songs = new List<Song>();//Momentaneo PlaceOlder per DB
+            List<Song> songs = database.GetAllSongs();
 
             if (User.Settings.RemainigTime == 0)
             {
                 Random random = new Random();
-                int randomSOng = random.Next(songs.Count);
-                AddToQueue(songs[randomSOng]);
+                int randomSong = random.Next(songs.Count);
+                songs[randomSong].UpdateRating();
+                AddToQueue(songs[randomSong]);
             } 
-        }*/
+        }
     }
 }
