@@ -20,9 +20,12 @@ namespace Spotifake
 
         public void Run(User user)
         {
+           
             char userInput;
             do
             {
+                Start();
+
                 ShowMenu();
                 userInput = GetValidInput();
                 HandleInput(userInput, user);
