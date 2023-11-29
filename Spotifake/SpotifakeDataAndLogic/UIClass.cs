@@ -44,8 +44,9 @@ namespace Spotifake
         }
         private void ShowMenu()
         {
-            Console.Clear();
+            
             Console.WriteLine("=== Music Player Menu ===");
+            Console.WriteLine("0. Vedi tutti i brani");
             Console.WriteLine("1. Play Song");
             Console.WriteLine("2. Play Album");
             Console.WriteLine("3. Play Playlist");
@@ -73,7 +74,7 @@ namespace Spotifake
         {
             return input == '1' || input == '2' || input == '3' || input == '4' ||
                    input == '5' || input == '6' || input == '7' || input == '8' ||
-                   input == 'X' || input == 'I' || input == 'E';
+                   input == '0' || input == 'X' || input == 'I' || input == 'E';
         }
 
         private void HandleInput(char userInput,User user)
@@ -86,10 +87,14 @@ namespace Spotifake
                 case 'E':
                     user.CultureInfo = CultureInfo.CreateSpecificCulture("en-US");
                     break;
+                case '0':
+                    Console.WriteLine("Canzoni Disponibili:");
+                    _mediaPlayer.SeeAllSong();
+                    break;
                 case '1':
                     Console.Write("Enter song name: ");
-                    string songName = Console.ReadLine();
-                    Console.WriteLine(_mediaPlayer.PlaySong(user,songName));
+                    int id = Console.ReadKey().KeyChar;
+                    Console.WriteLine(_mediaPlayer.PlaySongById(user,id));
                     break;
 
                 case '2':

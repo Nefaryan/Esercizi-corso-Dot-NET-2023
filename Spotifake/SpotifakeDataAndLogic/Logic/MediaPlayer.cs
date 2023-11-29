@@ -29,6 +29,19 @@ namespace SpotifakeLogic.Logic
             _isPlaying = false;
         }
 
+        public string SeeAllSong()
+        {
+            StringBuilder result = new StringBuilder();
+            List<Song> list = songRepo.ReadSongFromFile().ToList();
+
+            foreach (Song song in list)
+            {
+                result.AppendLine($"{song.Id}.  {song.Name}");
+            }
+
+            return result.ToString();
+        }
+
         public string NextSong(User user)
         {
             if (user.Setting.IsPremium)
@@ -114,6 +127,23 @@ namespace SpotifakeLogic.Logic
                 return $"Song '{songName}' not found.";
             }
         }
+
+        public string PlaySongById(User u, int id)
+        {
+            Song song = songRepo.FindSongByID(id);
+
+            if (song != null)
+            {
+                song.Rating++;
+                u.Setting.RemainigTime = -song.Duration;
+                return PlayCurrentSong(song);
+            }
+            else
+            {
+                return $"Song '{song.Name}' not found.";
+            }
+
+        }
         public string PreviousSong(User user)
         {
             if (user.Setting.IsPremium)
@@ -174,5 +204,6 @@ namespace SpotifakeLogic.Logic
             Thread.Sleep(song.Duration * 1000);
             return result;
         }
+        
     }
 }

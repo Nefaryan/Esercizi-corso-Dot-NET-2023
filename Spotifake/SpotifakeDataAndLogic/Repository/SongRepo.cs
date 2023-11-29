@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 
 namespace SpotifakeDB.Repository
 {
@@ -29,6 +31,19 @@ namespace SpotifakeDB.Repository
             }
         }
 
+       public Song FindSongByID(int id)
+        {
+            try
+            {
+                List<Song> list = ReadSongFromFile().ToList();
+                return list.FirstOrDefault(s => s.Id == id);
+            }
+            catch (Exception ex)
+            {
+                LogError($"Errore durante la ricerca della canzone per nome: {ex.Message}");
+                return null;
+            }
+        }
         public void WriteSongOnFile(Song song)
         {
             try
