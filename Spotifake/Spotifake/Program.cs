@@ -31,7 +31,7 @@ namespace Spotifake
             SongRepo repo = new SongRepo();
             SongLogic sl = new SongLogic(repo);
 
-            Song song1 = new Song(1, "song-1","Rock",180,"date");
+            Song song1 = new Song(1, "song-1", "Rock",180,"date");
             Song song2 = new Song(2, "song-2", "Rock", 180, "date");
             Song song3 = new Song(3, "song-3", "Rock", 180, "date");
             Song song4 = new Song(4, "song-4", "Rock", 180, "date");

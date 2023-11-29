@@ -77,7 +77,7 @@ namespace SpotifakeLogic.Logic
             }
         }
 
-        public string PlayPlaylist(string playlistName)
+        public string PlayPlaylist(User user,string playlistName)
         {
             List<Song> songsInPlaylist = playlistRepo.FindSongsInPlaylist(playlistName);
 
@@ -88,7 +88,7 @@ namespace SpotifakeLogic.Logic
                 foreach (var song in songsInPlaylist)
                 {
                     result.AppendLine($"Playing song: {song.Name}");
-                    Thread.Sleep(song.Duration * 1000);
+                    user.Setting.RemainigTime =-song.Duration;
                 }
 
                 return result.ToString();
@@ -99,13 +99,14 @@ namespace SpotifakeLogic.Logic
             }
         }
 
-        public string PlaySong(string songName)
+        public string PlaySong(User u, string songName)
         {
             Song song = songRepo.FindSongByName(songName);
 
             if (song != null)
             {
                 song.Rating++;
+                u.Setting.RemainigTime = -song.Duration;
                 return PlayCurrentSong(song);
             }
             else

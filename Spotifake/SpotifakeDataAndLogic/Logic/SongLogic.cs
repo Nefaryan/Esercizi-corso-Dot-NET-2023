@@ -28,9 +28,11 @@ namespace SpotifakeLogic.Logic
             songRepo.WriteSongOnFile(song);
         }
 
-        public List<Song> ReadSongFromFile()
+        public List<Song> GetAllSong()
         {
             return songRepo.ReadSongFromFile();
         }
+
+        
     }
 }
