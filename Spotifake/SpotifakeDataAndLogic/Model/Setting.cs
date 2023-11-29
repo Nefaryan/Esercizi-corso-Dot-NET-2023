@@ -15,7 +15,7 @@ namespace Spotifake.Entities
         int _numberOfConnectedDevice;
         User _user;
         private int _remainigTime;
-        PremiumType PremiumType { get; set; }
+        PremiumType PremiumType;
 
         public Setting(bool darkTheme, string equalaizer, 
             bool isPremium, int numberOfDisp,PremiumType type)
@@ -47,5 +47,6 @@ namespace Spotifake.Entities
         public int NumberOfDisp { get => _numberOfConnectedDevice; set => _numberOfConnectedDevice = value; }
         internal User User { get => _user; set => _user = value; }
         public int RemainigTime { get => _remainigTime; set => _remainigTime = value; }
+        public PremiumType PremiumType1 { get => PremiumType; set => PremiumType = value; }
     }
 }

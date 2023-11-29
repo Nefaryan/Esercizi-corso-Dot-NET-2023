@@ -23,28 +23,22 @@ namespace Spotifake
             char userInput;
             do
             {
-                Start();
-                userInput = GetValidInput();
-
                 ShowMenu();
-
-                
-                HandleInput(userInput,user);
-
+                userInput = GetValidInput();
+                HandleInput(userInput, user);
             } while (userInput != 'X');
         }
+
         public void Start()
         {
             Console.Clear();
-            Console.WriteLine("=====Selezione la lingua=====");
+            Console.WriteLine("===== Selezione la lingua =====");
             Console.WriteLine("I. Italiano");
             Console.WriteLine("E. Inglese");
-            
-        
         }
+
         private void ShowMenu()
         {
-            
             Console.WriteLine("=== Music Player Menu ===");
             Console.WriteLine("0. Vedi tutti i brani");
             Console.WriteLine("1. Play Song");
@@ -64,7 +58,9 @@ namespace Spotifake
             char userInput;
             do
             {
+                Console.Write("Enter your choice: ");
                 userInput = char.ToUpper(Console.ReadKey().KeyChar);
+                Console.WriteLine(); // Vai a capo
             } while (!IsValidInput(userInput));
 
             return userInput;

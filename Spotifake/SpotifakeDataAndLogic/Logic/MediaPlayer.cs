@@ -131,17 +131,28 @@ namespace SpotifakeLogic.Logic
         public string PlaySongById(User u, int id)
         {
             Song song = songRepo.FindSongByID(id);
-
-            if (song != null)
+            if(u.Setting.RemainigTime > 0 || u.Setting.PremiumType1 == SpotifakeDataAndLogic.PremiumType.GOLD) 
             {
-                song.Rating++;
-                u.Setting.RemainigTime = -song.Duration;
-                return PlayCurrentSong(song);
+                if (song != null)
+                {
+                    song.Rating++;
+                    u.Setting.RemainigTime = -song.Duration;
+                    return PlayCurrentSong(song);
+                }
+                else
+                {
+                    return $"Song '{song.Name}' not found.";
+                }
+
             }
             else
             {
-                return $"Song '{song.Name}' not found.";
+                //retunr PlayRandomSong() -- need implementazione
+                return $"Hai finito il tempo a disposizione o è scaduto l'abbonamento," +
+                    $"per continunare a poter scegliere le canzoni da ascoltare aspetta il prossimo mese o riattiva l'abbonamento";
+
             }
+           
 
         }
         public string PreviousSong(User user)
