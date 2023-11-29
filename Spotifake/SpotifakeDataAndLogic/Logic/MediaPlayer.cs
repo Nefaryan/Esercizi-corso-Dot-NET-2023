@@ -44,7 +44,7 @@ namespace SpotifakeLogic.Logic
 
         public string NextSong(User user)
         {
-            if (user.Setting.IsPremium)
+            if (user.Setting.PremiumType1 == SpotifakeDataAndLogic.PremiumType.GOLD)
             {
                 List<Song> allSongs = songRepo.ReadSongFromFile();
                 if (currentSongIndex < allSongs.Count - 1)
@@ -157,7 +157,7 @@ namespace SpotifakeLogic.Logic
         }
         public string PreviousSong(User user)
         {
-            if (user.Setting.IsPremium)
+            if (user.Setting.PremiumType1 == SpotifakeDataAndLogic.PremiumType.GOLD)
             {
                 List<Song> allSongs = songRepo.ReadSongFromFile();
                 if (currentSongIndex > 0)
