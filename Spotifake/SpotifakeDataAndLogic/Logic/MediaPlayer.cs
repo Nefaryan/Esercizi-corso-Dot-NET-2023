@@ -147,9 +147,9 @@ namespace SpotifakeLogic.Logic
             }
             else
             {
-                //retunr PlayRandomSong() -- need implementazione
+                //retunr RunRandomSong() -- need implementazione
                 return $"Hai finito il tempo a disposizione o è scaduto l'abbonamento," +
-                    $"per continunare a poter scegliere le canzoni da ascoltare aspetta il prossimo mese o riattiva l'abbonamento";
+                $"per continunare a poter scegliere le canzoni da ascoltare aspetta il prossimo mese o riattiva l'abbonamento";
 
             }
            
@@ -208,6 +208,11 @@ namespace SpotifakeLogic.Logic
             return topRatedSongs;
         }
 
+
+        public Song RunRandomSong()
+        {
+            return null;
+        }
         private string PlayCurrentSong(Song song)
         {
             string result = $"Playing: {song.Name}";
