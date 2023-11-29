@@ -33,6 +33,11 @@ namespace SpotifakeLogic.Logic
             return songRepo.ReadSongFromFile();
         }
 
+        public Song FindSongBYId(int id)
+        {
+           return songRepo.FindSongByID(id);
+        }
+
         
     }
 }

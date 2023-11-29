@@ -17,6 +17,7 @@ namespace SpotifakeLogic.Logic
     {
         private readonly SongRepo songRepo;
         private readonly PlaylistRepo playlistRepo;
+        private readonly SongLogic songLogic;
         private int currentSongIndex;
         private bool _isPlaying;
 
@@ -25,6 +26,7 @@ namespace SpotifakeLogic.Logic
         {
             songRepo = new SongRepo();
             playlistRepo = new PlaylistRepo();
+            songLogic = new SongLogic(songRepo);
             currentSongIndex = 0;
             _isPlaying = false;
         }
@@ -46,7 +48,7 @@ namespace SpotifakeLogic.Logic
         {
             if (user.Setting.PremiumType1 == SpotifakeDataAndLogic.PremiumType.GOLD)
             {
-                List<Song> allSongs = songRepo.ReadSongFromFile();
+                List<Song> allSongs = songLogic.GetAllSong();
                 if (currentSongIndex < allSongs.Count - 1)
                 {
                     currentSongIndex++;
@@ -114,7 +116,7 @@ namespace SpotifakeLogic.Logic
 
         public string PlaySong(User u, string songName)
         {
-            Song song = songRepo.FindSongByName(songName);
+            Song song = songLogic.FindSongByName(songName);
 
             if (song != null)
             {
@@ -130,7 +132,7 @@ namespace SpotifakeLogic.Logic
 
         public string PlaySongById(User u, int id)
         {
-            Song song = songRepo.FindSongByID(id);
+            Song song = songLogic.FindSongBYId(id);
             if(u.Setting.RemainigTime > 0 || u.Setting.PremiumType1 == SpotifakeDataAndLogic.PremiumType.GOLD) 
             {
                 if (song != null)
@@ -159,7 +161,7 @@ namespace SpotifakeLogic.Logic
         {
             if (user.Setting.PremiumType1 == SpotifakeDataAndLogic.PremiumType.GOLD)
             {
-                List<Song> allSongs = songRepo.ReadSongFromFile();
+                List<Song> allSongs = songLogic.GetAllSong();
                 if (currentSongIndex > 0)
                 {
                     currentSongIndex--;
@@ -191,7 +193,7 @@ namespace SpotifakeLogic.Logic
 
         public List<Song> TopRatingSongs()
         {
-            List<Song> songs = songRepo.ReadSongFromFile();
+            List<Song> songs = songLogic.GetAllSong();
 
             
             List<Song> topRatedSongs = songs.OrderByDescending(song => song.Rating).ToList();
@@ -208,7 +210,7 @@ namespace SpotifakeLogic.Logic
             return topRatedSongs;
         }
 
-
+        //Need Implementation
         public Song RunRandomSong()
         {
             return null;
