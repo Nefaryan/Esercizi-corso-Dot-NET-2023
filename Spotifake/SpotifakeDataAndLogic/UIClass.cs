@@ -4,6 +4,7 @@ using SpotifakeDB.Repository;
 using SpotifakeLogic.Logic;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Spotifake
@@ -30,7 +31,13 @@ namespace Spotifake
 
             } while (userInput != 'E');
         }
-
+        public void Start()
+        {
+            Console.WriteLine("=====Selezione la lingua=====");
+            Console.WriteLine("I. Italiano");
+            Console.WriteLine("E. Inglese");
+        
+        }
         private void ShowMenu()
         {
             Console.Clear();
@@ -62,13 +69,19 @@ namespace Spotifake
         {
             return input == '1' || input == '2' || input == '3' || input == '4' ||
                    input == '5' || input == '6' || input == '7' || input == '8' ||
-                   input == 'E';
+                   input == 'X' || input == 'I' || input == 'E';
         }
 
         private void HandleInput(char userInput,User user)
         {
             switch (userInput)
             {
+                case 'I':
+                    user.CultureInfo = CultureInfo.CreateSpecificCulture("it-IT");
+                    break;
+                case 'E':
+                    user.CultureInfo = CultureInfo.CreateSpecificCulture("en-US");
+                    break;
                 case '1':
                     Console.Write("Enter song name: ");
                     string songName = Console.ReadLine();
@@ -107,7 +120,7 @@ namespace Spotifake
                     Console.WriteLine(_mediaPlayer.TopRatingSongs());
                     break;
 
-                case 'E':
+                case 'X':
                     Console.WriteLine("Exiting the music player.");
                     break;
 

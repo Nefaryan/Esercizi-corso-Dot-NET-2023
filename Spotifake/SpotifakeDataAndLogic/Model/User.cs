@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Spotifake.Entities
         List<Song> _preferitSong;
         List<Radio> _radio;
         Setting _setting;
+        CultureInfo _cultureInfo;
 
         public User(int id, string name, string surname, string dateOfBirth, string userName, string password, Setting setting) : base(name, surname, dateOfBirth)
         {
@@ -38,6 +40,7 @@ namespace Spotifake.Entities
         public List<Radio> Radio { get => _radio; set => _radio = value; }
         public Setting Setting { get => _setting; set => _setting = value; }
         public int Id { get => _Id; set => _Id = value; }
+        public CultureInfo CultureInfo { get => _cultureInfo; set => _cultureInfo = value; }
 
         public void CreatePlayList(Playlist playlist)
         {
