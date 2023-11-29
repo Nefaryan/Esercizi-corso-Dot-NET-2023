@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spotifake.Model.Music;
+using SpotifakeDataAndLogic;
 
 namespace Spotifake.Entities
 {
@@ -81,9 +82,9 @@ namespace Spotifake.Entities
 
         }
 
-        public void ModifySetting(bool darkTheme, string equalizer,bool Premium, int deviceConnected)
+        public void ModifySetting(bool darkTheme, string equalizer,bool Premium, int deviceConnected,PremiumType type)
         {
-            Setting setting = new Setting(darkTheme, equalizer, Premium, deviceConnected);
+            Setting setting = new Setting(darkTheme, equalizer, Premium, deviceConnected,type);
             setting.User = this;
         }
         private Playlist GetPlayListByName(string name)

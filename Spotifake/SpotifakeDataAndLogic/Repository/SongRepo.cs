@@ -19,7 +19,7 @@ namespace SpotifakeDB.Repository
         {
             try
             {
-                List<Song> list = ReadSongFromFile();
+                List<Song> list = ReadSongFromFile().ToList();
                 return list.FirstOrDefault(s => s.Name == name);
             }
             catch (Exception ex)
