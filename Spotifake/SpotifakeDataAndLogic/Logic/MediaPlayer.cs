@@ -103,6 +103,7 @@ namespace SpotifakeLogic.Logic
                 foreach (var song in songsInPlaylist)
                 {
                     result.AppendLine($"Playing song: {song.Name}");
+                    song.Rating++;
                     user.Setting.RemainigTime =-song.Duration;
                 }
 
@@ -149,7 +150,7 @@ namespace SpotifakeLogic.Logic
             }
             else
             {
-                //retunr RunRandomSong() -- need implementazione
+                RunRandomSong();
                 return $"Hai finito il tempo a disposizione o è scaduto l'abbonamento," +
                 $"per continunare a poter scegliere le canzoni da ascoltare aspetta il prossimo mese o riattiva l'abbonamento";
 
@@ -210,11 +211,16 @@ namespace SpotifakeLogic.Logic
             return topRatedSongs;
         }
 
-        //Need Implementation
+        
         public Song RunRandomSong()
         {
-            return null;
+            List<Song> songs = songLogic.GetAllSong();
+            Random random = new Random();
+            Song randomSong = songs[random.Next(songs.Count)];
+            PlayCurrentSong(randomSong);
+            return randomSong;
         }
+
         private string PlayCurrentSong(Song song)
         {
             string result = $"Playing: {song.Name}";
