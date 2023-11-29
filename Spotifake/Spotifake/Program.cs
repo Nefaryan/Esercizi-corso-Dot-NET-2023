@@ -18,7 +18,7 @@ namespace Spotifake
 
             MediaPlayer mediaPlayer = new MediaPlayer();
 
-            Setting setting = new Setting(true,"Rock",true,1);
+            Setting setting = new Setting(true,"Rock",true,1,SpotifakeDataAndLogic.PremiumType.FREE);
             User u = new User(1, "Gino", "Srorbillo", "DATE", "Ginuccio","void", setting);
 
             UIClass UI = new UIClass(mediaPlayer);
