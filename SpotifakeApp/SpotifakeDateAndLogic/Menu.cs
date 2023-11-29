@@ -58,41 +58,41 @@ namespace SpotifakeClasses
                 }
             }
         }
-        public static void Menu2(User user,MediaComponent media, Database datas) {
+        public static void Menu2(User user,MediaComponent media, Database data) {
             while (true)
             {
                 Console.WriteLine("Inserisci il numero della canzone da riprodurre o -1 per tornare indietro\n");
                 int check = int.Parse(Console.ReadKey().KeyChar.ToString());
-                if (check == -1) { Menu1(user, media, datas); }
-                Song s = datas.SelectSong(check);
+                if (check == -1) { Menu1(user, media, data); }
+                Song s = data.SelectSong(check);
                 media.Play(user, s);
-                Menu5(user, media, datas);
+                Menu5(user, media, data);
             } 
         }
 
-        public static void Menu3(User user,MediaComponent media, Database datas)
+        public static void Menu3(User user,MediaComponent media, Database data)
         {
             while (true)
             {
                 Console.WriteLine("Inserisci il numero della Playlist da riprodurre o -1 per tornare indietro");
                 int check = int.Parse(Console.ReadKey().KeyChar.ToString());
-                if (check == -1) { Menu1(user, media, datas); }
-                Playlist s = datas.SelectPlaylist(check);
+                if (check == -1) { Menu1(user, media, data); }
+                Playlist s = data.SelectPlaylist(check);
                 media.PlayPlaylist(s);
-                Menu5(user, media, datas);
+                Menu5(user, media, data);
             }
         }
 
-        public static void Menu4(User user,MediaComponent media, Database datas)
+        public static void Menu4(User user,MediaComponent media, Database data)
         {
             while (true)
             {
                 Console.WriteLine("Inserisci il numero della Radio da riprodurre o  -1 per tornare indietro");
                 int check = int.Parse(Console.ReadKey().KeyChar.ToString());
-                if (check == -1) { Menu1(user, media, datas); }
-                Radio r = datas.SelectRadio(check);
+                if (check == -1) { Menu1(user, media, data); }
+                Radio r = data.SelectRadio(check);
                 media.PlayRadio(r,user);
-                Menu5(user, media, datas);
+                Menu5(user, media, data);
             }
         }
 

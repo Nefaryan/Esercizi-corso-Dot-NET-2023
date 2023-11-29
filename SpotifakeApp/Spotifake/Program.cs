@@ -15,7 +15,7 @@ namespace Spotifake
            
             
             Setting s = new Setting(false, "defauly", SpotifakeDateAndLogic.PremiumType.GOLD, 1);
-            User u1 = new User("Giuseppe", "Roberti", "26-11-1995", "Nef", "Nefpass",s);
+            User u1 = new User("Giuseppe", "Roberti", (new DateTime(1995,11,26)), "Nef", "Nefpass",s);
             Database database = new Database();
 
             MediaComponent media = new MediaComponent();
