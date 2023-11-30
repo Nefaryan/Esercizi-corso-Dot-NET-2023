@@ -2,10 +2,12 @@
 using SpotifakeBusinessLogic.Interfaces;
 using SpotifakeBusinessLogic.Service;
 using SpotifakeData.Entity;
+using SpotifakeData.Entity.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpotifakeBusinessLogic
@@ -141,7 +143,35 @@ namespace SpotifakeBusinessLogic
 
         public string PlaySong(User u, string songName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var song = _songService.GetSongByNeame(songName);
+
+                if (song != null)
+                {
+                    if (CanUserPlaySong(u, song))
+                    {
+                        song.Rating++;
+                        UpdateUserRemainingTime(u, song.Duration);
+
+                        return PlayCurrentSong(song);
+                    }
+                    else
+                    {
+                        return "Impossibile riprodurre la canzone. Controlla il tuo abbonamento e il tempo rimanente.";
+                    }
+                }
+                else
+                {
+                    _logger.LogInformation($"La canzone '{songName}' non è stata trovata.");
+                    return $"La canzone '{songName}' non è stata trovata.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante la riproduzione della canzone '{songName}' per l'utente '{u.Username}'.");
+                return $"Errore durante la riproduzione della canzone '{songName}'.";
+            }
         }
 
         public string PreviousSong(User user)
@@ -152,6 +182,27 @@ namespace SpotifakeBusinessLogic
         public string StopSong()
         {
             throw new NotImplementedException();
+        }
+
+        private string PlayCurrentSong(Song song)
+        {
+            string result = $"Playing: {song.Title}";
+            Console.WriteLine(result);
+            return result;
+        }
+        //Metodo per controllare se L'utente può riprodurre la canzone
+        private bool CanUserPlaySong(User user, Song song)
+        {
+            return user.Setting.RemainigTime > 0 || user.Setting.PremiumType == PremiumTypeEnum.GOLD;
+        }
+
+        //Metod per fare l'update del tempo rimanente
+        private void UpdateUserRemainingTime(User user, int duration)
+        {
+            if (user.Setting.PremiumType != PremiumTypeEnum.GOLD)
+            {
+                user.Setting.RemainigTime -= duration;
+            }
         }
     }
 }
