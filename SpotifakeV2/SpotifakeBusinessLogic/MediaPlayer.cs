@@ -12,7 +12,8 @@ namespace SpotifakeBusinessLogic
 {
     public class MediaPlayer : IMediaPlayer
     {
-
+        private int currentSongIndex;
+        private bool _isPlaying;
         private readonly SongService _songService;
         private readonly AlbumService _albumService;
         private readonly PlaylistService _playlistService;
@@ -28,6 +29,8 @@ namespace SpotifakeBusinessLogic
             _albumService = albumService;
             _playlistService = playlistService;
             _logger = logger;
+            currentSongIndex = 0;
+            _isPlaying = false;
         }
 
         public string SeeAllSong()
@@ -91,12 +94,39 @@ namespace SpotifakeBusinessLogic
 
         public string NextSong(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (user.Setting.PremiumType == PremiumTypeEnum.GOLD)
+                {
+                    var allSongs = _songService.GetAllSongs();
+
+                    if (currentSongIndex < allSongs.Count - 1)
+                    {
+                        currentSongIndex++;
+                        return PlaySong(user, allSongs[currentSongIndex].Title);
+                    }
+                    else
+                    {
+                        return "Playlist ended";
+                    }
+                }
+                else
+                {
+                    return "Activate the subscription to use this feature";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during the NextSong operation.");
+                return "An error occurred during the NextSong operation.";
+            }
+
         }
 
         public string PauseSong()
         {
-            throw new NotImplementedException();
+            _isPlaying = false;
+            return "Song stopped";
         }
 
         public string PlayAlbum(string albumName)

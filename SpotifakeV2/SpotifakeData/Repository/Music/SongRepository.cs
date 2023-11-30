@@ -67,6 +67,25 @@ namespace SpotifakeData.Repository.Music
             }
         }
 
+        public Song GetByName(string title)
+        {
+            try
+            {
+                var filePath = Path.Combine(_folderPath, $"{title}.json");
+                if (File.Exists(filePath))
+                {
+                    var jsonData = File.ReadAllText(filePath);
+                    return JsonConvert.DeserializeObject<Song>(jsonData);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante la lettura della canzone con titolo {title}.");
+                throw;
+            }
+        }
+
         public void Add(Song song)
         {
             try

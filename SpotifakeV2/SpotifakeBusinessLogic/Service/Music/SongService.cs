@@ -45,7 +45,18 @@ namespace SpotifakeBusinessLogic.Service
                 throw;
             }
         }
-
+        public Song GetSongByNeame(string name)
+        {
+            try
+            {
+                return _songRepository.GetByName(name);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante il recupero della canzone con nome {name}.");
+                throw;
+            }
+        }
         public void AddSong(Song song)
         {
             try
