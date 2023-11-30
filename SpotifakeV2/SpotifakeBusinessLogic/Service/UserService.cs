@@ -132,6 +132,32 @@ namespace SpotifakeBusinessLogic.Service
                 throw;
             }
         }
+
+        public User LogIn(string username, string password)
+        {
+            try
+            {
+                var ListOfUser = _userRepository.GetAll();
+
+                var user = ListOfUser.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
+                if (user != null)
+                {
+                    _logger.LogInformation($"Login successful for user '{username}'.");
+                    return user;
+                }
+                else
+                {
+                    _logger.LogInformation($"Login failed for user '{username}'.");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during the login operation.");
+                throw; 
+            }
+
+        }
     }
 }
 
