@@ -131,14 +131,62 @@ namespace SpotifakeBusinessLogic
             return "Song stopped";
         }
 
-        public string PlayAlbum(string albumName)
+        public string PlayAlbum(User u, int albumId)
         {
             throw new NotImplementedException();
         }
 
-        public string PlayPlaylist(User u, string playlistName)
+        public string SeeAllPlayList()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var allPlaylist = _playlistService.GetAllPlaylist();
+                if (allPlaylist.Any())
+                {
+                    var playlistInfo = allPlaylist.Select(p => $"{p.Id} - {p.Name}").ToList();
+                    var result = string.Join(Environment.NewLine, playlistInfo);
+
+                    _logger.LogInformation($"Visualizzazione di tutte le playlist");
+                    return result;
+                }
+                else
+                {
+                    _logger.LogInformation($"Nessuna playlist disponibile");
+                    return "Nessuna playlist disponibile";
+                }
+            }
+            catch(Exception ex) 
+            {
+                _logger.LogError(ex, "Errore");
+                return "Errore durante la visualizzazione delle playlist";
+
+            }
+            
+        }
+
+        public string PlayPlaylist(User user, int playlistId)
+        {
+            try
+            {
+                var playlist = _playlistService.GetAllPlaylistById(playlistId);
+
+                if (playlist != null && playlist.Songs != null && playlist.Songs.Any())
+                {
+                    // Imposta l'indice corrente a -1 per indicare che la riproduzione è iniziata dalla prima canzone
+                    currentSongIndex = -1;
+
+                    return PlayNextSongInPlaylist(user, playlist);
+                }
+                else
+                {
+                    return $"La playlist con ID {playlistId} non è stata trovata o è vuota.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante la riproduzione della playlist con ID {playlistId} per l'utente '{user.Username}'.");
+                return $"Errore durante la riproduzione della playlist con ID {playlistId}.";
+            }
         }
 
         public string PlaySong(User u, string songName)
@@ -176,14 +224,70 @@ namespace SpotifakeBusinessLogic
             }
         }
 
-        public string PreviousSong(User user)
+        public string PlaySongById(User u, int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var song = _songService.GetSongById(Id);
+
+                if (song != null)
+                {
+                    if (CanUserPlaySong(u, song))
+                    {
+                        song.Rating++;
+                        UpdateUserRemainingTime(u, song.Duration);
+
+                        return PlayCurrentSong(song);
+                    }
+                    else
+                    {
+                        RunRandomSong();
+                        return "Impossibile riprodurre la canzone. Controlla il tuo abbonamento e il tempo rimanente," +
+                            "fino a quel momento ascolterai canzoni completamente randomiche";
+                    }
+                }
+                else
+                {
+                    _logger.LogInformation($"La canzone '{song.Title}' non è stata trovata.");
+                    return $"La canzone '{song.Title}' non è stata trovata.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Errore durante la riproduzione della canzone");
+                return "Errore durante la riproduzione della canzone";
+            }
         }
 
-        public string StopSong()
+
+        public string PreviousSong(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (user.Setting.PremiumType == PremiumTypeEnum.GOLD)
+                {
+                    var allSongs = _songService.GetAllSongs();
+
+                    if (currentSongIndex > 0)
+                    {
+                        currentSongIndex--;
+                        return PlaySong(user, allSongs[currentSongIndex].Title);
+                    }
+                    else
+                    {
+                        return "Playlist ended";
+                    }
+                }
+                else
+                {
+                    return "Activate the subscription to use this feature";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during the NextSong operation.");
+                return "An error occurred during the NextSong operation.";
+            }
         }
 
         private string PlayCurrentSong(Song song)
@@ -214,6 +318,31 @@ namespace SpotifakeBusinessLogic
             if (user.Setting.PremiumType != PremiumTypeEnum.GOLD)
             {
                 user.Setting.RemainigTime -= duration;
+            }
+        }
+
+        private string PlayNextSongInPlaylist(User user, Playlist playlist)
+        {
+            try
+            {
+                
+                currentSongIndex++;
+
+                if (currentSongIndex < playlist.Songs.Count)
+                {
+                    var nextSong = playlist.Songs[currentSongIndex];
+                    return PlaySong(user, nextSong.Title);
+                }
+                else
+                {
+                    currentSongIndex = -1; 
+                    return "Playlist completata.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante la riproduzione della prossima canzone della playlist per l'utente '{user.Username}'.");
+                return "Errore durante la riproduzione della prossima canzone della playlist.";
             }
         }
     }

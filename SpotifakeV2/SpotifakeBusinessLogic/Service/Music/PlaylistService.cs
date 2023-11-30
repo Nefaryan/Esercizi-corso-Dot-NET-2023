@@ -69,5 +69,34 @@ namespace SpotifakeBusinessLogic.Service
                 throw;
             }
         }
+
+        public List<Playlist> GetAllPlaylist()
+        {
+            try
+            {
+                return _playlistRepository.GetAll();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{ex.Message}", ex);
+                throw;
+            
+            }
+        }
+
+        public Playlist GetAllPlaylistById(int playlistId)
+        {
+            try
+            {
+               return _playlistRepository.GetById(playlistId);
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante il recupero della playlist con ID {playlistId}.");
+                throw;
+            }
+        }
     }
 }
