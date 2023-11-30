@@ -67,7 +67,7 @@ namespace SpotifakeBusinessLogic
 
                 if (topSongs.Any())
                 {
-                    // Puoi formattare e visualizzare le informazioni sulle canzoni come preferisci
+                    
                     var songInfo = topSongs.Select(song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}").ToList();
                     var result = string.Join(Environment.NewLine, songInfo);
 
