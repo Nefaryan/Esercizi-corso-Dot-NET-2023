@@ -158,7 +158,9 @@ namespace SpotifakeBusinessLogic
                     }
                     else
                     {
-                        return "Impossibile riprodurre la canzone. Controlla il tuo abbonamento e il tempo rimanente.";
+                        RunRandomSong();
+                        return "Impossibile riprodurre la canzone. Controlla il tuo abbonamento e il tempo rimanente," +
+                            "fino a quel momento ascolterai canzoni completamente randomiche";
                     }
                 }
                 else
@@ -190,6 +192,16 @@ namespace SpotifakeBusinessLogic
             Console.WriteLine(result);
             return result;
         }
+
+        public Song RunRandomSong()
+        {
+            List<Song> songs = _songService.GetAllSongs();
+            Random random = new Random();
+            Song randomSong = songs[random.Next(songs.Count)];
+            PlayCurrentSong(randomSong);
+            return randomSong;
+        }
+
         //Metodo per controllare se L'utente può riprodurre la canzone
         private bool CanUserPlaySong(User user, Song song)
         {
