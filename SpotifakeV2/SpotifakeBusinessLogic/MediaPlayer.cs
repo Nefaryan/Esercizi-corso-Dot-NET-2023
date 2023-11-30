@@ -43,7 +43,7 @@ namespace SpotifakeBusinessLogic
 
                 if (allSongs.Any())
                 {
-                   
+
                     var songInfo = allSongs.Select(song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}").ToList();
                     var result = string.Join(Environment.NewLine, songInfo);// Ogni elemento della lista verrà stampato su una nuova linea
 
@@ -64,7 +64,7 @@ namespace SpotifakeBusinessLogic
             }
         }
 
-        public string Top5Song() 
+        public string Top5Song()
         {
             try
             {
@@ -72,7 +72,7 @@ namespace SpotifakeBusinessLogic
 
                 if (topSongs.Any())
                 {
-                    
+
                     var songInfo = topSongs.Select(song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}").ToList();
                     var result = string.Join(Environment.NewLine, songInfo);
 
@@ -155,13 +155,13 @@ namespace SpotifakeBusinessLogic
                     return "Nessuna playlist disponibile";
                 }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Errore");
                 return "Errore durante la visualizzazione delle playlist";
 
             }
-            
+
         }
 
         public string PlayPlaylist(User user, int playlistId)
@@ -172,7 +172,7 @@ namespace SpotifakeBusinessLogic
 
                 if (playlist != null && playlist.Songs != null && playlist.Songs.Any())
                 {
-                    // Imposta l'indice corrente a -1 per indicare che la riproduzione è iniziata dalla prima canzone
+
                     currentSongIndex = -1;
 
                     return PlayNextSongInPlaylist(user, playlist);
@@ -325,7 +325,7 @@ namespace SpotifakeBusinessLogic
         {
             try
             {
-                
+
                 currentSongIndex++;
 
                 if (currentSongIndex < playlist.Songs.Count)
@@ -335,7 +335,7 @@ namespace SpotifakeBusinessLogic
                 }
                 else
                 {
-                    currentSongIndex = -1; 
+                    currentSongIndex = -1;
                     return "Playlist completata.";
                 }
             }
