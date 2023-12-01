@@ -98,7 +98,7 @@ namespace SpotifakeService
                     Console.WriteLine(_mediaPlayer.PlaySong(user, songName));
                     break;
                 case "2":
-                    Console.WriteLine(_mediaPlayer.SeeAllAlbum()); // Implementa la visualizzazione degli album
+                    Console.WriteLine(_mediaPlayer.SeeAllAlbum()); 
                     break;
                 case "3":
                     Console.WriteLine(_mediaPlayer.SeeAllPlayList()); 
@@ -119,7 +119,7 @@ namespace SpotifakeService
                     Console.WriteLine(_mediaPlayer.Top5Song());
                     break;
                 case "9":
-                    Console.WriteLine(_mediaPlayer.Top5Album()); // Implementa la visualizzazione dei top 5 album
+                    Console.WriteLine(_mediaPlayer.Top5Album()); 
                     break;
                 case "x":
                     Environment.Exit(0);
