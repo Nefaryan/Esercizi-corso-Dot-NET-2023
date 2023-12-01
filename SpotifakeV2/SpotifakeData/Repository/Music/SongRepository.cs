@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SpotifakeData.DataContext;
 using SpotifakeData.Entity.Music;
 using System;
 using System.Collections.Generic;
@@ -14,29 +15,19 @@ namespace SpotifakeData.Repository.Music
     {
         private static readonly string _folderPath = @"C:\Users\giuse\Desktop\SpotiFake\Songs";
         private readonly ILogger<SongRepository> _logger;
-        static SongRepository()
-        {
-            Directory.CreateDirectory(_folderPath);
-        }
+        private readonly DBContext dBContext;
 
         public SongRepository(ILogger<SongRepository> logger)
         {
             _logger = logger;
+            dBContext = new DBContext(_folderPath);
         }
 
         public List<Song> GetAll()
         {
             try
             {
-                var songs = new List<Song>();
-
-                foreach (var file in Directory.GetFiles(_folderPath, "*.json"))
-                {
-                    var jsonData = File.ReadAllText(file);
-                    var song = JsonConvert.DeserializeObject<Song>(jsonData);
-                    songs.Add(song);
-                }
-
+                var songs = dBContext.GetAll<Song>();
                 return songs;
             }
             catch (Exception ex)
@@ -50,15 +41,7 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var filePath = Path.Combine(_folderPath, $"{id}.json");
-
-                if (File.Exists(filePath))
-                {
-                    var jsonData = File.ReadAllText(filePath);
-                    return JsonConvert.DeserializeObject<Song>(jsonData);
-                }
-
-                return null;
+               return dBContext.GetById<Song>(id);
             }
             catch (Exception ex)
             {
@@ -71,13 +54,7 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var filePath = Path.Combine(_folderPath, $"{title}.json");
-                if (File.Exists(filePath))
-                {
-                    var jsonData = File.ReadAllText(filePath);
-                    return JsonConvert.DeserializeObject<Song>(jsonData);
-                }
-                return null;
+               return dBContext.GetByName<Song>(title);
             }
             catch (Exception ex)
             {
@@ -90,16 +67,7 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var songId = song.Id;
-                var filePath = Path.Combine(_folderPath, $"{songId}.json");
-
-                if (!File.Exists(filePath))
-                {
-                    File.Create(filePath).Close();
-                }
-
-                var jsonData = JsonConvert.SerializeObject(song, Formatting.Indented);
-                File.WriteAllText(filePath, jsonData);
+              dBContext.Add(song);
             }
             catch (Exception ex)
             {

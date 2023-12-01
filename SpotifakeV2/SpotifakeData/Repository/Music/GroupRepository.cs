@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SpotifakeData.DataContext;
 using SpotifakeData.Entity.Music;
 using System;
 using System.Collections.Generic;
@@ -14,28 +15,20 @@ namespace SpotifakeData.Repository.Music
     {
         private readonly string _folderPath =  @"C:\Users\giuse\Desktop\SpotiFake\Group";
         private readonly ILogger<GroupRepository> _logger;
+        private readonly DBContext dBContext;
 
-        public GroupRepository(string folderPath, ILogger<GroupRepository> logger)
+        public GroupRepository(ILogger<GroupRepository> logger)
         {
-            _folderPath = folderPath;
+           
             _logger = logger;
-
-            Directory.CreateDirectory(_folderPath);
+            dBContext = new DBContext(_folderPath);        
         }
 
         public List<Group> GetAll()
         {
             try
             {
-                var groups = new List<Group>();
-
-                foreach (var file in Directory.GetFiles(_folderPath, " *.json"))
-                {
-                    var jsonData = File.ReadAllText(file);
-                    var group = JsonConvert.DeserializeObject<Group>(jsonData);
-                    groups.Add(group);
-                }
-
+                var groups = dBContext.GetAll<Group>();
                 return groups;
             }
             catch (Exception ex)
@@ -49,15 +42,8 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var filePath = Path.Combine(_folderPath, $"{id}.json");
-
-                if (File.Exists(filePath))
-                {
-                    var jsonData = File.ReadAllText(filePath);
-                    return JsonConvert.DeserializeObject<Group>(jsonData);
-                }
-
-                return null;
+                var Group = dBContext.GetById<Group>(id);
+                return Group;
             }
             catch (Exception ex)
             {
@@ -70,16 +56,7 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var groupId = group.Id;
-                var filePath = Path.Combine(_folderPath, $"{groupId}.json");
-
-                if (!File.Exists(filePath))
-                {
-                    File.Create(filePath).Close();
-                }
-
-                var jsonData = JsonConvert.SerializeObject(group, Formatting.Indented);
-                File.WriteAllText(filePath, jsonData);
+                dBContext.Add(group);
             }
             catch (Exception ex)
             {

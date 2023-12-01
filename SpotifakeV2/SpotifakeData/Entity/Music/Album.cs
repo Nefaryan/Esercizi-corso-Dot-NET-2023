@@ -18,8 +18,7 @@ namespace SpotifakeData.Entity.Music
         int _nOfTrack;
         int _raiting;
 
-        public Album() { }
-
+      
         public int ID { get => _Id; set => _Id = value; }
         public string Title { get => _title; set => _title = value; }
         public Artist Artist { get => _artist; set => _artist = value; }

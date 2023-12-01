@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifakeV2", "SpotifakeV2\SpotifakeV2.csproj", "{F0B63262-EE7D-443C-9EC3-00A0D6416486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifakePresentation", "SpotifakeV2\SpotifakePresentation.csproj", "{F0B63262-EE7D-443C-9EC3-00A0D6416486}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifakeData", "SpotifakeData\SpotifakeData.csproj", "{DDF49439-7043-4037-BD22-600AEDFF2B64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifakeData", "SpotifakeData\SpotifakeData.csproj", "{DDF49439-7043-4037-BD22-600AEDFF2B64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifakeBusinessLogic", "SpotifakeBusinessLogic\SpotifakeBusinessLogic.csproj", "{F7D2F40B-8AB5-4134-B4E8-475640B29E5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifakeService", "SpotifakeBusinessLogic\SpotifakeService.csproj", "{F7D2F40B-8AB5-4134-B4E8-475640B29E5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

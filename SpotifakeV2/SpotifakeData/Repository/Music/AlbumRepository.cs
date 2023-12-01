@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SpotifakeData.DataContext;
 using SpotifakeData.Entity.Music;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,13 @@ namespace SpotifakeData.Repository.Music
     {
         private static readonly string _folderPath = @"C:\Users\giuse\Desktop\SpotiFake\Albums";
         private readonly ILogger<AlbumRepository> _logger;
-
-        static AlbumRepository()
-        {
-            Directory.CreateDirectory(_folderPath);
-        }
+        private readonly DBContext _dbContext;
+ 
 
         public AlbumRepository(ILogger<AlbumRepository> logger)
         {
             _logger = logger;
+            _dbContext = new DBContext(_folderPath);
         }
 
 
@@ -30,15 +29,7 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var albums = new List<Album>();
-
-                foreach (var file in Directory.GetFiles(_folderPath, "*.json"))
-                {
-                    var jsonData = File.ReadAllText(file);
-                    var album = JsonConvert.DeserializeObject<Album>(jsonData);
-                    albums.Add(album);
-                }
-
+                var albums = _dbContext.GetAll<Album>();
                 return albums;
             }
             catch (Exception ex)
@@ -52,15 +43,8 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var filePath = Path.Combine(_folderPath, $"{id}.json");
-
-                if (File.Exists(filePath))
-                {
-                    var jsonData = File.ReadAllText(filePath);
-                    return JsonConvert.DeserializeObject<Album>(jsonData);
-                }
-
-                return null;
+                var album = _dbContext.GetById<Album>(id);
+                return album;
             }
             catch (Exception ex)
             {
@@ -73,16 +57,7 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var albumId = album.ID;
-                var filePath = Path.Combine(_folderPath, $"{albumId}.json");
-
-                if (!File.Exists(filePath))
-                {
-                    File.Create(filePath).Close();
-                }
-
-                var jsonData = JsonConvert.SerializeObject(album, Formatting.Indented);
-                File.WriteAllText(filePath, jsonData);
+                _dbContext.Add(album);
             }
             catch (Exception ex)
             {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SpotifakeData.DataContext;
 using SpotifakeData.Entity;
 using System;
 using System.Collections.Generic;
@@ -12,31 +13,22 @@ namespace SpotifakeData.Repository
 {
     public class UserRepository
     {
-        private readonly string _folderPath = @"C:\Users\giuse\Desktop\SpotiFake\Albums\User";
+        private readonly string _folderPath = @"C:\Users\giuse\Desktop\SpotiFake\User";
         private readonly ILogger<UserRepository> _logger;
-
-        public UserRepository(string folderPath, ILogger<UserRepository> logger)
+        private DBContext _dbContext;
+        
+        public UserRepository( ILogger<UserRepository> logger)
         {
-            _folderPath = folderPath;
+            
             _logger = logger;
-
-            Directory.CreateDirectory(_folderPath);
+            _dbContext = new DBContext(_folderPath);
         }
 
         public List<User> GetAll()
         {
             try
             {
-                var users = new List<User>();
-
-                foreach (var file in Directory.GetFiles(_folderPath, "*.json"))
-                {
-                    var jsonData = File.ReadAllText(file);
-                    var user = JsonConvert.DeserializeObject<User>(jsonData);
-                    users.Add(user);
-                }
-
-                return users;
+              return _dbContext.GetAll<User>();
             }
             catch (Exception ex)
             {
@@ -49,15 +41,7 @@ namespace SpotifakeData.Repository
         {
             try
             {
-                var filePath = Path.Combine(_folderPath, $"{id}.json");
-
-                if (File.Exists(filePath))
-                {
-                    var jsonData = File.ReadAllText(filePath);
-                    return JsonConvert.DeserializeObject<User>(jsonData);
-                }
-
-                return null;
+               return _dbContext.GetById<User>(id);
             }
             catch (Exception ex)
             {
@@ -70,16 +54,8 @@ namespace SpotifakeData.Repository
         {
             try
             {
-                var userId = user.Id;
-                var filePath = Path.Combine(_folderPath, $"{userId}.json");
-
-                if (!File.Exists(filePath))
-                {
-                    File.Create(filePath).Close();
-                }
-
-                var jsonData = JsonConvert.SerializeObject(user, Formatting.Indented);
-                File.WriteAllText(filePath, jsonData);
+                _dbContext.Add(user);
+ 
             }
             catch (Exception ex)
             {

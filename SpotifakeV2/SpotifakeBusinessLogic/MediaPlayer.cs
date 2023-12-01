@@ -133,7 +133,25 @@ namespace SpotifakeBusinessLogic
 
         public string PlayAlbum(User u, int albumId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var album = _albumService.GetAlbumById(albumId);
+                if(album != null && album.Song !=null && album.Song.Any())
+                {
+                    currentSongIndex = -1;
+                    return PlayNextSongInAlbum(u, album);
+
+                }
+                else
+                {
+                    return $"L'album non è stato trovato";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"L'album con id {albumId} non è stato trovato");
+                return $"Errore durante la riproduzione de'album con ID {albumId}.";
+            }
         }
 
         public string SeeAllPlayList()
@@ -259,7 +277,6 @@ namespace SpotifakeBusinessLogic
             }
         }
 
-
         public string PreviousSong(User user)
         {
             try
@@ -325,7 +342,6 @@ namespace SpotifakeBusinessLogic
         {
             try
             {
-
                 currentSongIndex++;
 
                 if (currentSongIndex < playlist.Songs.Count)
@@ -344,6 +360,41 @@ namespace SpotifakeBusinessLogic
                 _logger.LogError(ex, $"Errore durante la riproduzione della prossima canzone della playlist per l'utente '{user.Username}'.");
                 return "Errore durante la riproduzione della prossima canzone della playlist.";
             }
+        }
+
+        private string PlayNextSongInAlbum(User user, Album album)
+        {
+            try
+            { 
+                var allSongs = album.Song;
+
+                if (currentSongIndex < allSongs.Count)
+                {
+                    currentSongIndex++;
+                    return PlaySongById(user, allSongs[currentSongIndex].Id);
+                }
+                else
+                {
+                    return "Album ended";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Errore durante la riproduzione dell'album");
+                return "An error occurred during the PlayNextSongInAlbum operation.";
+            }
+
+        }
+
+        internal bool SeeAllAlbum()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool Top5Album()
+        {
+            throw new NotImplementedException();
         }
     }
 }

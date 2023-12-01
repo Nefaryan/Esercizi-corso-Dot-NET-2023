@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SpotifakeData.DataContext;
 using SpotifakeData.Entity.Music;
 using System;
 using System.Collections.Generic;
@@ -14,28 +15,19 @@ namespace SpotifakeData.Repository.Music
     {
         private readonly string _folderPath = @"C:\Users\giuse\Desktop\SpotiFake\Playlist";
         private readonly ILogger<PlaylistRepository> _logger;
+        private readonly DBContext dBContext;
 
-        public PlaylistRepository(string folderPath, ILogger<PlaylistRepository> logger)
+        public PlaylistRepository(ILogger<PlaylistRepository> logger)
         {
-            _folderPath = folderPath;
             _logger = logger;
-
-            Directory.CreateDirectory(_folderPath);
+            dBContext = new DBContext(_folderPath);
         }
 
         public List<Playlist> GetAll()
         {
             try
             {
-                var playlists = new List<Playlist>();
-
-                foreach (var file in Directory.GetFiles(_folderPath, " *.json"))
-                {
-                    var jsonData = File.ReadAllText(file);
-                    var playlist = JsonConvert.DeserializeObject<Playlist>(jsonData);
-                    playlists.Add(playlist);
-                }
-
+                var playlists = dBContext.GetAll<Playlist>();
                 return playlists;
             }
             catch (Exception ex)
@@ -49,15 +41,8 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var filePath = Path.Combine(_folderPath, $"{id}.json");
-
-                if (File.Exists(filePath))
-                {
-                    var jsonData = File.ReadAllText(filePath);
-                    return JsonConvert.DeserializeObject<Playlist>(jsonData);
-                }
-
-                return null;
+              var Playlist = dBContext.GetById<Playlist>(id);
+              return Playlist;
             }
             catch (Exception ex)
             {
@@ -70,16 +55,7 @@ namespace SpotifakeData.Repository.Music
         {
             try
             {
-                var playlistId = playlist.Id;
-                var filePath = Path.Combine(_folderPath, $"{playlistId}.json");
-
-                if (!File.Exists(filePath))
-                {
-                    File.Create(filePath).Close();
-                }
-
-                var jsonData = JsonConvert.SerializeObject(playlist, Formatting.Indented);
-                File.WriteAllText(filePath, jsonData);
+                dBContext.Add(playlist);
             }
             catch (Exception ex)
             {

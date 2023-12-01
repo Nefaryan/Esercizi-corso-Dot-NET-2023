@@ -133,7 +133,7 @@ namespace SpotifakeBusinessLogic.Service
             }
         }
 
-        public User LogIn(string username, string password)
+        public User? LogIn(string username, string password)
         {
             try
             {
@@ -156,7 +156,6 @@ namespace SpotifakeBusinessLogic.Service
                 _logger.LogError(ex, "Error during the login operation.");
                 throw; 
             }
-
         }
     }
 }
