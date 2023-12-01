@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpotifakeData.DTO
 {
-    internal class GroupDTO
+    public class GroupDTO
     {
+        public string GroupName { get; set; }
+        public string Bio { get; set; }
     }
 }

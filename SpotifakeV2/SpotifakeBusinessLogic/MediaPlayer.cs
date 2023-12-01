@@ -47,7 +47,7 @@ namespace SpotifakeService
                     var songInfo = allSongs.Select(song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}").ToList();
                     var result = string.Join(Environment.NewLine, songInfo);// Ogni elemento della lista verrà stampato su una nuova linea
 
-                    _logger.LogInformation($"Visualizzazione di tutte le canzoni.");
+                    _logger.LogInformation("Visualizzazione di tutte le canzoni.");
 
                     return result;
                 }
@@ -61,6 +61,47 @@ namespace SpotifakeService
             {
                 _logger.LogError(ex, "Errore durante la visualizzazione di tutte le canzoni.");
                 return "Errore durante la visualizzazione di tutte le canzoni.";
+            }
+        }
+
+        internal string SeeAllAlbum()
+        {
+            try
+            {
+                var allAlbum = _albumService.GetAllAlbums();
+                if(allAlbum.Any()) 
+                {
+                    var albumInfo = allAlbum.Select(album => $"{album.ID} - {album.Title}").ToList();
+                    var result = string.Join (Environment.NewLine, albumInfo);
+
+                    _logger.LogInformation("Visualizzazione di tutti gli album");
+
+                    return result;
+                }
+                else
+                {
+                    _logger.LogInformation("Nessun album disponibile");
+                    return "Nessun album disponibile";
+                }
+            }catch(Exception ex)
+            {
+                _logger.LogError(ex, "Errore durante la visualizzazione degli album");
+                return "Erorre durante la visualizzazione degli album";
+            }
+        }
+
+        internal string Top5Album()
+        {
+           var topAlbum = _albumService.GetTop5Album();
+            if (topAlbum.Any())
+            {
+                var albumInfo = topAlbum.Select(album => $"{album.Title} - {album.Song.FirstOrDefault().Title}").ToList();
+                var result = string.Join(Environment.NewLine, albumInfo);
+                return result;
+            }
+            else
+            {
+                return "Nessun album trovato";
             }
         }
 
@@ -314,7 +355,7 @@ namespace SpotifakeService
             return result;
         }
 
-        public Song RunRandomSong()
+        private Song RunRandomSong()
         {
             List<Song> songs = _songService.GetAllSongs();
             Random random = new Random();
@@ -387,14 +428,6 @@ namespace SpotifakeService
 
         }
 
-        internal bool SeeAllAlbum()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal bool Top5Album()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

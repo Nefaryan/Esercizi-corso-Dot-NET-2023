@@ -100,7 +100,7 @@ namespace SpotifakeService
                     Console.WriteLine(_mediaPlayer.PauseSong());
                     break;
                 case "7":
-                    // Implementa lo stop della canzone
+                    Console.WriteLine(_mediaPlayer.PauseSong());
                     break;
                 case "8":
                     Console.WriteLine(_mediaPlayer.Top5Song());
