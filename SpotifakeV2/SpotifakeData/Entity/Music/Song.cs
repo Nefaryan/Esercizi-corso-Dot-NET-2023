@@ -13,7 +13,7 @@ namespace SpotifakeData.Entity.Music
         string _title;
         string _genre;
         int _duration;
-        string _releaseDate;
+        DateTime _releaseDate;
         List<Album> _albums;
         List<Group> _group;
         List<Artist> _artists;

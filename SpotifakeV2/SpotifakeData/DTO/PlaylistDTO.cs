@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SpotifakeData.DTO
 {
-    internal class PlaylistDTO
+    public class PlaylistDTO
     {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public List<SongDTO> Songs { get; set; }
     }
 }
