@@ -1,4 +1,4 @@
-﻿using SpotifakeBusinessLogic.Service;
+﻿using SpotifakeService.Service;
 using SpotifakeData.Entity;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifakeBusinessLogic
+namespace SpotifakeService
 {
     public class UserUI
     {

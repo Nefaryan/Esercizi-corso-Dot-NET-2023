@@ -16,6 +16,7 @@ namespace SpotifakeData.Entity
         User? _user;
         private int _remainigTime;
         PremiumTypeEnum _premiumType;
+        TimeSpan _totalUsageTime;
 
         public Setting(bool darkTheme, string equalaizer,
             bool isPremium, int numberOfDisp, PremiumTypeEnum type)
@@ -48,5 +49,6 @@ namespace SpotifakeData.Entity
         public User User { get => _user; set => _user = value; }
         public int RemainigTime { get => _remainigTime; set => _remainigTime = value; }
         public PremiumTypeEnum PremiumType { get => _premiumType; set => _premiumType = value; }
+        public TimeSpan TotalUsageTime { get => _totalUsageTime; set => _totalUsageTime = value; }
     }
 }

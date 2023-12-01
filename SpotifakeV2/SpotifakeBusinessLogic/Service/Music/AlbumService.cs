@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifakeBusinessLogic.Service
+namespace SpotifakeService.Service
 {
     public class AlbumService
     {

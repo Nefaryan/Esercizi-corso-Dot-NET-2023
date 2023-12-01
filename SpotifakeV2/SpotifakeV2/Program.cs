@@ -1,9 +1,9 @@
-﻿using SpotifakeBusinessLogic.Service;
+﻿using SpotifakeService.Service;
 using SpotifakeData.Entity.Music;
 using System;
 using System.Collections.Generic;
 
-namespace SpotifakeV2
+namespace SpotifakePresentation
 {
     internal class Program
     {

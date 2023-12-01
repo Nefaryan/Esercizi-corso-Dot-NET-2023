@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifakeBusinessLogic.Interfaces
+namespace SpotifakeService.Interfaces
 {
     public interface IMediaPlayer
     {

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace SpotifakeData.Entity
 {
@@ -16,7 +17,7 @@ namespace SpotifakeData.Entity
         List<Playlist> _playlist;
         Setting _setting;
         CultureInfo _cultureInfo;
-
+        
         public int Id { get => _Id; set => _Id = value; }
         public string Username { get => _username; set => _username = value; }
         public string Password { get => _password; set => _password = value; }

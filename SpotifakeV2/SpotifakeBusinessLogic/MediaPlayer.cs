@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using SpotifakeBusinessLogic.Interfaces;
-using SpotifakeBusinessLogic.Service;
+using SpotifakeService.Interfaces;
+using SpotifakeService.Service;
 using SpotifakeData.Entity;
 using SpotifakeData.Entity.Music;
 using System;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SpotifakeBusinessLogic
+namespace SpotifakeService
 {
     public class MediaPlayer : IMediaPlayer
     {
