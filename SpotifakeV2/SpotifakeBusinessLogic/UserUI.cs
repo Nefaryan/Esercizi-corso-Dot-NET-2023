@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace SpotifakeService
 {
@@ -19,12 +20,23 @@ namespace SpotifakeService
             _mediaPlayer = mediaPlayer;
         }
 
-        public void Start()
+        public void SelectLanguage (User u)
         {
             Console.Clear();
             Console.WriteLine("===== Selezione la lingua =====");
             Console.WriteLine("I. Italiano");
-            Console.WriteLine("E. Inglese");
+            Console.WriteLine("E. English");
+            char check = Console.ReadKey().KeyChar;
+            switch (check)
+            {
+                case 'I':
+                    u.CultureInfo = CultureInfo.CreateSpecificCulture("it-IT");
+                    break;
+                case 'E':
+                    u.CultureInfo = CultureInfo.CreateSpecificCulture("en-US");
+                    break;
+            }
+
         }
 
         public void LogIn()
@@ -41,6 +53,7 @@ namespace SpotifakeService
             if (user != null)
             {
                 Console.WriteLine("Dati corretti");
+                ShowMenu(user);
                 ShowMenu(user);
             }
             else
