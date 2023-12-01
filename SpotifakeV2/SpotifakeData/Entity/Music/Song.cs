@@ -24,7 +24,7 @@ namespace SpotifakeData.Entity.Music
         public string Title { get => _title; set => _title = value; }
         public string Genre { get => _genre; set => _genre = value; }
         public int Duration { get => _duration; set => _duration = value; }
-        public string ReleaseDate { get => _releaseDate; set => _releaseDate = value; }
+        public DateTime ReleaseDate { get => _releaseDate; set => _releaseDate = value; }
         public List<Album> Albums { get => _albums; set => _albums = value; }
         public List<Group> Group { get => _group; set => _group = value; }
         public List<Artist> Artists { get => _artists; set => _artists = value; }
