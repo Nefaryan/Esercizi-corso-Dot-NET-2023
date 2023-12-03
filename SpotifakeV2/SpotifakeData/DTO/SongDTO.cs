@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotifakeData.Entity.Music;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,15 @@ namespace SpotifakeData.DTO
         public string Genre { get; set; }
         public int Duration { get; set; }
         public DateTime ReleaseDate { get; set; }
+
+        public SongDTO(Song song) 
+        {
+            ID = song.Id;
+            Title = song.Title; 
+            Genre = song.Genre; 
+            Duration = song.Duration;
+            ReleaseDate = song.ReleaseDate;
+        }
 
     }
 }

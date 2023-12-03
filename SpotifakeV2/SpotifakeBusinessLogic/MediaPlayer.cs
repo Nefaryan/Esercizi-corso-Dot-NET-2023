@@ -90,49 +90,22 @@ namespace SpotifakeService
             }
         }
 
-        internal string Top5Album()
+        public string Top5Album()
         {
-           var topAlbum = _albumService.GetTop5Album();
-            if (topAlbum.Any())
-            {
-                var albumInfo = topAlbum.Select(album => $"{album.Title} - {album.Song.FirstOrDefault().Title}").ToList();
-                var result = string.Join(Environment.NewLine, albumInfo);
-                return result;
-            }
-            else
-            {
-                return "Nessun album trovato";
-            }
+            return GetTop5(
+                () => _albumService.GetTop5Album(),
+                album => $"{album.Title} - {album.Song.FirstOrDefault()?.Title}",
+                "Nessun album trovato"
+            );
         }
 
         public string Top5Song()
         {
-            try
-            {
-                var topSongs = _songService.GetTop5Song();
-
-                if (topSongs.Any())
-                {
-
-                    var songInfo = topSongs.Select(song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}").ToList();
-                    var result = string.Join(Environment.NewLine, songInfo);
-
-                    _logger.LogInformation($"Visualizzazione delle top 5 canzoni per rating.");
-
-                    return result;
-                }
-                else
-                {
-                    _logger.LogInformation("Nessuna canzone disponibile per la visualizzazione delle top 5.");
-                    return "Nessuna canzone disponibile per la visualizzazione delle top 5.";
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Errore durante la visualizzazione delle top 5 canzoni.");
-                return "Errore durante la visualizzazione delle top 5 canzoni.";
-            }
-
+            return GetTop5(
+                () => _songService.GetTop5Song(),
+                song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}",
+                "Nessuna canzone disponibile per la visualizzazione delle top 5."
+            );
         }
 
         public string NextSong(User user)
@@ -428,6 +401,32 @@ namespace SpotifakeService
 
         }
 
-        
+        private string GetTop5<T>(Func<IEnumerable<T>> getDataFunc, Func<T, string> projectionFunc, string errorMessage)
+        {
+            try
+            {
+                var data = getDataFunc();
+
+                if (data.Any())
+                {
+                    var info = data.Select(projectionFunc).ToList();
+                    var result = string.Join(Environment.NewLine, info);
+
+                    _logger.LogInformation($"Visualizzazione delle top 5 {typeof(T).Name}.");
+
+                    return result;
+                }
+                else
+                {
+                    _logger.LogInformation($"Nessun {typeof(T).Name} trovato.");
+                    return $"Nessun {typeof(T).Name} trovato.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Errore durante la visualizzazione delle top 5 {typeof(T).Name}.");
+                return $"Errore durante la visualizzazione delle top 5 {typeof(T).Name}.";
+            }
+        }
     }
 }

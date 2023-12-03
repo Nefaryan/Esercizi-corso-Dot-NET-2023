@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotifakeData.Entity.Music;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,16 @@ namespace SpotifakeData.DTO
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public List<SongDTO> Songs { get; set; }
+        public List<Song> Songs { get; set; }
+
+        public PlaylistDTO(Playlist playlist)
+        {
+            ID = playlist.Id;
+            Name = playlist.Name;
+            Songs = playlist.Songs;       
+        }
+
+
+
     }
 }
