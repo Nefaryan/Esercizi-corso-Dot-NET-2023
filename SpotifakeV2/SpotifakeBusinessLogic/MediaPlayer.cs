@@ -64,7 +64,7 @@ namespace SpotifakeService
             }
         }
 
-        internal string SeeAllAlbum()
+        public string SeeAllAlbum()
         {
             try
             {
@@ -401,7 +401,7 @@ namespace SpotifakeService
 
         }
 
-        private string GetTop5<T>(Func<IEnumerable<T>> getDataFunc, Func<T, string> projectionFunc, string errorMessage)
+        private string GetTop5<T>(Func<List<T>> getDataFunc, Func<T, string> projectionFunc, string errorMessage)
         {
             try
             {
