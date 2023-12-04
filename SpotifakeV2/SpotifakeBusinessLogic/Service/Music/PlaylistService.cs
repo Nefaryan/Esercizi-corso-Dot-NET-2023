@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,12 +72,12 @@ namespace SpotifakeService.Service
             }
         }
 
-        public List<Playlist> GetAllPlaylist()
+        public List<PlaylistDTO> GetAllPlaylist()
         {
             try
             {
-                return _playlistRepository.GetAll();
-
+                var list = _playlistRepository.GetAll();
+                return list.Select(playlist => new PlaylistDTO(playlist)).ToList();
             }
             catch (Exception ex)
             {
@@ -85,11 +87,12 @@ namespace SpotifakeService.Service
             }
         }
 
-        public Playlist GetAllPlaylistById(int playlistId)
+        public PlaylistDTO? GetAllPlaylistById(int playlistId)
         {
             try
             {
-               return _playlistRepository.GetById(playlistId);
+               var playlist = _playlistRepository.GetById(playlistId);
+               return  playlist != null ? new PlaylistDTO(playlist) : null;    
 
             }
             catch(Exception ex)

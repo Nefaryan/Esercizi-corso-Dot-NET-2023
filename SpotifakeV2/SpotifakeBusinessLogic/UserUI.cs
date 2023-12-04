@@ -20,6 +20,10 @@ namespace SpotifakeService
             _mediaPlayer = mediaPlayer;
         }
 
+        public UserUI()
+        {     
+        }
+
         public void SelectLanguage (User u)
         {
             Console.Clear();
@@ -53,7 +57,7 @@ namespace SpotifakeService
             if (user != null)
             {
                 Console.WriteLine("Dati corretti");
-                ShowMenu(user);
+                SelectLanguage(user);
                 ShowMenu(user);
             }
             else

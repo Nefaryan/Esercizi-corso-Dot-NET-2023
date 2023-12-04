@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SpotifakeData.DTO.AlbumsDTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository.Music;
 using System;
@@ -20,11 +21,12 @@ namespace SpotifakeService.Service
             _logger = logger;
         }
 
-        public List<Album> GetAllAlbums()
+        public List<AlbumDTO> GetAllAlbums()
         {
             try
             {
-                return _albumRepository.GetAll();
+                var allAlbum = _albumRepository.GetAll();
+                return allAlbum.Select(album => new AlbumDTO(album)).ToList();
             }
             catch (Exception ex)
             {
@@ -33,11 +35,12 @@ namespace SpotifakeService.Service
             }
         }
 
-        public Album GetAlbumById(int id)
+        public AlbumDTO? GetAlbumById(int id)
         {
             try
             {
-                return _albumRepository.GetById(id);
+                var album = _albumRepository.GetById(id);
+                return album != null ? new AlbumDTO(album) : null;
             }
             catch (Exception ex)
             {
@@ -59,7 +62,7 @@ namespace SpotifakeService.Service
             }
         }
 
-        public List<Album> GetTop5Album()
+        public List<AlbumDTO> GetTop5Album()
         {
             try
             {
@@ -72,7 +75,7 @@ namespace SpotifakeService.Service
                         : 0;
 
                     // Assegna la media dei rating all'album
-                    return new { Album = album, AverageRating = averageRating };
+                    return new { Album = new AlbumDTO(album), AverageRating = averageRating };
                 });
 
                 // Ordina gli album per la media dei rating in ordine decrescente e prendi al massimo 5

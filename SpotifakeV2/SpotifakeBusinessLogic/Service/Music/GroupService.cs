@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository.Music;
 using System;
@@ -76,11 +77,12 @@ namespace SpotifakeService.Service
             }
         }
 
-        public List<Group> GetAllGroups()
+        public List<GroupDTO> GetAllGroups()
         {
             try
             {
-                return _groupRepository.GetAll();
+                var groups = _groupRepository.GetAll(); 
+                return groups.Select(group => new GroupDTO(group)).ToList();
             }
             catch (Exception ex)
             {
@@ -89,11 +91,12 @@ namespace SpotifakeService.Service
             }
         }
 
-        public Group GetGroupById(int id)
+        public GroupDTO? GetGroupById(int id)
         {
             try
             {
-                return _groupRepository.GetById(id);
+                var group = _groupRepository.GetById(id);
+                return group != null ? new GroupDTO(group) : null;
             }
             catch (Exception ex)
             {

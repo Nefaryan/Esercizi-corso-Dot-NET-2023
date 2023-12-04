@@ -14,7 +14,6 @@ namespace SpotifakeData.DTO
         public string ArtistName { get; set; }
         public List<Song> Songs { get; set; }
 
-
         public ArtistDTO(Artist artist)
         {
             Name = artist.Name;

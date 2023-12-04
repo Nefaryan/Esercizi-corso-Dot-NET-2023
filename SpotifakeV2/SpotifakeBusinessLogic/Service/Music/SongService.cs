@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository.Music;
 using System;
@@ -20,11 +21,12 @@ namespace SpotifakeService.Service
             _logger = logger;
         }
 
-        public List<Song> GetAllSongs()
+        public List<SongDTO> GetAllSongs()
         {
             try
             {
-                return _songRepository.GetAll();
+                var songs = _songRepository.GetAll();
+                return songs.Select(song => new SongDTO(song)).ToList();
             }
             catch (Exception ex)
             {
@@ -33,11 +35,12 @@ namespace SpotifakeService.Service
             }
         }
 
-        public Song GetSongById(int id)
+        public SongDTO? GetSongById(int id)
         {
             try
             {
-                return _songRepository.GetById(id);
+                var song = _songRepository.GetById(id);
+                return song != null? new SongDTO(song) : null;
             }
             catch (Exception ex)
             {
@@ -45,11 +48,12 @@ namespace SpotifakeService.Service
                 throw;
             }
         }
-        public Song GetSongByNeame(string name)
+        public SongDTO? GetSongByName(string name)
         {
             try
             {
-                return _songRepository.GetByName(name);
+                var song = _songRepository.GetByName(name);
+                return song != null ? new SongDTO(song) : null;
             }
             catch (Exception ex)
             {
@@ -70,16 +74,17 @@ namespace SpotifakeService.Service
             }
         }
 
-        public List<Song> GetTop5Song()
+        public List<SongDTO> GetTop5Song()
         {
             try
             {
                 var songList = _songRepository.GetAll();
 
-                var song = songList.OrderByDescending(song => song.Rating).Take(5).ToList();
-                return song;
+                var topSongs = songList.OrderByDescending(song => song.Rating).Take(5).ToList();
+                return topSongs.Select(song => new SongDTO(song)).ToList();
 
-            }catch(Exception ex) 
+            }
+            catch(Exception ex) 
             {
                 _logger.LogError(ex, "Errore durante la restituzione delle canzoni con il rating più alto.");
                 throw;

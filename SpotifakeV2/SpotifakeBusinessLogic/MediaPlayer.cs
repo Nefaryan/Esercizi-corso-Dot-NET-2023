@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SpotifakeData.DTO;
+using SpotifakeData.DTO.AlbumsDTO;
 
 namespace SpotifakeService
 {
@@ -40,11 +42,12 @@ namespace SpotifakeService
             try
             {
                 var allSongs = _songService.GetAllSongs();
+                
 
                 if (allSongs.Any())
                 {
 
-                    var songInfo = allSongs.Select(song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}").ToList();
+                    var songInfo = allSongs.Select(song => $" {song.ID} - {song.Title}").ToList();
                     var result = string.Join(Environment.NewLine, songInfo);// Ogni elemento della lista verrà stampato su una nuova linea
 
                     _logger.LogInformation("Visualizzazione di tutte le canzoni.");
@@ -94,7 +97,7 @@ namespace SpotifakeService
         {
             return GetTop5(
                 () => _albumService.GetTop5Album(),
-                album => $"{album.Title} - {album.Song.FirstOrDefault()?.Title}",
+                album => $"{album.Title} - {album.Songs.FirstOrDefault()?.Title}",
                 "Nessun album trovato"
             );
         }
@@ -103,7 +106,7 @@ namespace SpotifakeService
         {
             return GetTop5(
                 () => _songService.GetTop5Song(),
-                song => $" {song.Id} - {song.Title} - {song.Artists?.FirstOrDefault()?.ArtistName}",
+                song => $" {song.ID} - {song.Title}",
                 "Nessuna canzone disponibile per la visualizzazione delle top 5."
             );
         }
@@ -150,10 +153,10 @@ namespace SpotifakeService
             try
             {
                 var album = _albumService.GetAlbumById(albumId);
-                if(album != null && album.Song !=null && album.Song.Any())
+                if(album != null && album.Songs !=null && album.Songs.Any())
                 {
                     currentSongIndex = -1;
-                    return PlayNextSongInAlbum(u, album);
+                    return PlayNextSongInAlbum(u,album);
 
                 }
                 else
@@ -175,7 +178,7 @@ namespace SpotifakeService
                 var allPlaylist = _playlistService.GetAllPlaylist();
                 if (allPlaylist.Any())
                 {
-                    var playlistInfo = allPlaylist.Select(p => $"{p.Id} - {p.Name}").ToList();
+                    var playlistInfo = allPlaylist.Select(p => $"{p.ID} - {p.Name}").ToList();
                     var result = string.Join(Environment.NewLine, playlistInfo);
 
                     _logger.LogInformation($"Visualizzazione di tutte le playlist");
@@ -225,13 +228,13 @@ namespace SpotifakeService
         {
             try
             {
-                var song = _songService.GetSongByNeame(songName);
+                var song = _songService.GetSongByName(songName);
 
                 if (song != null)
                 {
                     if (CanUserPlaySong(u, song))
                     {
-                        song.Rating++;
+                        song.Raiting++;
                         UpdateUserRemainingTime(u, song.Duration);
 
                         return PlayCurrentSong(song);
@@ -266,7 +269,7 @@ namespace SpotifakeService
                 {
                     if (CanUserPlaySong(u, song))
                     {
-                        song.Rating++;
+                        song.Raiting++;
                         UpdateUserRemainingTime(u, song.Duration);
 
                         return PlayCurrentSong(song);
@@ -321,24 +324,24 @@ namespace SpotifakeService
             }
         }
 
-        private string PlayCurrentSong(Song song)
+        private string PlayCurrentSong(SongDTO song)
         {
             string result = $"Playing: {song.Title}";
             Console.WriteLine(result);
             return result;
         }
 
-        private Song RunRandomSong()
+        private SongDTO RunRandomSong()
         {
-            List<Song> songs = _songService.GetAllSongs();
+            List<SongDTO> songs = _songService.GetAllSongs();
             Random random = new Random();
-            Song randomSong = songs[random.Next(songs.Count)];
+            SongDTO randomSong = songs[random.Next(songs.Count)];
             PlayCurrentSong(randomSong);
             return randomSong;
         }
 
         //Metodo per controllare se L'utente può riprodurre la canzone
-        private bool CanUserPlaySong(User user, Song song)
+        private bool CanUserPlaySong(User user, SongDTO song)
         {
             return user.Setting.RemainigTime > 0 || user.Setting.PremiumType == PremiumTypeEnum.GOLD;
         }
@@ -352,7 +355,7 @@ namespace SpotifakeService
             }
         }
 
-        private string PlayNextSongInPlaylist(User user, Playlist playlist)
+        private string PlayNextSongInPlaylist(User user, PlaylistDTO playlist)
         {
             try
             {
@@ -376,11 +379,11 @@ namespace SpotifakeService
             }
         }
 
-        private string PlayNextSongInAlbum(User user, Album album)
+        private string PlayNextSongInAlbum(User user, AlbumDTO album)
         {
             try
             { 
-                var allSongs = album.Song;
+                var allSongs = album.Songs;
 
                 if (currentSongIndex < allSongs.Count)
                 {

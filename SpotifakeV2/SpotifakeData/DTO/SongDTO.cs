@@ -14,6 +14,7 @@ namespace SpotifakeData.DTO
         public string Genre { get; set; }
         public int Duration { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public int Raiting { get; set; }
 
         public SongDTO(Song song) 
         {
@@ -22,6 +23,7 @@ namespace SpotifakeData.DTO
             Genre = song.Genre; 
             Duration = song.Duration;
             ReleaseDate = song.ReleaseDate;
+            Raiting = song.Rating;
         }
 
     }
