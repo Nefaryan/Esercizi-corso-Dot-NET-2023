@@ -13,11 +13,13 @@ namespace SpotifakeService
     {
         private readonly UserService _userService;
         private readonly MediaPlayer _mediaPlayer;
+        private readonly MovieMediaPlayer _movieMediaPlayer;
 
-        public UserUI(UserService userService, MediaPlayer mediaPlayer)
+        public UserUI(UserService userService, MediaPlayer mediaPlayer, MovieMediaPlayer movieMediaPlayer)
         {
             _userService = userService;
             _mediaPlayer = mediaPlayer;
+            _movieMediaPlayer = movieMediaPlayer;
         }
 
         public UserUI() {}
@@ -43,6 +45,7 @@ namespace SpotifakeService
 
         public void LogIn()
         {
+            
             Console.Clear();
             Console.WriteLine("=== Esegui il LogIn ===");
             Console.WriteLine("Inserisci il tuo username:");
@@ -56,7 +59,9 @@ namespace SpotifakeService
             {
                 Console.WriteLine("Dati corretti");
                 SelectLanguage(user);
-                MusicPlayer(user);
+                Console.WriteLine("Inserisci S. Per selezionare la musica o M. per selezionare i film");
+                string selection = Console.ReadLine();
+                
             }
             else
             {
@@ -95,6 +100,7 @@ namespace SpotifakeService
                 Console.WriteLine("A. Mostra tutti i film");
                 Console.WriteLine("B. Mostra la Top 5 dei film più visti");
                 Console.WriteLine("C. Riproduci Film");
+                Console.WriteLine("P. Interrompi Riproduzione");
             }  
         }
 
@@ -136,6 +142,12 @@ namespace SpotifakeService
                     break;
                 case "x":
                     Environment.Exit(0);
+                    break;
+                case "S":
+                    MusicPlayer(user);
+                    break;
+                case "M":
+                     VideoPlayer(user);
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
