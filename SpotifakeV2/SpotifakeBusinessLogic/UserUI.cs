@@ -20,9 +20,7 @@ namespace SpotifakeService
             _mediaPlayer = mediaPlayer;
         }
 
-        public UserUI()
-        {     
-        }
+        public UserUI() {}
 
         public void SelectLanguage (User u)
         {
@@ -58,7 +56,7 @@ namespace SpotifakeService
             {
                 Console.WriteLine("Dati corretti");
                 SelectLanguage(user);
-                ShowMenu(user);
+                MusicPlayer(user);
             }
             else
             {
@@ -66,7 +64,7 @@ namespace SpotifakeService
             }
         }
 
-        public void ShowMenu(User user)
+        public void MusicPlayer(User user)
         {
             while (true)
             {
@@ -87,6 +85,17 @@ namespace SpotifakeService
                 string choice = Console.ReadLine();
                 HandleMenuChoice(user,choice);
             }
+        }
+
+        public void VideoPlayer(User user)
+        {
+            while (true)
+            {
+                Console.WriteLine("=== Video Player Menu ===");
+                Console.WriteLine("A. Mostra tutti i film");
+                Console.WriteLine("B. Mostra la Top 5 dei film più visti");
+                Console.WriteLine("C. Riproduci Film");
+            }  
         }
 
         private void HandleMenuChoice(User user,string choice)
