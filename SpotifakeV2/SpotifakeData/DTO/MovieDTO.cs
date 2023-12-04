@@ -26,8 +26,6 @@ namespace SpotifakeData.DTO
             ID = movie.ID;
             Raiting = movie.Raiting;
             ReleaseDate = movie.ReleaseDate1;
-        
-        
         }
     }
 }

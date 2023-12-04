@@ -18,8 +18,6 @@ namespace SpotifakeData.DTO
             GroupName = group.GruopName;
             Bio = group.Bio;
             Songs = group.Song;
-        
-        
         }
     }
 }

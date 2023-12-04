@@ -19,8 +19,5 @@ namespace SpotifakeData.DTO
             Name = playlist.Name;
             Songs = playlist.Songs;       
         }
-
-
-
     }
 }
