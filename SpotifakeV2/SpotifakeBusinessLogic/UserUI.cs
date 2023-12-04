@@ -149,6 +149,18 @@ namespace SpotifakeService
                 case "M":
                      VideoPlayer(user);
                     break;
+                case "A":
+                    //TODO
+                    break;
+                case "B":
+                    //TODO
+                    break;
+                case "C":
+                    //TODO
+                    break;
+                case "P":
+                    //TODO
+                    break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
                     break;
