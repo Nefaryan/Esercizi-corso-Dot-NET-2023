@@ -14,6 +14,8 @@ namespace SpotifakeData.DTO
         public int Duration { get; set; }
         public string Genre { get; set; }
         public int ID { get; set; }
+        public int Raiting { get; set; }
+        public DateTime ReleaseDate { get; set; }
 
         public MovieDTO(Movie movie)
         {
@@ -22,6 +24,8 @@ namespace SpotifakeData.DTO
             Duration = movie.Duration;
             Genre = movie.Genre;
             ID = movie.ID;
+            Raiting = movie.Raiting;
+            ReleaseDate = movie.ReleaseDate1;
         
         
         }
