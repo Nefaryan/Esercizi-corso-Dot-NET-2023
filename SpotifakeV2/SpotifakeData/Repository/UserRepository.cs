@@ -55,11 +55,10 @@ namespace SpotifakeData.Repository
             try
             {
                 _dbContext.Add(user);
- 
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta dell'utente con ID {user.Id}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta dell'utente.");
                 throw;
             }
         }
