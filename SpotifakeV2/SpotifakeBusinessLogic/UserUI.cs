@@ -61,6 +61,7 @@ namespace SpotifakeService
                 SelectLanguage(user);
                 Console.WriteLine("Inserisci S. Per selezionare la musica o M. per selezionare i film");
                 string selection = Console.ReadLine();
+                HandleMenuChoice(user, selection);
                 
             }
             else
@@ -150,16 +151,25 @@ namespace SpotifakeService
                      VideoPlayer(user);
                     break;
                 case "A":
-                    //TODO
+                    Console.WriteLine("Ecco la lista dei movies");
+                    Console.WriteLine(_movieMediaPlayer.SeeAllMovie());
+                    Console.WriteLine("--------------------------------");
                     break;
                 case "B":
-                    //TODO
+                    Console.WriteLine("Miglior 5 movie del servizio");
+                    Console.WriteLine(_movieMediaPlayer.Top5Movie());
+                    Console.WriteLine("--------------------------------");
                     break;
                 case "C":
-                    //TODO
+                    Console.WriteLine("Inserisci il nome del movie da riprodurre");
+                    int movieId = Console.Read();
+                    Console.WriteLine(_movieMediaPlayer.PlayMovie(user, movieId));
+                    Console.WriteLine("Inizio della riproduzione");
                     break;
                 case "P":
-                    //TODO
+                    Console.WriteLine("Pausa");
+                    Console.WriteLine(_movieMediaPlayer.PauseMovie());
+                    Console.WriteLine("--------------------------------");
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");

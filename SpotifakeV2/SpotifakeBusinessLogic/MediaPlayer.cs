@@ -237,6 +237,7 @@ namespace SpotifakeService
                         song.Raiting++;
                         UpdateUserRemainingTime(u, song.Duration);
 
+                        _isPlaying = true;
                         return PlayCurrentSong(song);
                     }
                     else
@@ -327,7 +328,6 @@ namespace SpotifakeService
         private string PlayCurrentSong(SongDTO song)
         {
             string result = $"Playing: {song.Title}";
-            Console.WriteLine(result);
             return result;
         }
 
