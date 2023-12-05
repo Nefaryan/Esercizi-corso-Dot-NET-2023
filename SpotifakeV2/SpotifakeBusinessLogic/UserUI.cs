@@ -39,6 +39,10 @@ namespace SpotifakeService
                 case 'E':
                     u.CultureInfo = CultureInfo.CreateSpecificCulture("en-US");
                     break;
+                default:
+                    Console.WriteLine("Scelta non valida. Riprova.");
+                    SelectLanguage(u); 
+                    break;
             }
 
         }
@@ -169,7 +173,6 @@ namespace SpotifakeService
                 case "P":
                     Console.WriteLine("Pausa");
                     Console.WriteLine(_movieMediaPlayer.PauseMovie());
-                    Console.WriteLine("--------------------------------");
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
