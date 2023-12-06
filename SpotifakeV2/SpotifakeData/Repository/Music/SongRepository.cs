@@ -50,7 +50,7 @@ namespace SpotifakeData.Repository.Music
             }
         }
 
-        public Song GetByName(string title)
+      /*  public Song GetByName(string title)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace SpotifakeData.Repository.Music
                 _logger.LogError(ex, $"Errore durante la lettura della canzone con titolo {title}.");
                 throw;
             }
-        }
+        }*/
 
         public void Add(Song song)
         {

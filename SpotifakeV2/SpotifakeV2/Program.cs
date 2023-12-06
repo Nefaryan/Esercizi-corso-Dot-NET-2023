@@ -11,13 +11,14 @@ namespace SpotifakePresentation
     {
         static void Main(string[] args)
         {
-            
-            User user = new User();
-            user.Username = "username";
-            user.Password = "password";
+            /*
+             * var albumRepository = new GenericRepository<Album>(@"C:\Users\giuse\Desktop\SpotiFake\Albums", logger);
+               var artistRepository = new GenericRepository<Artist>(@"C:\Users\giuse\Desktop\SpotiFake\Artist", logger);
+               var groupRepository = new GenericRepository<Group>(@"C:\Users\giuse\Desktop\SpotiFake\Group", logger);
+               var playlistRepository = new GenericRepository<Playlist>(@"C:\Users\giuse\Desktop\SpotiFake\Playlist", logger);
+               var songRepository = new GenericRepository<Song>(@"C:\Users\giuse\Desktop\SpotiFake\Songs", logger);
+             */
 
-            UserUI ui = new UserUI();
-            ui.LogIn();
           
         }
     }

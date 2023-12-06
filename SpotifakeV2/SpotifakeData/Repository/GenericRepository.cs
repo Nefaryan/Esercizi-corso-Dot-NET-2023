@@ -1,4 +1,5 @@
-﻿using SpotifakeData.DataContext;
+﻿using Microsoft.Extensions.Logging;
+using SpotifakeData.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace SpotifakeData.Repository
 {
-    public class GenericRepository
+    public class GenericRepository<T,K> where T : class
     {
-        private readonly DBContext _dbContext;
-
+        private readonly DBContext? _dbContext;
+        private readonly ILogger<GenericRepository<T,K>> logger;
+        private readonly string? _folderPath;
 
     }
 }
