@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using SpotifakeData.Entity;
 using SpotifakeService;
+using Microsoft.Extensions.Logging;
+using SpotifakeData.Repository;
 
 namespace SpotifakePresentation
 {
@@ -19,7 +21,31 @@ namespace SpotifakePresentation
                var songRepository = new GenericRepository<Song>(@"C:\Users\giuse\Desktop\SpotiFake\Songs", logger);
              */
 
-          
+            var folderPath = @"C:\Users\giuse\Desktop\SpotiFake\ASong";
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            var logger = loggerFactory.CreateLogger<GenericRepository<Song>>();
+            var repository = new GenericRepository<Song>(folderPath,logger);
+
+            Song song = new Song();
+            song.Id = 1;
+            song.Title = "Sinner's Finale";
+            song.Duration = 181;
+
+            repository.Add(song);
+            var allitem = repository.GetALL();
+            Console.WriteLine("Tutti gli elemnti");
+            foreach (var item in allitem)
+            {
+                Console.WriteLine(item.Title);
+            }
+            var item1 = repository.GetById(1);
+            Console.WriteLine(item1.Title);
+
+
+
+
+
+
         }
     }
  }

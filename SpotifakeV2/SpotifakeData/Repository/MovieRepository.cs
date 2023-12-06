@@ -46,7 +46,7 @@ namespace SpotifakeData.Repository
             }
         }
 
-        public Movie GetByName(string name)
+    /*    public Movie GetByName(string name)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace SpotifakeData.Repository
                 _logger.LogError($"Eorre durante la lettura dell film con il nome: {name}", ex);
                 throw;
             }
-        }
+        }*/
 
         public void Added(Movie movie)
         {

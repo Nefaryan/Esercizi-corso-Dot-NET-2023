@@ -47,7 +47,7 @@ namespace SpotifakeService.Service
                 throw;
             }
         }
-        public MovieDTO? GetMovieByName(string name) 
+       /* public MovieDTO? GetMovieByName(string name) 
         {
             try
             {
@@ -60,7 +60,7 @@ namespace SpotifakeService.Service
                 throw;
             }
 
-        }
+        }*/
         public void AddMovie(Movie movie)
         {
             try

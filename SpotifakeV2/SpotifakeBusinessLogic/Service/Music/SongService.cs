@@ -48,7 +48,7 @@ namespace SpotifakeService.Service
                 throw;
             }
         }
-        public SongDTO? GetSongByName(string name)
+   /*     public SongDTO? GetSongByName(string name)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace SpotifakeService.Service
                 _logger.LogError(ex, $"Errore durante il recupero della canzone con nome {name}.");
                 throw;
             }
-        }
+        }*/
         public void AddSong(Song song)
         {
             try

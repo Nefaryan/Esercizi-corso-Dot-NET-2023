@@ -44,7 +44,7 @@ namespace SpotifakeData.DataContext
             return items;
         }
 
-        public T GetById<T>(object id) where T : class
+        public T GetById<T>(int id) where T : class
         {
             var filePath = GetEntityFilePath<T>(id);
 
