@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.DTO;
 using SpotifakeData.Entity;
-using SpotifakeData.Repository;
+using SpotifakeData.Repository.OLD;
 using System;
 using System.Collections.Generic;
 using System.Linq;

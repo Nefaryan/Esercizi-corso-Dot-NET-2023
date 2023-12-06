@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Entity;
-using SpotifakeData.Repository.Music;
-using SpotifakeData.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpotifakeData.Repository.OLD.Music;
+using SpotifakeData.Repository.OLD;
 
 namespace SpotifakeService.Service
 {

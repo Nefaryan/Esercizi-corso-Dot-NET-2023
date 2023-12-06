@@ -27,18 +27,19 @@ namespace SpotifakePresentation
             var repository = new GenericRepository<Song>(folderPath,logger);
 
             Song song = new Song();
-            song.Id = 1;
-            song.Title = "Sinner's Finale";
-            song.Duration = 181;
+            song.Id = 5;
+            song.Title = "Raphael Final's ACT";
+            song.Duration = 182;
 
             repository.Add(song);
             var allitem = repository.GetALL();
-            Console.WriteLine("Tutti gli elemnti");
+            Console.WriteLine("Tutti gli elemnti:");
             foreach (var item in allitem)
             {
                 Console.WriteLine(item.Title);
             }
-            var item1 = repository.GetById(1);
+            Console.WriteLine("--------------------------");
+            var item1 = repository.GetById(5);
             Console.WriteLine(item1.Title);
 
 
