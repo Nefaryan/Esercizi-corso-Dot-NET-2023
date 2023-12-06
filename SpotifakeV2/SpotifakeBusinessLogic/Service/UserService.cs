@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifakeData.Repository.OLD.Music;
-using SpotifakeData.Repository.OLD;
+using SpotifakeData.Repository;
+using SpotifakeData.Repository.Music;
 
 namespace SpotifakeService.Service
 {

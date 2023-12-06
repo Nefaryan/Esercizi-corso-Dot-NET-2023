@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.DTO.AlbumsDTO;
 using SpotifakeData.Entity.Music;
-using SpotifakeData.Repository.OLD.Music;
+using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;

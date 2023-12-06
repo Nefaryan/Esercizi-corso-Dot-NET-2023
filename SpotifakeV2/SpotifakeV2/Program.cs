@@ -13,23 +13,16 @@ namespace SpotifakePresentation
     {
         static void Main(string[] args)
         {
-            /*
-             * var albumRepository = new GenericRepository<Album>(@"C:\Users\giuse\Desktop\SpotiFake\Albums", logger);
-               var artistRepository = new GenericRepository<Artist>(@"C:\Users\giuse\Desktop\SpotiFake\Artist", logger);
-               var groupRepository = new GenericRepository<Group>(@"C:\Users\giuse\Desktop\SpotiFake\Group", logger);
-               var playlistRepository = new GenericRepository<Playlist>(@"C:\Users\giuse\Desktop\SpotiFake\Playlist", logger);
-               var songRepository = new GenericRepository<Song>(@"C:\Users\giuse\Desktop\SpotiFake\Songs", logger);
-             */
 
-            var folderPath = @"C:\Users\giuse\Desktop\SpotiFake\ASong";
+            var folderPath = @"C:\Users\giuse\Desktop\SpotiFake\Song";
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
             var logger = loggerFactory.CreateLogger<GenericRepository<Song>>();
             var repository = new GenericRepository<Song>(folderPath,logger);
 
             Song song = new Song();
-            song.Id = 5;
-            song.Title = "Raphael Final's ACT";
-            song.Duration = 182;
+            song.Id = 6;
+            song.Title = "Baahl Theme";
+            song.Duration = 192;
 
             repository.Add(song);
             var allitem = repository.GetALL();
