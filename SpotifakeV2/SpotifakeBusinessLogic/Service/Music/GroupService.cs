@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
+using SpotifakeData.Repository;
 using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
@@ -12,23 +13,23 @@ namespace SpotifakeService.Service
 {
     public class GroupService
     {
-        private readonly GroupRepository _groupRepository;
+        private readonly GenericRepository<Group> _groupRepository;
         private readonly ArtistRepository _artistRepository;
         private readonly AlbumRepository _albumRepository;
-        private readonly SongRepository _songRepository;
+        private readonly SongService _songService;
         private readonly ILogger<GroupService> _logger;
 
         public GroupService(
-            GroupRepository groupRepository,
+            GenericRepository<Group> groupRepository,
             ArtistRepository artistRepository,
             AlbumRepository albumRepository,
-            SongRepository songRepository,
+            SongService songService,
             ILogger<GroupService> logger)
         {
             _groupRepository = groupRepository;
             _artistRepository = artistRepository;
             _albumRepository = albumRepository;
-            _songRepository = songRepository;
+            _songService = songService;
             _logger = logger;
         }
 
@@ -81,7 +82,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var groups = _groupRepository.GetAll(); 
+                var groups = _groupRepository.GetALL(); 
                 return groups.Select(group => new GroupDTO(group)).ToList();
             }
             catch (Exception ex)
@@ -141,14 +142,20 @@ namespace SpotifakeService.Service
             try
             {
                 var group = _groupRepository.GetById(groupId);
-                var song = _songRepository.GetById(songId);
+                var songDTO = _songService.GetSongById(songId);
 
-                if (group != null && song != null)
+                if (group != null && songDTO != null)
                 {
                     if (group.Song == null)
                     {
                         group.Song = new List<Song>();
                     }
+                    Song song = new Song();
+                    song.Id = songDTO.ID;
+                    song.Title = songDTO.Title;
+                    song.Duration = songDTO.Duration;
+                    song.Rating = songDTO.Raiting;
+                    song.ReleaseDate = songDTO.ReleaseDate;
 
                     group.Song.Add(song);
                     _groupRepository.Add(group);

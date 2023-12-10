@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using SpotifakeData.DTO;
+using SpotifakeData.DTO.AlbumsDTO;
 using SpotifakeData.Entity.Music;
+using SpotifakeData.Repository;
 using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
@@ -11,24 +14,24 @@ namespace SpotifakeService.Service
 {
     public class ArtistService
     {
-        private readonly ArtistRepository _artistRepository;
-        private readonly AlbumRepository _albumRepository;
-        private readonly SongRepository _songRepository;
+        private readonly GenericRepository<Artist> _artistRepository;
+        private readonly AlbumService albumService;
+        private readonly SongService songService;
         private readonly ILogger<ArtistService> _logger;
 
         public ArtistService(
-            ArtistRepository artistRepository,
-            AlbumRepository albumRepository,
-            SongRepository songRepository,
+            GenericRepository<Artist> genericRepository,
+            AlbumService albumServices,
+            SongService songServ,
             ILogger<ArtistService> logger)
         {
-            _artistRepository = artistRepository;
-            _albumRepository = albumRepository;
-            _songRepository = songRepository;
+            _artistRepository = genericRepository;
+            albumService = albumServices;
+            songService = songServ;
             _logger = logger;
         }
 
-        public void CreateAlbumForArtist(int artistId, Album album)
+        public void CreateAlbumForArtist(int artistId, AlbumDTO albumDTO)
         {
             try
             {
@@ -38,9 +41,9 @@ namespace SpotifakeService.Service
                     _logger.LogError($"Artista con ID {artistId} non trovato.");
                     return;
                 }
-                album.Artist = artist;
-                _albumRepository.Add(album);
-                _logger.LogInformation($"Album '{album.Title}' creato con successo per l'artista '{artist.ArtistName}'.");
+                albumDTO.Artist = artist;
+                albumService.AddAlbum(albumDTO);
+                _logger.LogInformation($"Album '{albumDTO.Title}' creato con successo per l'artista '{artist.ArtistName}'.");
             }
             catch (Exception ex)
             {
@@ -49,7 +52,7 @@ namespace SpotifakeService.Service
             }
         }
 
-        public void CreateSongForArtist(int artistId, Song song)
+        public void CreateSongForArtist(int artistId, SongDTO songDTO)
         {
             try
             {
@@ -59,9 +62,9 @@ namespace SpotifakeService.Service
                     _logger.LogError($"Artista con ID {artistId} non trovato.");
                     return;
                 }
-                song.Artists = new List<Artist> { artist };
-                _songRepository.Add(song);
-                _logger.LogInformation($"Canzone '{song.Title}' creata con successo per l'artista '{artist.ArtistName}'.");
+                songDTO.Artists= new List<Artist> { artist };
+                songService.AddSong(songDTO);
+                _logger.LogInformation($"Canzone '{songDTO.Title}' creata con successo per l'artista '{artist.ArtistName}'.");
             }
             catch (Exception ex)
             {
@@ -70,18 +73,24 @@ namespace SpotifakeService.Service
             }
         }
 
-        public void AddSongToAlbum(int albumId, Song song)
+        public void AddSongToAlbum(int albumId, SongDTO songDTO)
         {
             try
             {
-                var album = _albumRepository.GetById(albumId);
+                var album = albumService.GetAlbumById(albumId);
                 if (album == null)
                 {
                     _logger.LogError($"Album con ID {albumId} non trovato.");
                     return;
                 }
-                song.Albums = new List<Album> { album };
-                _songRepository.Add(song);
+                Song song = new Song();
+                song.Title = songDTO.Title;
+                song.Id = songDTO.ID;
+                song.ReleaseDate = songDTO.ReleaseDate;
+                song.Genre = songDTO.Genre;
+                song.Rating = songDTO.Raiting;
+                album.Songs.Add(song);
+                songService.AddSong(songDTO);
                 _logger.LogInformation($"Canzone '{song.Title}' aggiunta con successo all'album '{album.Title}'.");
             }
             catch (Exception ex)
@@ -91,7 +100,7 @@ namespace SpotifakeService.Service
             }
         }
 
-        public void AddSongToArtist(int artistId, Song song)
+        public void AddSongToArtist(int artistId, SongDTO songDTO)
         {
             try
             {
@@ -101,8 +110,14 @@ namespace SpotifakeService.Service
                     _logger.LogError($"Artista con ID {artistId} non trovato.");
                     return;
                 }
+                Song song = new Song();
+                song.Title = songDTO.Title;
+                song.Id = songDTO.ID;
+                song.ReleaseDate = songDTO.ReleaseDate;
+                song.Genre = songDTO.Genre;
+                song.Rating = songDTO.Raiting;
                 song.Artists = new List<Artist> { artist };
-                _songRepository.Add(song);
+                songService.AddSong(songDTO);
                 _logger.LogInformation($"Canzone '{song.Title}' aggiunta con successo all'artista '{artist.ArtistName}'.");
             }
             catch (Exception ex)

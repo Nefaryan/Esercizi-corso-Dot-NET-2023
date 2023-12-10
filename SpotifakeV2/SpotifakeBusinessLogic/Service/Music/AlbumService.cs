@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.DTO.AlbumsDTO;
 using SpotifakeData.Entity.Music;
+using SpotifakeData.Repository;
 using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace SpotifakeService.Service
 {
     public class AlbumService
     {
-        private readonly AlbumRepository _albumRepository;
+        private readonly GenericRepository<Album> _albumRepository;
         private readonly ILogger<AlbumService> _logger;
 
-        public AlbumService(AlbumRepository albumRepository, ILogger<AlbumService> logger)
+        public AlbumService(GenericRepository<Album> albumRepository, ILogger<AlbumService> logger)
         {
             _albumRepository = albumRepository;
             _logger = logger;
@@ -25,7 +26,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var allAlbum = _albumRepository.GetAll();
+                var allAlbum = _albumRepository.GetALL();
                 return allAlbum.Select(album => new AlbumDTO(album)).ToList();
             }
             catch (Exception ex)
@@ -49,10 +50,13 @@ namespace SpotifakeService.Service
             }
         }
 
-        public void AddAlbum(Album album)
+        public void AddAlbum(AlbumDTO albumDTO)
         {
             try
             {
+                Album album = new Album();
+                album.Title = albumDTO.Title;
+                album.NOfTrack = albumDTO.NumberOfTrack;
                 _albumRepository.Add(album);
             }
             catch (Exception ex)
@@ -66,7 +70,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var allAlbums = _albumRepository.GetAll();
+                var allAlbums = _albumRepository.GetALL();
                 var albumsWithAverageRating = allAlbums.Select(album =>
                 {
                     // Calcola la media dei rating delle canzoni

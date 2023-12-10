@@ -12,25 +12,25 @@ namespace SpotifakeService.Service
 {
     public class MovieService
     {
-        private readonly MovieRepository repository;
-        private readonly ILogger<MovieService> logger;
+        private readonly GenericRepository<Movie> _repository;
+        private readonly ILogger<MovieService> _logger;
 
-        public MovieService(MovieRepository repository, ILogger<MovieService> logger)
+        public MovieService(GenericRepository<Movie> repository, ILogger<MovieService> logger)
         {
-            this.repository = repository;
-            this.logger = logger;
+             _repository =repository;
+             _logger = logger;
         }
 
         public List<MovieDTO> GetMovies()
         {
             try
             {
-                var movies = repository.GetAll();
+                var movies = _repository.GetALL();
                 return movies.Select(m => new MovieDTO(m)).ToList();
             }
             catch(Exception ex)
             {
-                logger.LogError(ex, "Errore durante il recupero dei film");
+                _logger.LogError(ex, "Errore durante il recupero dei film");
                 throw;
             }
         }
@@ -38,38 +38,44 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var movie = repository.GetById(id);
+                var movie = _repository.GetById(id);
                 return movie != null ? new MovieDTO(movie) : null;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Errore durante il recupero del film con ID {id}.");
+                _logger.LogError(ex, $"Errore durante il recupero del film con ID {id}.");
                 throw;
             }
         }
-       /* public MovieDTO? GetMovieByName(string name) 
+       public MovieDTO? GetMovieByName(string name) 
         {
             try
             {
-                var movie = repository.GetByName(name);
+                var movie = _repository.GetALL().FirstOrDefault(m => m.Title == name);
                 return movie != null ? new MovieDTO(movie) : null;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Errore durante il recupero del film con nome {name}.");
+                _logger.LogError(ex, $"Errore durante il recupero del film con nome {name}.");
                 throw;
             }
 
-        }*/
-        public void AddMovie(Movie movie)
+        }
+        public void AddMovie(MovieDTO movieDTO)
         {
             try
             {
-                repository.Added(movie);
+                Movie movie = new Movie();
+                movie.Title = movieDTO.Title;
+                movie.Duration = movieDTO.Duration;
+                movie.Regista  = movieDTO.Regista;
+                movie.Raiting = movieDTO.Raiting;
+                movie.Genre = movieDTO.Genre;
+                _repository.Add(movie);
             }
             catch(Exception ex )
             {
-                logger.LogError(ex,$"Errore durante l'aggiunta del movie");
+                _logger.LogError(ex,$"Errore durante l'aggiunta del movie");
                 throw; 
             }
         }
@@ -78,13 +84,13 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var allMovie = repository.GetAll();
+                var allMovie = _repository.GetALL();
                 var movieWithTopRating = allMovie.OrderByDescending(m => m.Raiting).Take(5).ToList();
                 return movieWithTopRating.Select(m => new MovieDTO(m)).ToList();
             }
             catch(Exception ex )
             {
-                logger.LogError(ex, "Errore durante la selezione dei movie");
+                _logger.LogError(ex, "Errore durante la selezione dei movie");
                 throw;
             
             }

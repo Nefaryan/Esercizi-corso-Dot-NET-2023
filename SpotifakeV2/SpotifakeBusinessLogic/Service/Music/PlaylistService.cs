@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
-using SpotifakeData.Repository.Music;
+using SpotifakeData.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +13,17 @@ namespace SpotifakeService.Service
 {
     public class PlaylistService
     {
-        private readonly PlaylistRepository _playlistRepository;
-        private readonly SongRepository _songRepository;
+        private readonly GenericRepository<Playlist> _repository;
+        private readonly SongService _songService;
         private readonly ILogger<PlaylistService> _logger;
 
         public PlaylistService(
-            PlaylistRepository playlistRepository,
-            SongRepository songRepository,
+            GenericRepository<Playlist> repository,
+            SongService songService,
             ILogger<PlaylistService> logger)
         {
-            _playlistRepository = playlistRepository;
-            _songRepository = songRepository;
+            _repository = repository;
+            _songService = songService;
             _logger = logger;
         }
 
@@ -31,7 +31,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                _playlistRepository.Add(playlist);
+                _repository.Add(playlist);
                 _logger.LogInformation($"Playlist '{playlist.Name}' creata con successo.");
             }
             catch (Exception ex)
@@ -45,8 +45,8 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var playlist = _playlistRepository.GetById(playlistId);
-                var song = _songRepository.GetById(songId);
+                var playlist = _repository.GetById(playlistId);
+                var song = _songService.GetSongById(songId);
 
                 if (playlist != null && song != null)
                 {
@@ -55,8 +55,16 @@ namespace SpotifakeService.Service
                         playlist.Songs = new List<Song>();
                     }
 
-                    playlist.Songs.Add(song);
-                    _playlistRepository.Add(playlist);
+                    Song songs = new Song();
+                    songs.Id = song.ID;
+                    songs.Title = song.Title;
+                    songs.Duration = song.Duration;
+                    songs.ReleaseDate = song.ReleaseDate;
+                    songs.Genre = song.Genre;
+
+
+                    playlist.Songs.Add(songs);
+                    _repository.Add(playlist);
 
                     _logger.LogInformation($"Canzone '{song.Title}' aggiunta con successo alla playlist '{playlist.Name}'.");
                 }
@@ -76,7 +84,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var list = _playlistRepository.GetAll();
+                var list = _repository.GetALL();
                 return list.Select(playlist => new PlaylistDTO(playlist)).ToList();
             }
             catch (Exception ex)
@@ -91,7 +99,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-               var playlist = _playlistRepository.GetById(playlistId);
+               var playlist = _repository.GetById(playlistId);
                return  playlist != null ? new PlaylistDTO(playlist) : null;    
 
             }
