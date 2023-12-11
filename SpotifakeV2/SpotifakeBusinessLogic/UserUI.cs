@@ -180,8 +180,14 @@ namespace SpotifakeService
                     break;
                 case "1":
                     Console.WriteLine("Enter song number:");
-                    int songId = Console.Read();
-                    Console.WriteLine(_mediaPlayer.PlaySongById(user,songId));
+                    if (int.TryParse(Console.ReadLine(), out int songId))
+                    {
+                        Console.WriteLine(_mediaPlayer.PlaySongById(user, songId));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid song number.");
+                    }
                     break;
                 case "2":
                     Console.WriteLine(_mediaPlayer.SeeAllAlbum());
