@@ -54,8 +54,7 @@ namespace SpotifakeService
                 }
             }
         }
-
-     
+ 
         private void LogIn()
         {
             Console.Clear();
@@ -169,7 +168,6 @@ namespace SpotifakeService
                 HandleMusicPlayerChoice(user, choice);
             }
         }
-
 
         private void HandleMusicPlayerChoice(User user, string choice)
         {
@@ -286,6 +284,7 @@ namespace SpotifakeService
                     break;
             }
         }
+
         private void Exit()
         {
             Console.WriteLine("Thank you for using the application. Goodbye!");
