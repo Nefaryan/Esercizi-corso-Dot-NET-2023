@@ -69,12 +69,12 @@ namespace SpotifakeService.Service
                 }
                 else
                 {
-                    _logger.LogError($"Utente o playlist non trovata con gli ID forniti.");
+                    _logger.LogError($"Utente o playlist non trovata con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della playlist all'utente con ID {userId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della playlist all'utente con Id {userId}.");
                 throw;
             }
         }
@@ -107,12 +107,12 @@ namespace SpotifakeService.Service
                 }
                 else
                 {
-                    _logger.LogError($"Utente, playlist o canzone non trovata con gli ID forniti.");
+                    _logger.LogError($"Utente, playlist o canzone non trovata con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone alla playlist dell'utente con ID {userId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone alla playlist dell'utente con Id {userId}.");
                 throw;
             }
         }
@@ -133,12 +133,12 @@ namespace SpotifakeService.Service
                 }
                 else
                 {
-                    _logger.LogError($"Utente o playlist non trovata con gli ID forniti.");
+                    _logger.LogError($"Utente o playlist non trovata con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'eliminazione della playlist dall'utente con ID {userId}.");
+                _logger.LogError(ex, $"Errore durante l'eliminazione della playlist dall'utente con Id {userId}.");
                 throw;
             }
         }

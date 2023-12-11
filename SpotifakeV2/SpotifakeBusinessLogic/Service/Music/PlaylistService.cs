@@ -70,12 +70,12 @@ namespace SpotifakeService.Service
                 }
                 else
                 {
-                    _logger.LogError($"Playlist o canzone non trovata con gli ID forniti.");
+                    _logger.LogError($"Playlist o canzone non trovata con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone alla playlist con ID {playlistId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone alla playlist con Id {playlistId}.");
                 throw;
             }
         }
@@ -105,7 +105,7 @@ namespace SpotifakeService.Service
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante il recupero della playlist con ID {playlistId}.");
+                _logger.LogError(ex, $"Errore durante il recupero della playlist con Id {playlistId}.");
                 throw;
             }
         }

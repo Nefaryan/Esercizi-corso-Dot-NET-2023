@@ -43,7 +43,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante il recupero del film con ID {id}.");
+                _logger.LogError(ex, $"Errore durante il recupero del film con Id {id}.");
                 throw;
             }
         }

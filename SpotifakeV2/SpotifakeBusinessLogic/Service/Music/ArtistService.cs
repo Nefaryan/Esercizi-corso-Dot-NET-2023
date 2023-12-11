@@ -3,7 +3,6 @@ using SpotifakeData.DTO;
 using SpotifakeData.DTO.AlbumsDTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository;
-using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +30,21 @@ namespace SpotifakeService.Service
             _logger = logger;
         }
 
+        public ArtistDTO GetArtist(int id)
+        {
+            try
+            {
+                var artist = _artistRepository.GetById(id);
+                return new ArtistDTO(artist);
+
+            }catch(Exception ex)
+            {
+                _logger.LogError($"Errore nel recupero dell'artisa", ex);
+                throw;
+            
+            }
+        }
+
         public void CreateAlbumForArtist(int artistId, AlbumDTO albumDTO)
         {
             try
@@ -38,7 +52,7 @@ namespace SpotifakeService.Service
                 var artist = _artistRepository.GetById(artistId);
                 if (artist == null)
                 {
-                    _logger.LogError($"Artista con ID {artistId} non trovato.");
+                    _logger.LogError($"Artista con Id {artistId} non trovato.");
                     return;
                 }
                 albumDTO.Artist = artist;
@@ -47,7 +61,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante la creazione dell'album per l'artista con ID {artistId}.");
+                _logger.LogError(ex, $"Errore durante la creazione dell'album per l'artista con Id {artistId}.");
                 throw;
             }
         }
@@ -59,7 +73,7 @@ namespace SpotifakeService.Service
                 var artist = _artistRepository.GetById(artistId);
                 if (artist == null)
                 {
-                    _logger.LogError($"Artista con ID {artistId} non trovato.");
+                    _logger.LogError($"Artista con Id {artistId} non trovato.");
                     return;
                 }
                 songDTO.Artists= new List<Artist> { artist };
@@ -68,7 +82,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante la creazione della canzone per l'artista con ID {artistId}.");
+                _logger.LogError(ex, $"Errore durante la creazione della canzone per l'artista con Id {artistId}.");
                 throw;
             }
         }
@@ -80,7 +94,7 @@ namespace SpotifakeService.Service
                 var album = albumService.GetAlbumById(albumId);
                 if (album == null)
                 {
-                    _logger.LogError($"Album con ID {albumId} non trovato.");
+                    _logger.LogError($"Album con Id {albumId} non trovato.");
                     return;
                 }
                 Song song = new Song();
@@ -95,7 +109,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'album con ID {albumId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'album con Id {albumId}.");
                 throw;
             }
         }
@@ -107,7 +121,7 @@ namespace SpotifakeService.Service
                 var artist = _artistRepository.GetById(artistId);
                 if (artist == null)
                 {
-                    _logger.LogError($"Artista con ID {artistId} non trovato.");
+                    _logger.LogError($"Artista con Id {artistId} non trovato.");
                     return;
                 }
                 Song song = new Song();
@@ -122,7 +136,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'artista con ID {artistId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'artista con Id {artistId}.");
                 throw;
             }
         }

@@ -22,7 +22,6 @@ namespace SpotifakeService
             _movieMediaPlayer = movieMediaPlayer;
         }
 
-        public UserUI() { }
 
         public void SelectLanguage(User u)
         {

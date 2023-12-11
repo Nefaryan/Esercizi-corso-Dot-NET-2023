@@ -2,7 +2,6 @@
 using SpotifakeData.DTO.AlbumsDTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository;
-using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +44,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante il recupero dell'album con ID {id}.");
+                _logger.LogError(ex, $"Errore durante il recupero dell'album con Id {id}.");
                 throw;
             }
         }
@@ -61,7 +60,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta dell'album con ID {album.ID}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta dell'album con Id {albumDTO.ID}.");
                 throw;
             }
         }

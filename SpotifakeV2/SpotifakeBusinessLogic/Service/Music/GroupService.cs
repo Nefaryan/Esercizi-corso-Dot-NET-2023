@@ -2,7 +2,6 @@
 using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository;
-using SpotifakeData.Repository.Music;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,21 +13,21 @@ namespace SpotifakeService.Service
     public class GroupService
     {
         private readonly GenericRepository<Group> _groupRepository;
-        private readonly ArtistRepository _artistRepository;
-        private readonly AlbumRepository _albumRepository;
+        private readonly ArtistService _artistService;
+        private readonly AlbumService _albumService;
         private readonly SongService _songService;
         private readonly ILogger<GroupService> _logger;
 
         public GroupService(
             GenericRepository<Group> groupRepository,
-            ArtistRepository artistRepository,
-            AlbumRepository albumRepository,
+            ArtistService artistService,
+            AlbumService albumService,
             SongService songService,
             ILogger<GroupService> logger)
         {
             _groupRepository = groupRepository;
-            _artistRepository = artistRepository;
-            _albumRepository = albumRepository;
+            _albumService = albumService;
+            _artistService = artistService;
             _songService = songService;
             _logger = logger;
         }
@@ -52,7 +51,7 @@ namespace SpotifakeService.Service
             try
             {
                 var group = _groupRepository.GetById(groupId);
-                var artist = _artistRepository.GetById(artistId);
+                var artist = _artistService.GetArtist(artistId);
 
                 if (group != null && artist != null)
                 {
@@ -61,19 +60,25 @@ namespace SpotifakeService.Service
                         group.Artists = new List<Artist>();
                     }
 
-                    group.Artists.Add(artist);
+                    Artist ar = new Artist();
+                    ar.Id = artistId;
+                    ar.Name = artist.Name;
+                    ar.Surname = artist.Surname;
+                    ar.ArtistName = artist.ArtistName;
+
+                    group.Artists.Add(ar);
                     _groupRepository.Add(group);
 
                     _logger.LogInformation($"Artista '{artist.ArtistName}' aggiunto con successo al gruppo '{group.GruopName}'.");
                 }
                 else
                 {
-                    _logger.LogError($"Gruppo o artista non trovato con gli ID forniti.");
+                    _logger.LogError($"Gruppo o artista non trovato con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta dell'artista al gruppo con ID {groupId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta dell'artista al gruppo con Id {groupId}.");
                 throw;
             }
         }
@@ -101,7 +106,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante il recupero del gruppo con ID {id}.");
+                _logger.LogError(ex, $"Errore durante il recupero del gruppo con Id {id}.");
                 throw;
             }
         }
@@ -111,7 +116,7 @@ namespace SpotifakeService.Service
             try
             {
                 var group = _groupRepository.GetById(groupId);
-                var album = _albumRepository.GetById(albumId);
+                var album = _albumService.GetAlbumById(albumId);
 
                 if (group != null && album != null)
                 {
@@ -120,19 +125,27 @@ namespace SpotifakeService.Service
                         group.Albums = new List<Album>();
                     }
 
-                    group.Albums.Add(album);
+                    Album al = new Album();
+                    al.Title = album.Title;
+                    al.Artist = album.Artist;
+                    al.IsLiveVersionAlbum = album.IsLiveVersion;
+                    al.NOfTrack = album.NumberOfTrack;
+                    al.ID  = album.ID;
+
+
+                    group.Albums.Add(al);
                     _groupRepository.Add(group);
 
                     _logger.LogInformation($"Album '{album.Title}' aggiunto con successo al gruppo '{group.GruopName}'.");
                 }
                 else
                 {
-                    _logger.LogError($"Gruppo o album non trovato con gli ID forniti.");
+                    _logger.LogError($"Gruppo o album non trovato con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta dell'album al gruppo con ID {groupId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta dell'album al gruppo con Id {groupId}.");
                 throw;
             }
         }
@@ -164,12 +177,12 @@ namespace SpotifakeService.Service
                 }
                 else
                 {
-                    _logger.LogError($"Gruppo o canzone non trovato con gli ID forniti.");
+                    _logger.LogError($"Gruppo o canzone non trovato con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone al gruppo con ID {groupId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone al gruppo con Id {groupId}.");
                 throw;
             }
         }

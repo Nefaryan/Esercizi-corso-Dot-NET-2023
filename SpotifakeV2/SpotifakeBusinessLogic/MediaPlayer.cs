@@ -168,7 +168,7 @@ namespace SpotifakeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"L'album con id {albumId} non è stato trovato");
-                return $"Errore durante la riproduzione de'album con ID {albumId}.";
+                return $"Errore durante la riproduzione de'album con Id {albumId}.";
             }
         }
 
@@ -215,13 +215,13 @@ namespace SpotifakeService
                 }
                 else
                 {
-                    return $"La playlist con ID {playlistId} non è stata trovata o è vuota.";
+                    return $"La playlist con Id {playlistId} non è stata trovata o è vuota.";
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante la riproduzione della playlist con ID {playlistId} per l'utente '{user.Username}'.");
-                return $"Errore durante la riproduzione della playlist con ID {playlistId}.";
+                _logger.LogError(ex, $"Errore durante la riproduzione della playlist con Id {playlistId} per l'utente '{user.Username}'.");
+                return $"Errore durante la riproduzione della playlist con Id {playlistId}.";
             }
         }
 

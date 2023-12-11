@@ -44,7 +44,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante il recupero della canzone con ID {id}.");
+                _logger.LogError(ex, $"Errore durante il recupero della canzone con Id {id}.");
                 throw;
             }
         }
@@ -75,7 +75,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone con ID {songDTO.ID}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone con Id {songDTO.ID}.");
                 throw;
             }
         }
