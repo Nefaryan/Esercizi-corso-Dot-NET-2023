@@ -179,9 +179,9 @@ namespace SpotifakeService
                     Console.WriteLine(_mediaPlayer.SeeAllSong());
                     break;
                 case "1":
-                    Console.WriteLine("Enter song name:");
-                    string songName = Console.ReadLine();
-                    Console.WriteLine(_mediaPlayer.PlaySong(user, songName));
+                    Console.WriteLine("Enter song number:");
+                    int songId = Console.Read();
+                    Console.WriteLine(_mediaPlayer.PlaySongById(user,songId));
                     break;
                 case "2":
                     Console.WriteLine(_mediaPlayer.SeeAllAlbum());
