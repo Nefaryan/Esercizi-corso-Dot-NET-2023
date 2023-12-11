@@ -43,6 +43,7 @@ namespace SpotifakeService
                     SelectLanguage(u);
                     break;
             }
+            Console.WriteLine("");
 
         }
 
@@ -52,9 +53,9 @@ namespace SpotifakeService
             Console.Clear();
             Console.WriteLine("=== Esegui il LogIn ===");
             Console.WriteLine("Inserisci il tuo username:");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.WriteLine("Inserisci la password ");
-            string password = Console.ReadLine();
+            string? password = Console.ReadLine();
 
             var user = _userService.LogIn(username, password);
 
@@ -63,7 +64,7 @@ namespace SpotifakeService
                 Console.WriteLine("Dati corretti");
                 SelectLanguage(user);
                 Console.WriteLine("Inserisci S. Per selezionare la musica o M. per selezionare i film");
-                string selection = Console.ReadLine();
+                string? selection = Console.ReadLine();
                 HandleMenuChoice(user, selection);
 
             }
@@ -105,12 +106,15 @@ namespace SpotifakeService
                 Console.WriteLine("B. Mostra la Top 5 dei film più visti");
                 Console.WriteLine("C. Riproduci Film");
                 Console.WriteLine("P. Interrompi Riproduzione");
+
+                string choice = Console.ReadLine();
+                HandleMenuChoice(user, choice);
             }
         }
 
         private void HandleMenuChoice(User user, string choice)
         {
-            switch (choice.ToLower())
+            switch (choice)
             {
                 case "0":
                     Console.WriteLine(_mediaPlayer.SeeAllSong());
