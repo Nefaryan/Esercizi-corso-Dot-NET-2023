@@ -153,7 +153,7 @@ namespace SpotifakeService
                 Console.WriteLine("4. Next Song");
                 Console.WriteLine("5. Previous Song");
                 Console.WriteLine("6. Pause Song");
-                Console.WriteLine("7. Stop Song");
+                Console.WriteLine("7. Play playlist");
                 Console.WriteLine("8. Top 5 Rated Songs");
                 Console.WriteLine("9. Top 5 Rated Albums");
                 Console.WriteLine($"{MenuExitCommand}. Exit");
@@ -205,7 +205,15 @@ namespace SpotifakeService
                     Console.WriteLine(_mediaPlayer.PauseSong());
                     break;
                 case "7":
-                    Console.WriteLine(_mediaPlayer.PauseSong());
+                    Console.WriteLine("Enter playlist number: ");
+                    if (int.TryParse(Console.ReadLine(), out int playlistId))
+                    {
+                        Console.WriteLine(_mediaPlayer.PlayPlaylist(user, playlistId));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid song number.");
+                    } 
                     break;
                 case "8":
                     Console.WriteLine(_mediaPlayer.Top5Song());
