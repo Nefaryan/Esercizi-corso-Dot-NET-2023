@@ -68,7 +68,7 @@ namespace SpotifakePresentation
             //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
             UserUI ui = new UserUI(UserService, mediaPlayer, movieMediaPlayer);
-            ui.LogIn();
+            ui.Run();
 
 
 
