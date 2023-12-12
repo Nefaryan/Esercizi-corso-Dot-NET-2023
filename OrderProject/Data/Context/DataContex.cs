@@ -28,7 +28,7 @@ namespace Data.Context
         {
             List<T> items = GetAll();
             items.Add(item);
-            SavaData(items);
+            SaveData(items);
         }
 
         public string Delete(int id)
@@ -38,7 +38,7 @@ namespace Data.Context
             if(itemToDelete != null)
             {
                 items.Remove(itemToDelete);
-                SavaData(items);
+                SaveData(items);
                 return "Elemento eliminato";
             }
             else
@@ -68,11 +68,11 @@ namespace Data.Context
             {
                 items.Remove(itemToUpdate);
                 items.Add(item);
-                SavaData(items);
+                SaveData(items);
             }
         }
 
-        private void SavaData(List<T> item) 
+        private void SaveData(List<T> item) 
         { 
             string data = JsonConvert.SerializeObject(item, Formatting.Indented);
             File.WriteAllText(_filePath, data);
