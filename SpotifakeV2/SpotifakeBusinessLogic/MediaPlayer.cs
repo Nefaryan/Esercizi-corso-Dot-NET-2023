@@ -42,7 +42,7 @@ namespace SpotifakeService
             try
             {
                 var allSongs = _songService.GetAllSongs();
-                
+
 
                 if (allSongs.Any())
                 {
@@ -72,10 +72,10 @@ namespace SpotifakeService
             try
             {
                 var allAlbum = _albumService.GetAllAlbums();
-                if(allAlbum.Any()) 
+                if (allAlbum.Any())
                 {
                     var albumInfo = allAlbum.Select(album => $"{album.ID} - {album.Title}").ToList();
-                    var result = string.Join (Environment.NewLine, albumInfo);
+                    var result = string.Join(Environment.NewLine, albumInfo);
 
                     _logger.LogInformation("Visualizzazione di tutti gli album");
 
@@ -86,7 +86,8 @@ namespace SpotifakeService
                     _logger.LogInformation("Nessun album disponibile");
                     return "Nessun album disponibile";
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Errore durante la visualizzazione degli album");
                 return "Erorre durante la visualizzazione degli album";
@@ -153,10 +154,10 @@ namespace SpotifakeService
             try
             {
                 var album = _albumService.GetAlbumById(albumId);
-                if(album != null && album.Songs !=null && album.Songs.Any())
+                if (album != null && album.Songs != null && album.Songs.Any())
                 {
                     currentSongIndex = -1;
-                    return PlayNextSongInAlbum(u,album);
+                    return PlayNextSongInAlbum(u, album);
 
                 }
                 else
@@ -167,7 +168,7 @@ namespace SpotifakeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"L'album con id {albumId} non è stato trovato");
-                return $"Errore durante la riproduzione de'album con ID {albumId}.";
+                return $"Errore durante la riproduzione de'album con Id {albumId}.";
             }
         }
 
@@ -214,51 +215,51 @@ namespace SpotifakeService
                 }
                 else
                 {
-                    return $"La playlist con ID {playlistId} non è stata trovata o è vuota.";
+                    return $"La playlist con Id {playlistId} non è stata trovata o è vuota.";
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante la riproduzione della playlist con ID {playlistId} per l'utente '{user.Username}'.");
-                return $"Errore durante la riproduzione della playlist con ID {playlistId}.";
+                _logger.LogError(ex, $"Errore durante la riproduzione della playlist con Id {playlistId} per l'utente '{user.Username}'.");
+                return $"Errore durante la riproduzione della playlist con Id {playlistId}.";
             }
         }
 
-        public string PlaySong(User u, string songName)
-        {
-            try
-            {
-                var song = _songService.GetSongByName(songName);
+         public string PlaySong(User u, string songName)
+          {
+              try
+              {
+                  var song = _songService.GetSongByName(songName);
 
-                if (song != null)
-                {
-                    if (CanUserPlaySong(u, song))
-                    {
-                        song.Raiting++;
-                        UpdateUserRemainingTime(u, song.Duration);
+                  if (song != null)
+                  {
+                      if (CanUserPlaySong(u, song))
+                      {
+                          song.Raiting++;
+                          UpdateUserRemainingTime(u, song.Duration);
 
-                        _isPlaying = true;
-                        return PlayCurrentSong(song);
-                    }
-                    else
-                    {
-                        RunRandomSong();
-                        return "Impossibile riprodurre la canzone. Controlla il tuo abbonamento e il tempo rimanente," +
-                            "fino a quel momento ascolterai canzoni completamente randomiche";
-                    }
-                }
-                else
-                {
-                    _logger.LogInformation($"La canzone '{songName}' non è stata trovata.");
-                    return $"La canzone '{songName}' non è stata trovata.";
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Errore durante la riproduzione della canzone '{songName}' per l'utente '{u.Username}'.");
-                return $"Errore durante la riproduzione della canzone '{songName}'.";
-            }
-        }
+                          _isPlaying = true;
+                          return PlayCurrentSong(song);
+                      }
+                      else
+                      {
+                          RunRandomSong();
+                          return "Impossibile riprodurre la canzone. Controlla il tuo abbonamento e il tempo rimanente," +
+                              "fino a quel momento ascolterai canzoni completamente randomiche";
+                      }
+                  }
+                  else
+                  {
+                      _logger.LogInformation($"La canzone '{songName}' non è stata trovata.");
+                      return $"La canzone '{songName}' non è stata trovata.";
+                  }
+              }
+              catch (Exception ex)
+              {
+                  _logger.LogError(ex, $"Errore durante la riproduzione della canzone '{songName}' per l'utente '{u.Username}'.");
+                  return $"Errore durante la riproduzione della canzone '{songName}'.";
+              }
+          }
 
         public string PlaySongById(User u, int Id)
         {
@@ -382,7 +383,7 @@ namespace SpotifakeService
         private string PlayNextSongInAlbum(User user, AlbumDTO album)
         {
             try
-            { 
+            {
                 var allSongs = album.Songs;
 
                 if (currentSongIndex < allSongs.Count)

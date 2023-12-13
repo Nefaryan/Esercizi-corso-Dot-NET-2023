@@ -43,7 +43,7 @@ namespace SpotifakeService
                     return "Nessun fil disponinile";
                 }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Errore durante la visualizzazione dei movie");
                 return "Errore durante la visualizzazione dei movie";
@@ -70,7 +70,7 @@ namespace SpotifakeService
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"{ex.Message}", ex);
                 return ex.Message;
@@ -106,7 +106,7 @@ namespace SpotifakeService
                     return $" Movie con titolo '{movie.Title}'non trovato";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex);
                 return "Errore dirante la riprovuzione";

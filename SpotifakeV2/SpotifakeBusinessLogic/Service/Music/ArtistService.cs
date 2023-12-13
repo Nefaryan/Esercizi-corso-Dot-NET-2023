@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using SpotifakeData.DTO;
+using SpotifakeData.DTO.AlbumsDTO;
 using SpotifakeData.Entity.Music;
-using SpotifakeData.Repository.Music;
+using SpotifakeData.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,103 +13,130 @@ namespace SpotifakeService.Service
 {
     public class ArtistService
     {
-        private readonly ArtistRepository _artistRepository;
-        private readonly AlbumRepository _albumRepository;
-        private readonly SongRepository _songRepository;
+        private readonly GenericRepository<Artist> _artistRepository;
+        private readonly AlbumService albumService;
+        private readonly SongService songService;
         private readonly ILogger<ArtistService> _logger;
 
         public ArtistService(
-            ArtistRepository artistRepository,
-            AlbumRepository albumRepository,
-            SongRepository songRepository,
+            GenericRepository<Artist> genericRepository,
+            AlbumService albumServices,
+            SongService songServ,
             ILogger<ArtistService> logger)
         {
-            _artistRepository = artistRepository;
-            _albumRepository = albumRepository;
-            _songRepository = songRepository;
+            _artistRepository = genericRepository;
+            albumService = albumServices;
+            songService = songServ;
             _logger = logger;
         }
 
-        public void CreateAlbumForArtist(int artistId, Album album)
+        public ArtistDTO GetArtist(int id)
+        {
+            try
+            {
+                var artist = _artistRepository.GetById(id);
+                return new ArtistDTO(artist);
+
+            }catch(Exception ex)
+            {
+                _logger.LogError($"Errore nel recupero dell'artisa", ex);
+                throw;
+            
+            }
+        }
+
+        public void CreateAlbumForArtist(int artistId, AlbumDTO albumDTO)
         {
             try
             {
                 var artist = _artistRepository.GetById(artistId);
                 if (artist == null)
                 {
-                    _logger.LogError($"Artista con ID {artistId} non trovato.");
+                    _logger.LogError($"Artista con Id {artistId} non trovato.");
                     return;
                 }
-                album.Artist = artist;
-                _albumRepository.Add(album);
-                _logger.LogInformation($"Album '{album.Title}' creato con successo per l'artista '{artist.ArtistName}'.");
+                albumDTO.Artist = artist;
+                albumService.AddAlbum(albumDTO);
+                _logger.LogInformation($"Album '{albumDTO.Title}' creato con successo per l'artista '{artist.ArtistName}'.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante la creazione dell'album per l'artista con ID {artistId}.");
+                _logger.LogError(ex, $"Errore durante la creazione dell'album per l'artista con Id {artistId}.");
                 throw;
             }
         }
 
-        public void CreateSongForArtist(int artistId, Song song)
+        public void CreateSongForArtist(int artistId, SongDTO songDTO)
         {
             try
             {
                 var artist = _artistRepository.GetById(artistId);
                 if (artist == null)
                 {
-                    _logger.LogError($"Artista con ID {artistId} non trovato.");
+                    _logger.LogError($"Artista con Id {artistId} non trovato.");
                     return;
                 }
-                song.Artists = new List<Artist> { artist };
-                _songRepository.Add(song);
-                _logger.LogInformation($"Canzone '{song.Title}' creata con successo per l'artista '{artist.ArtistName}'.");
+                songDTO.Artists= new List<Artist> { artist };
+                songService.AddSong(songDTO);
+                _logger.LogInformation($"Canzone '{songDTO.Title}' creata con successo per l'artista '{artist.ArtistName}'.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante la creazione della canzone per l'artista con ID {artistId}.");
+                _logger.LogError(ex, $"Errore durante la creazione della canzone per l'artista con Id {artistId}.");
                 throw;
             }
         }
 
-        public void AddSongToAlbum(int albumId, Song song)
+        public void AddSongToAlbum(int albumId, SongDTO songDTO)
         {
             try
             {
-                var album = _albumRepository.GetById(albumId);
+                var album = albumService.GetAlbumById(albumId);
                 if (album == null)
                 {
-                    _logger.LogError($"Album con ID {albumId} non trovato.");
+                    _logger.LogError($"Album con Id {albumId} non trovato.");
                     return;
                 }
-                song.Albums = new List<Album> { album };
-                _songRepository.Add(song);
+                Song song = new Song();
+                song.Title = songDTO.Title;
+                song.Id = songDTO.ID;
+                song.ReleaseDate = songDTO.ReleaseDate;
+                song.Genre = songDTO.Genre;
+                song.Rating = songDTO.Raiting;
+                album.Songs.Add(song);
+                songService.AddSong(songDTO);
                 _logger.LogInformation($"Canzone '{song.Title}' aggiunta con successo all'album '{album.Title}'.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'album con ID {albumId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'album con Id {albumId}.");
                 throw;
             }
         }
 
-        public void AddSongToArtist(int artistId, Song song)
+        public void AddSongToArtist(int artistId, SongDTO songDTO)
         {
             try
             {
                 var artist = _artistRepository.GetById(artistId);
                 if (artist == null)
                 {
-                    _logger.LogError($"Artista con ID {artistId} non trovato.");
+                    _logger.LogError($"Artista con Id {artistId} non trovato.");
                     return;
                 }
+                Song song = new Song();
+                song.Title = songDTO.Title;
+                song.Id = songDTO.ID;
+                song.ReleaseDate = songDTO.ReleaseDate;
+                song.Genre = songDTO.Genre;
+                song.Rating = songDTO.Raiting;
                 song.Artists = new List<Artist> { artist };
-                _songRepository.Add(song);
+                songService.AddSong(songDTO);
                 _logger.LogInformation($"Canzone '{song.Title}' aggiunta con successo all'artista '{artist.ArtistName}'.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'artista con ID {artistId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone all'artista con Id {artistId}.");
                 throw;
             }
         }

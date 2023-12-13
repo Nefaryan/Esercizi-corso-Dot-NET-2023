@@ -23,7 +23,7 @@ namespace SpotifakeData.DTO
             Regista = movie.Regista;
             Duration = movie.Duration;
             Genre = movie.Genre;
-            ID = movie.ID;
+            ID = movie.Id;
             Raiting = movie.Raiting;
             ReleaseDate = movie.ReleaseDate1;
         }

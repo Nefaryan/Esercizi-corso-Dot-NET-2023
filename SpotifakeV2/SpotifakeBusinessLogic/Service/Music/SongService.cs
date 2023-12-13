@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
-using SpotifakeData.Repository.Music;
+using SpotifakeData.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +12,10 @@ namespace SpotifakeService.Service
 {
     public class SongService
     {
-        private readonly SongRepository _songRepository;
+        private readonly GenericRepository<Song> _songRepository;
         private readonly ILogger<SongService> _logger;
 
-        public SongService(SongRepository songRepository, ILogger<SongService> logger)
+        public SongService(GenericRepository<Song> songRepository, ILogger<SongService> logger)
         {
             _songRepository = songRepository;
             _logger = logger;
@@ -25,7 +25,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var songs = _songRepository.GetAll();
+                var songs = _songRepository.GetALL();
                 return songs.Select(song => new SongDTO(song)).ToList();
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace SpotifakeService.Service
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante il recupero della canzone con ID {id}.");
+                _logger.LogError(ex, $"Errore durante il recupero della canzone con Id {id}.");
                 throw;
             }
         }
@@ -52,7 +52,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var song = _songRepository.GetByName(name);
+                var song = _songRepository.GetALL().FirstOrDefault(song => song.Title == name);
                 return song != null ? new SongDTO(song) : null;
             }
             catch (Exception ex)
@@ -61,15 +61,21 @@ namespace SpotifakeService.Service
                 throw;
             }
         }
-        public void AddSong(Song song)
+        public void AddSong(SongDTO songDTO)
         {
             try
             {
+                Song song = new Song();
+                song.Id = songDTO.ID;
+                song.Title = songDTO.Title;
+                song.Duration = songDTO.Duration;
+                song.Rating = songDTO.Raiting;
+                song.ReleaseDate = songDTO.ReleaseDate;
                 _songRepository.Add(song);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone con ID {song.Id}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone con Id {songDTO.ID}.");
                 throw;
             }
         }
@@ -78,7 +84,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var songList = _songRepository.GetAll();
+                var songList = _songRepository.GetALL();
 
                 var topSongs = songList.OrderByDescending(song => song.Rating).Take(5).ToList();
                 return topSongs.Select(song => new SongDTO(song)).ToList();

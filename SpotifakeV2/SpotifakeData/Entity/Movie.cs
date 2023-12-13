@@ -16,7 +16,7 @@ namespace SpotifakeData.Entity
         int raiting;
         DateTime ReleaseDate;
 
-        public int ID { get => _Id; set => _Id = value; }
+        public int Id { get => _Id; set => _Id = value; }
         public string Title { get => _title; set => _title = value; }
         public string Regista { get => _regista; set => _regista = value; }
         public string Genre { get => _genre; set => _genre = value; }

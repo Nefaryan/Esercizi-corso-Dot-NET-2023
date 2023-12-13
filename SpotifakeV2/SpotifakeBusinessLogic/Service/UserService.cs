@@ -1,32 +1,32 @@
 ﻿using Microsoft.Extensions.Logging;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Entity;
-using SpotifakeData.Repository.Music;
-using SpotifakeData.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpotifakeData.Repository;
+
 
 namespace SpotifakeService.Service
 {
     public class UserService
     {
-        private readonly UserRepository _userRepository;
-        private readonly PlaylistRepository _playlistRepository;
-        private readonly SongRepository _songRepository;
+        private readonly GenericRepository<User> _userRepository;
+        private readonly PlaylistService _playlistService;
+        private readonly SongService _songService;
         private readonly ILogger<UserService> _logger;
 
         public UserService(
-            UserRepository userRepository,
-            PlaylistRepository playlistRepository,
-            SongRepository songRepository,
+             GenericRepository<User> userRepository,
+            PlaylistService playlistSer,
+            SongService songSer,
             ILogger<UserService> logger)
         {
             _userRepository = userRepository;
-            _playlistRepository = playlistRepository;
-            _songRepository = songRepository;
+            _playlistService = playlistSer;
+            _songService = songSer;
             _logger = logger;
         }
 
@@ -49,7 +49,7 @@ namespace SpotifakeService.Service
             try
             {
                 var user = _userRepository.GetById(userId);
-                var playlist = _playlistRepository.GetById(playlistId);
+                var playlist = _playlistService.GetAllPlaylistById(playlistId);
 
                 if (user != null && playlist != null)
                 {
@@ -58,19 +58,23 @@ namespace SpotifakeService.Service
                         user.Playlist = new List<Playlist>();
                     }
 
-                    user.Playlist.Add(playlist);
+                    Playlist playlist1 = new Playlist();
+                    playlist1.Id = playlist.ID;
+                    playlist1.Name = playlist.Name;
+                   
+                    user.Playlist.Add(playlist1);
                     _userRepository.Add(user);
 
                     _logger.LogInformation($"Playlist '{playlist.Name}' aggiunta con successo all'utente '{user.Username}'.");
                 }
                 else
                 {
-                    _logger.LogError($"Utente o playlist non trovata con gli ID forniti.");
+                    _logger.LogError($"Utente o playlist non trovata con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della playlist all'utente con ID {userId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della playlist all'utente con Id {userId}.");
                 throw;
             }
         }
@@ -81,7 +85,7 @@ namespace SpotifakeService.Service
             {
                 var user = _userRepository.GetById(userId);
                 var playlist = user?.Playlist?.FirstOrDefault(p => p.Id == playlistId);
-                var song = _songRepository.GetById(songId);
+                var song = _songService.GetSongById(songId);
 
                 if (user != null && playlist != null && song != null)
                 {
@@ -90,19 +94,25 @@ namespace SpotifakeService.Service
                         playlist.Songs = new List<Song>();
                     }
 
-                    playlist.Songs.Add(song);
+                    Song song1 = new Song();
+                    song1.Id = songId;
+                    song1.Title = song.Title;
+                    song1.Genre = song.Genre;
+                    song1.ReleaseDate = song.ReleaseDate;
+                    song1.Duration = song.Duration;
+                    playlist.Songs.Add(song1);
                     _userRepository.Add(user);
 
                     _logger.LogInformation($"Canzone '{song.Title}' aggiunta con successo alla playlist '{playlist.Name}' dell'utente '{user.Username}'.");
                 }
                 else
                 {
-                    _logger.LogError($"Utente, playlist o canzone non trovata con gli ID forniti.");
+                    _logger.LogError($"Utente, playlist o canzone non trovata con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone alla playlist dell'utente con ID {userId}.");
+                _logger.LogError(ex, $"Errore durante l'aggiunta della canzone alla playlist dell'utente con Id {userId}.");
                 throw;
             }
         }
@@ -123,12 +133,12 @@ namespace SpotifakeService.Service
                 }
                 else
                 {
-                    _logger.LogError($"Utente o playlist non trovata con gli ID forniti.");
+                    _logger.LogError($"Utente o playlist non trovata con gli Id forniti.");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Errore durante l'eliminazione della playlist dall'utente con ID {userId}.");
+                _logger.LogError(ex, $"Errore durante l'eliminazione della playlist dall'utente con Id {userId}.");
                 throw;
             }
         }
@@ -137,7 +147,7 @@ namespace SpotifakeService.Service
         {
             try
             {
-                var ListOfUser = _userRepository.GetAll();
+                var ListOfUser = _userRepository.GetALL();
 
                 var user = ListOfUser.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
                 if (user != null)

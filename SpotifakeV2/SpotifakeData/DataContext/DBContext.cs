@@ -10,64 +10,68 @@ namespace SpotifakeData.DataContext
 {
     public class DBContext
     {
-        private string _folderPath;
+        private string _baseFolderPath;
 
-        public DBContext(string folderPath)
+        public DBContext(string baseFolderPath)
         {
-            SetFolderPath(folderPath);
+            SetBaseFolderPath(baseFolderPath);
         }
 
-        public void SetFolderPath(string folderPath)
+        public void SetBaseFolderPath(string baseFolderPath)
         {
-            _folderPath = folderPath;
-            Directory.CreateDirectory(_folderPath);
+            _baseFolderPath = baseFolderPath;
+            Directory.CreateDirectory(_baseFolderPath);
+        }
+
+        private string GetEntityFilePath<T>(object identifier)
+        {
+            var typeName = typeof(T).Name;
+            var fileName = $"{typeName}_{identifier}.json";
+            return Path.Combine(_baseFolderPath, fileName);
         }
 
         public List<T> GetAll<T>() where T : class
         {
             var items = new List<T>();
 
-            foreach(var file in Directory.GetFiles(_folderPath, $"{typeof(T).Name}.json"))
+            foreach (var file in Directory.GetFiles(_baseFolderPath, $"{typeof(T).Name}_*.json"))
             {
                 var jsonData = File.ReadAllText(file);
                 var item = JsonConvert.DeserializeObject<T>(jsonData);
+                items.Add(item);
+            }
 
-                items.Add(item);                
-            }
             return items;
-        }
-        public T GetByName<T>(string title) where T : class
-        {
-            var filepath = Path.Combine(_folderPath, $"{typeof(T).Name}{title}.json");
-            if (File.Exists(filepath))
-            {
-                var jsonData = File.ReadAllText(_folderPath);
-                return JsonConvert.DeserializeObject<T>(jsonData);
-            }
-            return null;
         }
 
         public T GetById<T>(int id) where T : class
         {
-            var filePath = Path.Combine(_folderPath, $"{typeof(T).Name}{id}.json");
+            var filePath = GetEntityFilePath<T>(id);
 
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 var jsonData = File.ReadAllText(filePath);
                 return JsonConvert.DeserializeObject<T>(jsonData);
             }
+
             return null;
         }
 
-        public void Add<T>(T item) where T : class 
+        public void Add<T>(T item) where T : class
         {
-            var itemId = typeof(T).GetProperty("Id").GetValue(item);
-            var filePath = Path.Combine(_folderPath, $"{typeof(T).Name}{itemId}.json");
+            var itemId = typeof(T).GetProperty("Id")?.GetValue(item);
+            if (itemId == null)
+            {
+                throw new ArgumentException("Entity must have an 'Id' property.");
+            }
 
-            if(!File.Exists(filePath))
+            var filePath = GetEntityFilePath<T>(itemId);
+
+            if (!File.Exists(filePath))
             {
                 File.Create(filePath).Close();
             }
+
             var jsonData = JsonConvert.SerializeObject(item, Formatting.Indented);
             File.WriteAllText(filePath, jsonData);
         }
