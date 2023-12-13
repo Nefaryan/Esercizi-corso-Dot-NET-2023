@@ -18,7 +18,7 @@ namespace MailOrderProject
                 .AddJsonFile("appsetting.json").Build();
 
             var mailSet = new EmailSetting();
-            config.GetSection("EmailSetting").Bind(mailSet);
+            config.GetSection("EmailSettings").Bind(mailSet);
             var provider = new ServiceCollection()
                 .Configure<EmailSetting>(opt =>
                 {
@@ -27,6 +27,7 @@ namespace MailOrderProject
                     opt.Username = mailSet.Username;
                     opt.Password = mailSet.Password;
                     opt.Security = mailSet.Security;
+
                 }).AddSingleton<OrderRepo>()
                 .AddSingleton<SmtpMailClient>()
                 .AddSingleton<MailService>()
