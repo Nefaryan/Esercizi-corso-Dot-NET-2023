@@ -21,32 +21,33 @@ namespace SpotifakePresentation
         static void Main(string[] args)
         {
             // Configurazione della lettura da appsettings.json
-            var configuration = new ConfigurationBuilder()
+              var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsetting.json")
                 .Build();
 
-            var serviceProvider = new ServiceCollection()
+              var serviceProvider = new ServiceCollection()
            .AddLogging(builder => builder.AddConsole())
-      .Configure<FolderPaths>(configuration.GetSection("FolderPath"))
-      .AddScoped<DBContext>()
-      .AddScoped(typeof(GenericRepository<>))
-      .AddScoped<SongService>()
-      .AddScoped<PlaylistService>()
-      .AddScoped<UserService>()
-      .AddScoped<MovieService>()
-      .AddScoped<RadioService>()
-      .AddScoped<AlbumService>()
-      .AddScoped<ArtistService>()
-      .AddScoped<GroupService>()
-      .AddScoped<MediaPlayer>()
-      .AddScoped<MovieMediaPlayer>()
-      .BuildServiceProvider();
+           .Configure<FolderPaths>(configuration.GetSection("FolderPath"))
+           .AddSingleton<DBContext>()
+           .AddSingleton<FolderPaths>()
+           .AddSingleton(typeof(GenericRepository<>))
+           .AddSingleton<SongService>()
+           .AddSingleton<PlaylistService>()
+           .AddSingleton<UserService>()
+           .AddSingleton<MovieService>()
+           .AddSingleton<RadioService>()
+           .AddSingleton<AlbumService>()
+           .AddSingleton<ArtistService>()
+           .AddSingleton<GroupService>()
+           .AddSingleton<MediaPlayer>()
+           .AddSingleton<MovieMediaPlayer>()
+           .BuildServiceProvider();
 
-            // Utilizza il serviceProvider per risolvere le dipendenze
+           
             using (var scope = serviceProvider.CreateScope())
             {
-                // Recupera i repository
+                
                 var songRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Song>>();
                 var userRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<User>>();
                 var movieRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Movie>>();
@@ -56,7 +57,7 @@ namespace SpotifakePresentation
                 var groupRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Group>>();
                 var artistRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Artist>>();
 
-                // Configurazione dei logger per i servizi
+                
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 var loggerSongService = loggerFactory.CreateLogger<SongService>();
                 var loggerPlaylistService = loggerFactory.CreateLogger<PlaylistService>();
@@ -69,7 +70,6 @@ namespace SpotifakePresentation
                 var loggerMediaPlayer = loggerFactory.CreateLogger<MediaPlayer>();
                 var loggerMovieMediaPlayer = loggerFactory.CreateLogger<MovieMediaPlayer>();
 
-                // Creazione dei servizi utilizzando il serviceProvider
                 var songService = new SongService(songRepo, loggerSongService);
                 var playlistService = new PlaylistService(playlistRepo, songService, loggerPlaylistService);
                 var userService = new UserService(userRepo, playlistService, songService, loggerUserService);
