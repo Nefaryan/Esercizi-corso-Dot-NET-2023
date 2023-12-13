@@ -20,7 +20,7 @@ namespace SpotifakePresentation
     {
         static void Main(string[] args)
         {
-            // Configurazione della lettura da appsettings.json
+          
               var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsetting.json")
@@ -86,7 +86,7 @@ namespace SpotifakePresentation
                 var mediaPlayer = new MediaPlayer(songService, albumService, playlistService, loggerMediaPlayer);
                 var movieMediaPlayer = new MovieMediaPlayer(movieService, loggerMovieMediaPlayer);
 
-                // Creazione di ui con Dependency Injection
+               
                 var ui = new UserUI(userService, mediaPlayer, movieMediaPlayer);
                 ui.Run();
             }
