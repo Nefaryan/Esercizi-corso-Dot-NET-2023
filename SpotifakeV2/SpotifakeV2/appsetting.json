@@ -1,12 +1,12 @@
 {
-  "Paths": {
-    "SongFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Song",
-    "UserFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\User",
-    "MovieFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Movie",
-    "PlaylistFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Playlist",
-    "RadioFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Radio",
-    "AlbumFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Album",
-    "GroupFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Group",
-    "ArtistFolderPath": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Arits"
+  "FolderPath": {
+    "Song": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Song",
+    "User": "C:\\Users\\giuse\\Desktop\\SpotiFake\\User",
+    "Movie": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Movie",
+    "Playlist": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Playlist",
+    "Radio": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Radio",
+    "Album": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Album",
+    "Group": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Group",
+    "Artist": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Arits"
   }
 }

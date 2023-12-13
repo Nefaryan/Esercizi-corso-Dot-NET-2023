@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SpotifakeData.DataContext
 {
-    internal class DBContext
+    public class DBContext
     {
         private string _baseFolderPath;
 
