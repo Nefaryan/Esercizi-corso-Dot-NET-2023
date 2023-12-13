@@ -1,0 +1,9 @@
+{
+  "EmailSettings": {
+    "Host": "smtp.ethereal.email",
+    "Port": 587,
+    "Security": "STARTTLS",
+    "Username": "skylar.huel33@ethereal.email",
+    "Password": "mazphVKdMUnGSvRmHe"
+  }
+}
