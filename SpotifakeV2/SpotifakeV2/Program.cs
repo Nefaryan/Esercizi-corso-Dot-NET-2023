@@ -31,7 +31,14 @@ namespace SpotifakePresentation
            .Configure<FolderPaths>(configuration.GetSection("FolderPath"))
            .AddSingleton<DBContext>()
            .AddSingleton<FolderPaths>()
-           .AddSingleton(typeof(GenericRepository<>))
+           .AddSingleton<GenericRepository<Song>>()
+           .AddSingleton<GenericRepository<Playlist>>()
+           .AddSingleton<GenericRepository<User>>()
+           .AddSingleton<GenericRepository<Movie>>()
+           .AddSingleton<GenericRepository<Artist>>()
+           .AddSingleton<GenericRepository<Album>>()
+           .AddSingleton<GenericRepository<Radio>>()
+           .AddSingleton<GenericRepository<Group>>()
            .AddSingleton<SongService>()
            .AddSingleton<PlaylistService>()
            .AddSingleton<UserService>()
@@ -47,7 +54,6 @@ namespace SpotifakePresentation
            
             using (var scope = serviceProvider.CreateScope())
             {
-                
                 var songRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Song>>();
                 var userRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<User>>();
                 var movieRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Movie>>();
@@ -56,8 +62,7 @@ namespace SpotifakePresentation
                 var albumRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Album>>();
                 var groupRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Group>>();
                 var artistRepo = scope.ServiceProvider.GetRequiredService<GenericRepository<Artist>>();
-
-                
+ 
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 var loggerSongService = loggerFactory.CreateLogger<SongService>();
                 var loggerPlaylistService = loggerFactory.CreateLogger<PlaylistService>();
@@ -148,20 +153,6 @@ namespace SpotifakePresentation
             ui.Run();*/
 
             #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 }

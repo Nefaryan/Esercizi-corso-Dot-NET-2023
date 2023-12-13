@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpotifakeData.Utils;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace SpotifakeData.Repository
 {
@@ -26,48 +28,20 @@ namespace SpotifakeData.Repository
             ConfigurePathByEntityType();
         }
 
+        //VA CAMBIATO STO FACENDO DELLE PROVE
         private void ConfigurePathByEntityType()
         {
-            if (typeof(T) == typeof(Song))
-            {
-                ConfigurePath(_folderPaths.Song);
-            }
-            else if (typeof(T) == typeof(User))
-            {
-                ConfigurePath(_folderPaths.User);
-            }
-            else if (typeof(T) == typeof(Movie))
-            {
-                ConfigurePath(_folderPaths.Movie);
-            }
-            else if (typeof(T) == typeof(Playlist))
-            {
-                ConfigurePath(_folderPaths.Playlist);
-            }
-            else if (typeof(T) == typeof(Radio))
-            {
-                ConfigurePath(_folderPaths.Radio);
-            }
-            else if (typeof(T) == typeof(Album))
-            {
-                ConfigurePath(_folderPaths.Album);
-            }
-            else if (typeof(T) == typeof(Group))
-            {
-                ConfigurePath(_folderPaths.Group);
-            }
-            else if (typeof(T) == typeof(Artist))
-            {
-                ConfigurePath(_folderPaths.Artist);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Tipo {typeof(T)} non gestito nella configurazione del percorso.");
-            }
-        }
+            var entityType = typeof(T).Name;
 
-        private void ConfigurePath(string folderPath)
-        {
+            
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsetting.json")
+                .Build();
+
+          
+            var folderPath = configuration.GetSection("FolderPath")?[entityType];
+
             if (!string.IsNullOrEmpty(folderPath))
             {
                 _dbContext = new DBContext(folderPath);
