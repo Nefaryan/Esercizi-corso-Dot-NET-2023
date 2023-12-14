@@ -21,7 +21,8 @@ namespace SpotifakeService
         {
             services.AddSingleton<DBContext>(provider =>
             {
-                var baseFolderPath = configuration.GetSection("FolderPath:Song").Value;
+                //Devo modificare qui--------------------------------------------------------
+                var baseFolderPath = configuration.GetSection("FolderPath:User").Value;
                 if (string.IsNullOrEmpty(baseFolderPath))
                 {
                     throw new InvalidOperationException("FolderPath per le canzoni non configurato.");

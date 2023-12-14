@@ -8,5 +8,11 @@
     "Album": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Album",
     "Group": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Group",
     "Artist": "C:\\Users\\giuse\\Desktop\\SpotiFake\\Arits"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
   }
 }
