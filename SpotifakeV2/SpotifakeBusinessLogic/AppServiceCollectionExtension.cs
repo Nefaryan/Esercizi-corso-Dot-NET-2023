@@ -17,32 +17,36 @@ namespace SpotifakeService
 {
     public static class AppServiceCollectionExtension
     {
-        public static IServiceCollection AddAppService(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddAppService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<DBContext>(provider =>
             {
-                var baseFolderPath = configuration.GetSection("FolderPath").Value;
+                var baseFolderPath = configuration.GetSection("FolderPath:Song").Value;
                 if (string.IsNullOrEmpty(baseFolderPath))
                 {
-                    throw new InvalidOperationException("FolderPath non configurato.");
+                    throw new InvalidOperationException("FolderPath per le canzoni non configurato.");
                 }
+
                 return new DBContext(baseFolderPath);
             });
 
-            services.AddSingleton(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddSingleton<IGenericRepository<Song>, GenericRepository<Song>>();
-            services.AddSingleton<IGenericRepository<Radio>, GenericRepository<Radio>>();
-            services.AddSingleton<IGenericRepository<Playlist>, GenericRepository<Playlist>>();
-            services.AddSingleton<IGenericRepository<Album>, GenericRepository<Album>>();
-            services.AddSingleton<IGenericRepository<Artist>, GenericRepository<Artist>>();
-            services.AddSingleton<IGenericRepository<Group>, GenericRepository<Group>>();
-            services.AddSingleton<IGenericRepository<User>, GenericRepository<User>>();
-            services.AddSingleton<IGenericRepository<Movie>, GenericRepository<Movie>>();
-          
+            // Registro il repository per ogni tipo di entità che desidero gestire
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IGenericRepository<Song>, GenericRepository<Song>>();
+            services.AddScoped<IGenericRepository<Radio>, GenericRepository<Radio>>();
+            services.AddScoped<IGenericRepository<Playlist>, GenericRepository<Playlist>>();
+            services.AddScoped<IGenericRepository<Album>, GenericRepository<Album>>();
+            services.AddScoped<IGenericRepository<Artist>, GenericRepository<Artist>>();
+            services.AddScoped<IGenericRepository<Group>, GenericRepository<Group>>();
+            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddScoped<IGenericRepository<Movie>, GenericRepository<Movie>>();
+
+            
+
             services.AddSingleton<SongService>();
             services.AddSingleton<RadioService>();
             services.AddSingleton<PlaylistService>();
+            services.AddSingleton<MovieService>();
             services.AddSingleton<AlbumService>();
             services.AddSingleton<ArtistService>();
             services.AddSingleton<GroupService>();
@@ -52,8 +56,8 @@ namespace SpotifakeService
             services.AddSingleton<UserUI>();
 
             return services;
-
         }
-       
+
+
     }
 }

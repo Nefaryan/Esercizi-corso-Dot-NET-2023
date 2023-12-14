@@ -2,6 +2,7 @@
 using SpotifakeData.DTO;
 using SpotifakeData.Entity;
 using SpotifakeData.Repository;
+using SpotifakeData.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace SpotifakeService.Service
 {
     public class MovieService
     {
-        private readonly GenericRepository<Movie> _repository;
+        private readonly IGenericRepository<Movie> _repository;
         private readonly ILogger<MovieService> _logger;
 
-        public MovieService(GenericRepository<Movie> repository, ILogger<MovieService> logger)
+        public MovieService(IGenericRepository<Movie> repository, ILogger<MovieService> logger)
         {
              _repository =repository;
              _logger = logger;

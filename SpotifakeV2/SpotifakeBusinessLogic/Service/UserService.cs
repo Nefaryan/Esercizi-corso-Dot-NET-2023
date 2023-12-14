@@ -7,19 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpotifakeData.Repository;
+using SpotifakeData.Repository.Interfaces;
 
 
 namespace SpotifakeService.Service
 {
     public class UserService
     {
-        private readonly GenericRepository<User> _userRepository;
+        private readonly IGenericRepository<User> _userRepository;
         private readonly PlaylistService _playlistService;
         private readonly SongService _songService;
         private readonly ILogger<UserService> _logger;
 
         public UserService(
-             GenericRepository<User> userRepository,
+             IGenericRepository<User> userRepository,
             PlaylistService playlistSer,
             SongService songSer,
             ILogger<UserService> logger)

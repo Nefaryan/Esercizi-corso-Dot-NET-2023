@@ -2,6 +2,7 @@
 using SpotifakeData.DTO;
 using SpotifakeData.Entity.Music;
 using SpotifakeData.Repository;
+using SpotifakeData.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,14 @@ namespace SpotifakeService.Service
 {
     public class GroupService
     {
-        private readonly GenericRepository<Group> _groupRepository;
+        private readonly IGenericRepository<Group> _groupRepository;
         private readonly ArtistService _artistService;
         private readonly AlbumService _albumService;
         private readonly SongService _songService;
         private readonly ILogger<GroupService> _logger;
 
         public GroupService(
-            GenericRepository<Group> groupRepository,
+            IGenericRepository<Group> groupRepository,
             ArtistService artistService,
             AlbumService albumService,
             SongService songService,
