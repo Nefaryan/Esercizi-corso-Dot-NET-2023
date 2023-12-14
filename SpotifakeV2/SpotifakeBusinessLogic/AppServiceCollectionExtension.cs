@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpotifakeData.Repository.Interfaces;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace SpotifakeService
 {
@@ -19,30 +21,23 @@ namespace SpotifakeService
     {
         public static IServiceCollection AddAppService(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<DBContext>(provider =>
-            {
-                //Devo modificare qui--------------------------------------------------------
-                var baseFolderPath = configuration.GetSection("FolderPath:User").Value;
-                if (string.IsNullOrEmpty(baseFolderPath))
-                {
-                    throw new InvalidOperationException("FolderPath per le canzoni non configurato.");
-                }
+            var folderPathSection = configuration.GetSection("FolderPath");
+            var basePath = folderPathSection["Base"];
 
-                return new DBContext(baseFolderPath);
-            });
+            if (string.IsNullOrEmpty(basePath))
+            {
+                throw new InvalidOperationException("PercorsoBase non configurato.");
+            }
 
             // Registro il repository per ogni tipo di entità che desidero gestire
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IGenericRepository<Song>, GenericRepository<Song>>();
-            services.AddScoped<IGenericRepository<Radio>, GenericRepository<Radio>>();
-            services.AddScoped<IGenericRepository<Playlist>, GenericRepository<Playlist>>();
-            services.AddScoped<IGenericRepository<Album>, GenericRepository<Album>>();
-            services.AddScoped<IGenericRepository<Artist>, GenericRepository<Artist>>();
-            services.AddScoped<IGenericRepository<Group>, GenericRepository<Group>>();
-            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
-            services.AddScoped<IGenericRepository<Movie>, GenericRepository<Movie>>();
-
-            
+            RegisterRepository<Song>(services, basePath, "Song");
+            RegisterRepository<Radio>(services, basePath, "Radio");
+            RegisterRepository<Playlist>(services, basePath, "Playlist");
+            RegisterRepository<Movie>(services, basePath, "Movie");
+            RegisterRepository<Album>(services, basePath, "Album");
+            RegisterRepository<Artist>(services, basePath, "Artist");
+            RegisterRepository<Group>(services, basePath, "Group");
+            RegisterRepository<User>(services, basePath, "User");
 
             services.AddSingleton<SongService>();
             services.AddSingleton<RadioService>();
@@ -59,6 +54,22 @@ namespace SpotifakeService
             return services;
         }
 
+        private static void RegisterRepository<T>(IServiceCollection services, string basePath, string repositoryName) where T : class
+        {
+            var repositoryPath = Path.Combine(basePath, repositoryName);
 
+            if (string.IsNullOrEmpty(repositoryPath))
+            {
+                throw new InvalidOperationException($"Percorso del repository {repositoryName} non configurato.");
+            }
+
+            services.AddSingleton<IGenericRepository<T>>(provider =>
+            {
+                var dbContext = new DBContext(repositoryPath);
+                return new GenericRepository<T>(repositoryPath, provider.GetRequiredService<ILogger<GenericRepository<T>>>(), dbContext);
+            });
+        }
     }
+
+
 }

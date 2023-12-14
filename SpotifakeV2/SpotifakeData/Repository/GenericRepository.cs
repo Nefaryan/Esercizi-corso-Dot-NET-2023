@@ -17,11 +17,13 @@ namespace SpotifakeData.Repository
     {
         private readonly DBContext _dbContext;
         private readonly ILogger<GenericRepository<T>> _logger;
+        private string _path;
 
-        public GenericRepository(ILogger<GenericRepository<T>> logger, DBContext dbContext)
+        public GenericRepository(string path,ILogger<GenericRepository<T>> logger, DBContext dbContext)
         {
+            _path = path;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = new DBContext(path);
         }
 
         public void Add(T item)
