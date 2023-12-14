@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpotifakeData.Repository.Interfaces
 {
-    internal interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         public List<T> GetALL();
         public void Add(T item);

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifakeData.Utils;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
@@ -16,46 +15,17 @@ namespace SpotifakeData.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private DBContext? _dbContext;
-        private readonly ILogger<GenericRepository<T>>? _logger;
-        private readonly FolderPaths _folderPaths;
+        private readonly DBContext _dbContext;
+        private readonly ILogger<GenericRepository<T>> _logger;
 
-        public GenericRepository(FolderPaths folderPaths, ILogger<GenericRepository<T>> logger)
+        public GenericRepository(ILogger<GenericRepository<T>> logger, DBContext dbContext)
         {
-            _folderPaths = folderPaths;
-            _logger = logger;
-
-            ConfigurePathByEntityType();
-        }
-
-        //VA CAMBIATO STO FACENDO DELLE PROVE
-        private void ConfigurePathByEntityType()
-        {
-            var entityType = typeof(T).Name;
-
-            
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsetting.json")
-                .Build();
-
-          
-            var folderPath = configuration.GetSection("FolderPath")?[entityType];
-
-            if (!string.IsNullOrEmpty(folderPath))
-            {
-                _dbContext = new DBContext(folderPath);
-            }
-            else
-            {
-                _logger.LogError($"Percorso non configurato per il tipo {typeof(T)}.");
-                throw new InvalidOperationException($"Percorso non configurato per il tipo {typeof(T)}.");
-            }
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public void Add(T item)
         {
-
             try
             {
                 _dbContext.Add(item);
@@ -76,7 +46,7 @@ namespace SpotifakeData.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError("Errore la lettura dal datasource", ex);
+                _logger.LogError("Errore nella lettura dal datasource", ex);
                 throw;
             }
         }
@@ -95,5 +65,6 @@ namespace SpotifakeData.Repository
             }
         }
     }
+
 }
 
