@@ -39,7 +39,12 @@
           "path": "C:\\Users\\giuse\\Desktop\\SpotiFake\\log",
           "formatter": "Serilog.Formatting.Compact.CompactJsonFormatter, Serilog.Formatting.Compact"
         }
-      }
+      },
+      {
+        "Name": "Seq",
+        "Args": {
+          "serverUrl": "http://localhost:8081"
+        } }
     ]
   }
 }
