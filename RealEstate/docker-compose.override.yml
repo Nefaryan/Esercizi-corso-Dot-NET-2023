@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  resstateapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - RealStateConnectionString=Server=sqlserver;Database=RealEstate; User id = sa ; password = Password.123;Trusted_Connection=False
+    ports:
+      - "80"
