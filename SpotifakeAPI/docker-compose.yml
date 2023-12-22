@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  spotifakeapi:
+    image: ${DOCKER_REGISTRY-}spotifakeapi
+    build:
+      context: .
+      dockerfile: SpotifakeAPI/Dockerfile
