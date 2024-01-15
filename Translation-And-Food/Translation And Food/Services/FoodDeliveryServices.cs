@@ -18,11 +18,11 @@ namespace Translation_And_Food.Services
         private readonly List<Bucket> _buckets;
         private readonly FoodFactory _foodFactory;
 
-        public FoodDeliveryServices(List<FoodProvider> foodProviders, List<Bucket> buckets, FoodFactory foodFactory)
+        public FoodDeliveryServices(List<FoodProvider> foodProviders, List<Bucket> buckets)
         {
             _foodProviders = foodProviders;
             _buckets = buckets;
-            _foodFactory = foodFactory;
+            _foodFactory = new FoodFactory();
         }
 
         //Metodo per torvare tutti i food provider disponibili in una determinata fascia oraria
