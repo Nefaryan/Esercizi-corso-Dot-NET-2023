@@ -11,6 +11,6 @@ namespace Translation_And_Food.Interfaces
 {
     internal interface IFoodFactory
     {
-        public IFood CreateOrder(MealType type);
+        public Order CreateOrder(MealType type);
     }
 }

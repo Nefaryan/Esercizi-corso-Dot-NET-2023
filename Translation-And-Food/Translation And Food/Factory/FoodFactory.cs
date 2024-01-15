@@ -9,9 +9,9 @@ using Translation_And_Food.Interfaces;
 
 namespace Translation_And_Food.Factory
 {
-    internal class BreakfastFactory : IFoodFactory
+    internal class FoodFactory : IFoodFactory
     {
-        public IFood CreateOrder(MealType type)
+        public Order CreateOrder(MealType type)
         {
             return new Order { Products = new List<Product>(), Status = OrderStatusEnum.InPreparation };
         }

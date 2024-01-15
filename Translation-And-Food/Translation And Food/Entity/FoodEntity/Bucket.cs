@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Translation_And_Food.Entity.FoodEntity
 {
-    internal interface Bucket
+    internal class Bucket
     {
         public int Id { get; set; }
         public Order Order { get; set; }
