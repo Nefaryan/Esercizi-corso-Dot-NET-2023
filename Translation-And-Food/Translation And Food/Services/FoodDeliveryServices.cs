@@ -28,51 +28,87 @@ namespace Translation_And_Food.Services
         //Metodo per torvare tutti i food provider disponibili in una determinata fascia oraria
         public async Task<List<FoodProvider>> FindFoodProvidersForTime(DateTime time)
         {
-            List<FoodProvider> provieders = new List<FoodProvider>();
-            foreach (var provider in _foodProviders)
+            try
             {
-                if(IsProviderOpen(provider,time)&& provider.CanAcceptOder())
+                List<FoodProvider> provieders = new List<FoodProvider>();
+                foreach (var provider in _foodProviders)
                 {
-                    provieders.Add(provider);
+                    if (IsProviderOpen(provider, time) && provider.CanAcceptOder())
+                    {
+                        provieders.Add(provider);
+                    }
                 }
+                if (provieders.Count > 0)
+                {
+                    await Task.Delay(1000);
+                    return provieders;
+                }
+                else
+                {
+                    return null;
+                }
+
             }
-            if(provieders.Count > 0)
+            catch (Exception ex)
             {
-                await Task.Delay(1000);
-                return provieders;
+                throw new Exception($"Error:{ex.Message}");
             }
-            else
-            {
-                return null;
-            }
-        
+
+
         }
         
         //Metodo per creare l'ordine 
         public async Task<Order> CreateOrder(MealType mealType,List<Product> products,
            FoodProvider foodProv)
         {
-
-            var order = _foodFactory.CreateOrder(mealType);
-            if(products != null)
+            try
             {
-                order.Products.AddRange(products);
+                var order = _foodFactory.CreateOrder(mealType);
+                if (products != null)
+                {
+                    order.Products.AddRange(products);
+                }
+                await foodProv.ProcessOrder(order);
+                var bucket = new Bucket { Order = order };
+
+                await NotifyUserForOrderCreation(order);
+                return order;
             }
-            await foodProv.ProcessOrder(order);
-            var bucket = new Bucket { Order = order };
+            catch (Exception ex)
+            {
+                throw new Exception($"Error:{ex.Message}");
+            }
 
-            await NotifyUserForOrderCreation(order);
-            return order;
+
         }
 
-        public async Task<String> FoodProviderMenu(FoodProvider food)
+        public List<Product> FoodProviderMenu(FoodProvider foodProv)
+        {
+            try
+            {
+                var menu = new List<Product>();
+                if(foodProv != null && foodProv.Menù.Count>0)
+                {
+                   
+                    menu.AddRange(foodProv.Menù);
+                    return menu;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex) 
+            {
+                throw new Exception($"Error:{ex.Message}");
+            }
+            
+        }
+        public Product SelectProductFromProvider(Order order, FoodProvider foodProv)
         {
             throw new NotImplementedException();
         }
-        public async Task<String> SelectFoodFromProvider(Product product)
-        {
-            throw new NotImplementedException();
-        }
+
         private bool IsProviderOpen(FoodProvider provider, DateTime time)
         {
             return provider.Opening <= time && time <= provider.Closed;
