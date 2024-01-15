@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 using Translation_And_Food.Entity.Util;
+using Translation_And_Food.Interfaces;
 
 namespace Translation_And_Food.Entity.FoodEntity
 {
-    internal class Order
+    internal class Order: IFood
     {
         public int Id { get; set; }
         public OrderStatusEnum Status { get; set; }
