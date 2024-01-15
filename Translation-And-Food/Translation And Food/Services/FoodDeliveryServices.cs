@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Translation_And_Food.Services
         }
 
         //Metodo per torvare tutti i food provider disponibili in una determinata fascia oraria
-        public async Task<string> FindFoodProvidersForTime(DateTime time)
+        public async Task<List<FoodProvider>> FindFoodProvidersForTime(DateTime time)
         {
             List<FoodProvider> provieders = new List<FoodProvider>();
             foreach (var provider in _foodProviders)
@@ -38,16 +39,17 @@ namespace Translation_And_Food.Services
             if(provieders.Count > 0)
             {
                 await Task.Delay(1000);
-                return string.Join(Environment.NewLine, provieders.Select(p => p.Name));
+                return provieders;
             }
             else
             {
-                return "Nessun delivery per la fascia oraria selezionata";
+                return null;
             }
         
         }
         
-        public async Task<string> CreateOrder(MealType mealType,List<Product> products,
+        //Metodo per creare l'ordine 
+        public async Task<Order> CreateOrder(MealType mealType,List<Product> products,
            FoodProvider foodProv)
         {
 
@@ -60,7 +62,7 @@ namespace Translation_And_Food.Services
             var bucket = new Bucket { Order = order };
 
             await NotifyUserForOrderCreation(order);
-            return $"Ordine con Id {order.Id}";
+            return order;
         }
 
         public async Task<String> FoodProviderMenu(FoodProvider food)
