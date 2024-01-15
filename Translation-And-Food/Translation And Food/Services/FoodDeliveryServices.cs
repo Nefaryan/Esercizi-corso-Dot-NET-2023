@@ -17,7 +17,7 @@ namespace Translation_And_Food.Services
         private readonly List<FoodProvider> _foodProviders;
         private readonly List<Bucket> _buckets;
         private readonly FoodFactory _foodFactory;
-
+        private readonly MealProviderFactory _mealProviderFactory;
         public FoodDeliveryServices(List<FoodProvider> foodProviders, List<Bucket> buckets)
         {
             _foodProviders = foodProviders;
@@ -57,6 +57,19 @@ namespace Translation_And_Food.Services
 
         }
         
+        //Metodo per trovare tutti i foodProvider disponibili in base al tipo di pasto che voglio consumare Colazione,Pranzo o Cena
+        public async Task<List<FoodProvider>> FindFoodProviderForType(MealType mealType)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
         //Metodo per creare l'ordine 
         public async Task<Order> CreateOrder(MealType mealType,List<Product> products,
            FoodProvider foodProv)
@@ -104,9 +117,50 @@ namespace Translation_And_Food.Services
             }
             
         }
-        public Product SelectProductFromProvider(Order order, FoodProvider foodProv)
+        public List<Product> SelectProductFromProvider(FoodProvider foodProvider)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var menu = FoodProviderMenu(foodProvider);
+                if (menu != null && menu.Any())
+                {
+                    Console.WriteLine($"Menu del FoodProvider {foodProvider.Name}:");
+                    Console.WriteLine("-----------------------------");
+                    for (int i = 0; i < menu.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {menu[i].Name} - {menu[i].Price}€");
+                    }
+                    Console.WriteLine("-----------------------------");
+                    Console.Write("Inserisci il numero del prodotto che desideri aggiungere (0 per terminare): ");
+                    List<Product> selectedProducts = new List<Product>();
+                    while (true)
+                    {
+                        if (int.TryParse(Console.ReadLine(), out int userInput) && userInput >= 0 && userInput <= menu.Count)
+                        {
+                            if (userInput == 0)
+                                break;
+                            var selectedProduct = menu[userInput - 1];
+                            selectedProducts.Add(selectedProduct);
+                            Console.WriteLine($"Hai aggiunto {selectedProduct.Name} al tuo ordine.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Inserimento non valido. Riprova.");
+                        }
+                    }
+                    return selectedProducts;
+                }
+                else
+                {
+                    Console.WriteLine("Il FoodProvider non ha un menu disponibile.");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Errore durante la selezione dei prodotti: {ex.Message}");
+                return null;
+            }
         }
 
         private bool IsProviderOpen(FoodProvider provider, DateTime time)

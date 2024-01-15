@@ -62,7 +62,6 @@ namespace Translation_And_Food
                        Exit();
                        break;
                 }
-
             }
         }
 
