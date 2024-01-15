@@ -8,8 +8,9 @@ namespace Translation_And_Food.Entity.Util
 {
     internal enum OrderStatusEnum
     {
-        Ready = 0,
-        OnTheGo = 1,
-        Arrivals = 2
+        InPreparation = 0,
+        Ready = 1,
+        OnTheGo = 2,
+        Arrivals = 3
     }
 }
