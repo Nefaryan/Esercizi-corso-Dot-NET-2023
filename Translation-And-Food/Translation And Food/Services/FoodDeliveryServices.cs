@@ -23,6 +23,7 @@ namespace Translation_And_Food.Services
             _foodProviders = foodProviders;
             _buckets = buckets;
             _foodFactory = new FoodFactory();
+            _mealProviderFactory = new MealProviderFactory(foodProviders);
         }
 
         //Metodo per torvare tutti i food provider disponibili in una determinata fascia oraria
@@ -56,53 +57,74 @@ namespace Translation_And_Food.Services
 
 
         }
-        
+
         //Metodo per trovare tutti i foodProvider disponibili in base al tipo di pasto che voglio consumare Colazione,Pranzo o Cena
         public async Task<List<FoodProvider>> FindFoodProviderForType(MealType mealType)
         {
             try
             {
-                throw new NotImplementedException();
+                var providers = new List<FoodProvider>();
+                var mealProviderFactory = new MealProviderFactory(_foodProviders);
+
+                // Utilizza la factory per trovare i provider in base al tipo di pasto
+                providers = mealProviderFactory.FindProvidersByMealType(mealType);
+
+                // Filtra ulteriormente i provider che possono accettare ordini
+                providers = providers.Where(provider => provider.CanAcceptOder()).ToList();
+                await Task.Delay(1000);
+                return providers;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception($"Error: {ex.Message}");
             }
         }
 
         //Metodo per creare l'ordine 
-        public async Task<Order> CreateOrder(MealType mealType,List<Product> products,
-           FoodProvider foodProv)
+        public async Task<Order> CreateOrder(MealType mealType, List<Product> products, FoodProvider foodProv)
         {
             try
             {
-                var order = _foodFactory.CreateOrder(mealType);
-                if (products != null)
-                {
-                    order.Products.AddRange(products);
-                }
-                await foodProv.ProcessOrder(order);
-                var bucket = new Bucket { Order = order };
+                Order order = null;
 
-                await NotifyUserForOrderCreation(order);
+                foreach (var product in products)
+                {
+                    order = _foodFactory.CreateOrder(mealType);
+                    order.Products.Add(product);
+
+                    if (await foodProv.ProcessOrder(order))
+                    {
+                        var bucket = new Bucket { Order = order };
+                        await NotifyUserForOrderCreation(order);
+                        Console.WriteLine("Ordine creato");
+                        await NotifyUserForShipping(order);
+                        Console.Write("Grazie per Averci scelto!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Il FoodProvider {foodProv.Name} non può accettare ulteriori ordini.");
+                        order = null; // Imposta order su null se l'ordine non può essere processato
+                        break; // Esce dal ciclo se non può accettare ordini
+                    }
+                }
+
                 return order;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error:{ex.Message}");
+                throw new Exception($"Error: {ex.Message}");
             }
-
-
         }
+
 
         public List<Product> FoodProviderMenu(FoodProvider foodProv)
         {
             try
             {
                 var menu = new List<Product>();
-                if(foodProv != null && foodProv.Menù.Count>0)
+                if (foodProv != null && foodProv.Menù.Count > 0)
                 {
-                   
+
                     menu.AddRange(foodProv.Menù);
                     return menu;
                 }
@@ -111,12 +133,13 @@ namespace Translation_And_Food.Services
                     return null;
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception($"Error:{ex.Message}");
             }
-            
+
         }
+
         public List<Product> SelectProductFromProvider(FoodProvider foodProvider)
         {
             try
@@ -169,12 +192,13 @@ namespace Translation_And_Food.Services
         }
         private async Task NotifyUserForOrderCreation(Order order)
         {
-            await Task.Delay(500);
+            await Task.Delay(order.TotalPreparationTime * 1000);
             Console.WriteLine("L'ordine e stato creato e lo stiamo elaborando");
         }
         private async Task NotifyUserForShipping(Order order)
         {
             await Task.Delay(500);
+            order.Status = OrderStatusEnum.OnTheGo;
             Console.WriteLine("Il tuo ordine è stato spedito");
 
         }
@@ -183,5 +207,11 @@ namespace Translation_And_Food.Services
             await Task.Delay(500);
             Console.WriteLine("Il tuo ordine è stato conseganto, Buon Appetito");
         }
+        public FoodProvider GetFoodProvider(string name)
+        {
+            var foodProvider = _foodProviders.FirstOrDefault(x => x.Name == name);  
+            return foodProvider;
+        }
+
     }
 }

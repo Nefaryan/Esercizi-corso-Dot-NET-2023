@@ -27,12 +27,22 @@ namespace Translation_And_Food.Entity.FoodEntity
         {
             return OrderInQueue < 4;
         }
+        public bool AcceptOrder(Order order)
+        {
+            if (CanAcceptOder())
+            {
+                Orders.Enqueue(order);
+                return true;
+            }
+            return false;
+        }
 
-        public async Task ProcessOrder(Order order)
+        public async Task<bool> ProcessOrder(Order order)
         {
             await Task.Delay(order.TotalPreparationTime * 1000);
             order.Status = OrderStatusEnum.Ready;
             Orders.Enqueue(order);
+            return true;
         }
     }
 }

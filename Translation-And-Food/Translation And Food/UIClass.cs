@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translation_And_Food.Entity.FoodEntity;
+using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Services;
 
 namespace Translation_And_Food
@@ -46,24 +48,69 @@ namespace Translation_And_Food
 
         private void FoodDeliveryMenu()
         {
-            while(true)
+            while (true)
             {
                 Console.WriteLine("=== Food Menù ===");
-                Console.WriteLine("1. Visualizza tutti i ristoranti con srvizio di food delivery");
-                Console.WriteLine("2. Esci");
+                Console.WriteLine("1. Visualizza tutti i ristoranti con servizio di food delivery");
+                Console.WriteLine("2. Visualizza ristoranti per tipo di pasto");
+                Console.WriteLine("3. Visualizza menu del ristorante");
+                Console.WriteLine("4. Seleziona i prodotti per l'ordine");
+                Console.WriteLine("5. Crea un ordine");
+                Console.WriteLine("6. Esci");
 
                 string choice = Console.ReadLine();
-                switch(choice)
+
+                switch (choice)
                 {
                     case "1":
                         Console.WriteLine(_appService.GetAllProviderInTime(DateTime.Now));
                         break;
+                    case "2":
+                        Console.WriteLine("Inserisci il tipo di pasto (Colazione, Pranzo, Cena): ");
+                        MealType mealType;
+                        if (Enum.TryParse(Console.ReadLine(), true, out mealType))
+                        {
+                            Console.WriteLine(_appService.GetAllProviderForMealType(mealType));
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tipo di pasto non valido.");
+                        }
+                        break;
+                    case "3":
+                        Console.WriteLine("Inserisci il nome del ristorante: ");
+                        string restaurantName = Console.ReadLine();
+                        FoodProvider prov = _appService.GetProvider(restaurantName);
+                        Console.WriteLine(_appService.Menu(prov));
+                        break;     
+                    case "4":
+                        Console.WriteLine("Inserisci il nome del ristorante: ");
+                        string restaurantName1 = Console.ReadLine();
+                        FoodProvider prov1 = _appService.GetProvider(restaurantName1);
+                        Console.WriteLine(_appService.SelectProductForOrder(prov1));
+                        break;
+                    case "5":
+                        Console.WriteLine("Inserisci il tipo di pasto (Colazione, Pranzo, Cena): ");
+                        MealType mealType1;
+                        if (Enum.TryParse(Console.ReadLine(), true, out mealType))
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                        break;
+                    case "6":
+                        Exit();
+                        break;
                     default:
-                       Exit();
-                       break;
+                        Console.WriteLine("Scelta non valida. Riprova.");
+                        break;
                 }
             }
         }
+
 
 
         private void Exit()
