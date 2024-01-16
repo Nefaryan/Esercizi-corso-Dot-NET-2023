@@ -101,7 +101,7 @@ namespace Translation_And_Food
 
         private void DisplayFoodProvidersInTime()
         {
-            Console.WriteLine(_appService.GetAllProviderInTime(DateTime.Now));
+            Console.WriteLine(_appService.GetAllProviderInTime(new TimeSpan(0,0,0)));
             Console.ReadLine();
         }
 
