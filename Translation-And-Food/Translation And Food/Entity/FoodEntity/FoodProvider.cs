@@ -27,15 +27,6 @@ namespace Translation_And_Food.Entity.FoodEntity
         {
             return OrderInQueue < 4;
         }
-        public bool AcceptOrder(Order order)
-        {
-            if (CanAcceptOder())
-            {
-                Orders.Enqueue(order);
-                return true;
-            }
-            return false;
-        }
 
         public async Task<bool> ProcessOrder(Order order)
         {

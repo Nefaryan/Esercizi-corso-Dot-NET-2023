@@ -37,7 +37,7 @@ namespace Translation_And_Food
                 {
                     case "1":
                         Console.WriteLine("Place holder for Traduttore");
-                        Console.ReadLine(); // Pausa per visualizzare il messaggio
+                        Console.ReadLine();
                         break;
                     case "2":
                         RunFoodDeliveryMenu();
@@ -47,7 +47,7 @@ namespace Translation_And_Food
                         break;
                     default:
                         Console.WriteLine("Scelta non valida. Riprova.");
-                        Console.ReadLine(); // Pausa per visualizzare il messaggio
+                        Console.ReadLine(); 
                         break;
                 }
             }
@@ -90,7 +90,7 @@ namespace Translation_And_Food
                         break;
                     default:
                         Console.WriteLine("Scelta non valida. Riprova.");
-                        Console.ReadLine(); // Pausa per visualizzare il messaggio
+                        Console.ReadLine(); 
                         break;
                 }
             }
@@ -99,7 +99,7 @@ namespace Translation_And_Food
         private void DisplayFoodProvidersInTime()
         {
             Console.WriteLine(_appService.GetAllProviderInTime(DateTime.Now));
-            Console.ReadLine(); // Pausa per visualizzare il messaggio
+            Console.ReadLine(); 
         }
 
         private void DisplayFoodProvidersByMealType()
@@ -116,7 +116,7 @@ namespace Translation_And_Food
             {
                 Console.WriteLine("Tipo di pasto non valido.");
             }
-            Console.ReadLine(); // Pausa per visualizzare il messaggio
+            Console.ReadLine(); 
         }
 
         private void DisplayRestaurantMenu()
@@ -128,7 +128,7 @@ namespace Translation_And_Food
             Console.WriteLine("-------------------");
             Console.WriteLine(menus);
             Console.WriteLine("-------------------");
-            Console.ReadLine(); // Pausa per visualizzare il messaggio
+            Console.ReadLine(); 
         }
 
         private void SelectProductsForOrder()
@@ -137,7 +137,6 @@ namespace Translation_And_Food
             string restaurantName = Console.ReadLine();
             prov = _appService.GetProvider(restaurantName);
             listOfProducts = _appService.SelectProductForOrder(prov).Result;
-            Console.ReadLine(); // Pausa per visualizzare il messaggio
         }
 
         private void CreateOrder()
@@ -151,7 +150,7 @@ namespace Translation_And_Food
             {
                 Console.WriteLine("Tipo di pasto non valido.");
             }
-            Console.ReadLine(); // Pausa per visualizzare il messaggio
+            Console.ReadLine(); 
         }
 
         private void Exit()
@@ -160,7 +159,4 @@ namespace Translation_And_Food
             Environment.Exit(0);
         }
     }
-
-
-
 }

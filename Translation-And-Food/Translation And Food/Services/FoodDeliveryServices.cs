@@ -72,28 +72,23 @@ namespace Translation_And_Food.Services
         {
             try
             {
-                Order order = new Order();
+                Order order = _foodFactory.CreateOrder(mealType);
+                order.Products.AddRange(products);
 
                 foreach (var product in products)
                 {
-                    order = _foodFactory.CreateOrder(mealType);
-                    order.Products.Add(product);
-
-                    if (await foodProv.ProcessOrder(order))
-                    {
-                        var bucket = new Bucket { Order = order };
-                        await NotifyUserForOrderCreation(order);
-                        Console.WriteLine("Ordine creato");
-                        await NotifyUserForShipping(order);
-                        Console.Write("Grazie per averci scelto!");
-                    }
-                    else
+                    if (!await foodProv.ProcessOrder(order))
                     {
                         Console.WriteLine($"Il FoodProvider {foodProv.Name} non può accettare ulteriori ordini.");
-                        order = null;
-                        break; 
+                        return null; 
                     }
                 }
+
+                var bucket = new Bucket { Order = order };
+                await NotifyUserForOrderCreation(order);
+                Console.WriteLine("Ordine creato");
+                await NotifyUserForShipping(order);
+                Console.Write("Grazie per averci scelto!");
 
                 return order;
             }
@@ -102,6 +97,7 @@ namespace Translation_And_Food.Services
                 throw new Exception($"Error: {ex.Message}");
             }
         }
+
 
         public List<Product> FoodProviderMenu(FoodProvider foodProv)
         {
