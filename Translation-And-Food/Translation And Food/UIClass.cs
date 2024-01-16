@@ -46,8 +46,11 @@ namespace Translation_And_Food
         }
 
 
-        private void FoodDeliveryMenu()
+        private async void FoodDeliveryMenu()
         {
+            var listOfProducts = new List<Product>();
+            var prov = new FoodProvider();
+
             while (true)
             {
                 Console.WriteLine("=== Food Menù ===");
@@ -80,21 +83,21 @@ namespace Translation_And_Food
                     case "3":
                         Console.WriteLine("Inserisci il nome del ristorante: ");
                         string restaurantName = Console.ReadLine();
-                        FoodProvider prov = _appService.GetProvider(restaurantName);
+                        prov = _appService.GetProvider(restaurantName);
                         Console.WriteLine(_appService.Menu(prov));
                         break;     
                     case "4":
                         Console.WriteLine("Inserisci il nome del ristorante: ");
                         string restaurantName1 = Console.ReadLine();
-                        FoodProvider prov1 = _appService.GetProvider(restaurantName1);
-                        Console.WriteLine(_appService.SelectProductForOrder(prov1));
+                        prov = _appService.GetProvider(restaurantName1);
+                        listOfProducts = await _appService.SelectProductForOrder(prov);
                         break;
                     case "5":
                         Console.WriteLine("Inserisci il tipo di pasto (Colazione, Pranzo, Cena): ");
                         MealType mealType1;
-                        if (Enum.TryParse(Console.ReadLine(), true, out mealType))
+                        if (Enum.TryParse(Console.ReadLine(), true, out mealType1))
                         {
-
+                            Console.WriteLine(_appService.CreateOrder(mealType1, listOfProducts, prov));
                         }
                         else
                         {

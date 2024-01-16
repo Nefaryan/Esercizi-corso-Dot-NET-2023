@@ -8,8 +8,8 @@ namespace Translation_And_Food.Entity.Util
 {
     internal enum MealType
     {
-        BreakFast=0,
-        Lunch=1,
-        Dinner=2,
+        Colazione=0,
+        Pranzo=1,
+        Cena=2,
     }
 }

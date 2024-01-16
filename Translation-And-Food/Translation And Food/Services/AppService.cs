@@ -104,16 +104,18 @@ namespace Translation_And_Food.Services
             }
         }
 
-        public async Task<string> SelectProductForOrder(FoodProvider foodProvider)
+        public async Task<List<Product>> SelectProductForOrder(FoodProvider foodProvider)
         {
             try
             {
-                throw new NotImplementedException();
+                await Task.Delay (1000);
+                var produtcs = _foodDeliveryServices.SelectProductFromProvider(foodProvider);
+                return produtcs.ToList();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Errore durante la selezione dei prodotti: {ex.Message}");
-                return "Si è verificato un errore durante la selezione dei prodotti.";
+                throw;
             }
         }
 
