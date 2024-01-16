@@ -27,8 +27,8 @@ namespace Translation_And_Food
             };
             List<Product> Cena = new List<Product>()
             {
-                new Product("Pizza",1,MealType.Colazione,1),
-                new Product("Kebab",2,MealType.Colazione,2)
+                new Product("Pizza",1,MealType.Cena,1),
+                new Product("Kebab",2,MealType.Cena,2)
             };
 
             FoodProvider foodProvider = new FoodProvider();

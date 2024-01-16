@@ -18,59 +18,47 @@ namespace Translation_And_Food.Services
         private readonly List<Bucket> _buckets;
         private readonly FoodFactory _foodFactory;
         private readonly MealProviderFactory _mealProviderFactory;
+
         public FoodDeliveryServices(List<FoodProvider> foodProviders, List<Bucket> buckets)
         {
-            _foodProviders = foodProviders;
-            _buckets = buckets;
+            _foodProviders = foodProviders ?? throw new ArgumentNullException(nameof(foodProviders));
+            _buckets = buckets ?? throw new ArgumentNullException(nameof(buckets));
             _foodFactory = new FoodFactory();
-            _mealProviderFactory = new MealProviderFactory(foodProviders);
+            _mealProviderFactory = new MealProviderFactory(_foodProviders);
         }
 
-        //Metodo per torvare tutti i food provider disponibili in una determinata fascia oraria
         public async Task<List<FoodProvider>> FindFoodProvidersForTime(DateTime time)
         {
             try
             {
-                List<FoodProvider> provieders = new List<FoodProvider>();
-                foreach (var provider in _foodProviders)
-                {
-                    if (IsProviderOpen(provider, time) && provider.CanAcceptOder())
-                    {
-                        provieders.Add(provider);
-                    }
-                }
-                if (provieders.Count > 0)
+                var providers = _foodProviders
+                    .Where(provider => IsProviderOpen(provider, time) && provider.CanAcceptOder())
+                    .ToList();
+
+                if (providers.Count > 0)
                 {
                     await Task.Delay(1000);
-                    return provieders;
+                    return providers;
                 }
                 else
                 {
                     return null;
                 }
-
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error:{ex.Message}");
+                throw new Exception($"Error: {ex.Message}");
             }
-
-
         }
 
-        //Metodo per trovare tutti i foodProvider disponibili in base al tipo di pasto che voglio consumare Colazione,Pranzo o Cena
         public async Task<List<FoodProvider>> FindFoodProviderForType(MealType mealType)
         {
             try
             {
-                var providers = new List<FoodProvider>();
-                var mealProviderFactory = new MealProviderFactory(_foodProviders);
+                var providers = _mealProviderFactory.FindProvidersByMealType(mealType)
+                    .Where(provider => provider.CanAcceptOder())
+                    .ToList();
 
-                // Utilizza la factory per trovare i provider in base al tipo di pasto
-                providers = mealProviderFactory.FindProvidersByMealType(mealType);
-
-                // Filtra ulteriormente i provider che possono accettare ordini
-                providers = providers.Where(provider => provider.CanAcceptOder()).ToList();
                 await Task.Delay(1000);
                 return providers;
             }
@@ -80,12 +68,11 @@ namespace Translation_And_Food.Services
             }
         }
 
-        //Metodo per creare l'ordine 
         public async Task<Order> CreateOrder(MealType mealType, List<Product> products, FoodProvider foodProv)
         {
             try
             {
-                Order order = null;
+                Order order = new Order();
 
                 foreach (var product in products)
                 {
@@ -98,13 +85,13 @@ namespace Translation_And_Food.Services
                         await NotifyUserForOrderCreation(order);
                         Console.WriteLine("Ordine creato");
                         await NotifyUserForShipping(order);
-                        Console.Write("Grazie per Averci scelto!");
+                        Console.Write("Grazie per averci scelto!");
                     }
                     else
                     {
                         Console.WriteLine($"Il FoodProvider {foodProv.Name} non può accettare ulteriori ordini.");
-                        order = null; // Imposta order su null se l'ordine non può essere processato
-                        break; // Esce dal ciclo se non può accettare ordini
+                        order = null;
+                        break; 
                     }
                 }
 
@@ -116,16 +103,14 @@ namespace Translation_And_Food.Services
             }
         }
 
-
         public List<Product> FoodProviderMenu(FoodProvider foodProv)
         {
             try
             {
-                var menu = new List<Product>();
-                if (foodProv != null && foodProv.Menù.Count > 0)
-                {
+                var menu = foodProv?.Menù?.ToList() ?? new List<Product>();
 
-                    menu.AddRange(foodProv.Menù);
+                if (menu.Any())
+                {
                     return menu;
                 }
                 else
@@ -135,9 +120,8 @@ namespace Translation_And_Food.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error:{ex.Message}");
+                throw new Exception($"Error: {ex.Message}");
             }
-
         }
 
         public List<Product> SelectProductFromProvider(FoodProvider foodProvider)
@@ -145,23 +129,28 @@ namespace Translation_And_Food.Services
             try
             {
                 var menu = FoodProviderMenu(foodProvider);
+
                 if (menu != null && menu.Any())
                 {
                     Console.WriteLine($"Menu del FoodProvider {foodProvider.Name}:");
                     Console.WriteLine("-----------------------------");
+
                     for (int i = 0; i < menu.Count; i++)
                     {
                         Console.WriteLine($"{i + 1}. {menu[i].Name} - {menu[i].Price}€");
                     }
+
                     Console.WriteLine("-----------------------------");
                     Console.Write("Inserisci il numero del prodotto che desideri aggiungere (0 per terminare): ");
                     List<Product> selectedProducts = new List<Product>();
+
                     while (true)
                     {
                         if (int.TryParse(Console.ReadLine(), out int userInput) && userInput >= 0 && userInput <= menu.Count)
                         {
                             if (userInput == 0)
                                 break;
+
                             var selectedProduct = menu[userInput - 1];
                             selectedProducts.Add(selectedProduct);
                             Console.WriteLine($"Hai aggiunto {selectedProduct.Name} al tuo ordine.");
@@ -171,6 +160,7 @@ namespace Translation_And_Food.Services
                             Console.WriteLine("Inserimento non valido. Riprova.");
                         }
                     }
+
                     return selectedProducts;
                 }
                 else
@@ -188,30 +178,32 @@ namespace Translation_And_Food.Services
 
         private bool IsProviderOpen(FoodProvider provider, DateTime time)
         {
-            return provider.Opening <= time && time <= provider.Closed;
+            return provider?.Opening <= time && time <= provider?.Closed;
         }
+
         private async Task NotifyUserForOrderCreation(Order order)
         {
             await Task.Delay(order.TotalPreparationTime * 1000);
-            Console.WriteLine("L'ordine e stato creato e lo stiamo elaborando");
+            Console.WriteLine("L'ordine è stato creato e lo stiamo elaborando.");
         }
+
         private async Task NotifyUserForShipping(Order order)
         {
             await Task.Delay(500);
             order.Status = OrderStatusEnum.OnTheGo;
-            Console.WriteLine("Il tuo ordine è stato spedito");
-
+            Console.WriteLine("Il tuo ordine è stato spedito.");
         }
+
         private async Task NofifyUserForOrderIsArrivals(Order order)
         {
             await Task.Delay(500);
-            Console.WriteLine("Il tuo ordine è stato conseganto, Buon Appetito");
-        }
-        public FoodProvider GetFoodProvider(string name)
-        {
-            var foodProvider = _foodProviders.FirstOrDefault(x => x.Name == name);  
-            return foodProvider;
+            Console.WriteLine("Il tuo ordine è stato consegnato, Buon Appetito!");
         }
 
+        public FoodProvider GetFoodProvider(string name)
+        {
+            return _foodProviders.FirstOrDefault(x => x.Name == name);
+        }
     }
+
 }

@@ -15,7 +15,7 @@ namespace Translation_And_Food.Services
 
         public AppService(FoodDeliveryServices foodDeliveryServices)
         {
-            _foodDeliveryServices = foodDeliveryServices;
+            _foodDeliveryServices = foodDeliveryServices ?? throw new ArgumentNullException(nameof(foodDeliveryServices));
         }
 
         public async Task<string> GetAllProviderInTime(DateTime time)
@@ -32,13 +32,12 @@ namespace Translation_And_Food.Services
                 {
                     return "Nessun food provider disponibile per la fascia oraria selezionata.";
                 }
-
             }
             catch (Exception ex)
             {
+                
                 Console.WriteLine($"Errore durante la ricerca dei food provider: {ex.Message}");
                 return "Si è verificato un errore durante la ricerca dei food provider.";
-
             }
         }
 
@@ -50,8 +49,7 @@ namespace Translation_And_Food.Services
 
                 if (providers.Any())
                 {
-                    string result = string.Join(Environment.NewLine, providers.Select(provider => provider.Name));
-                    return result;
+                    return string.Join(Environment.NewLine, providers.Select(provider => provider.Name));
                 }
                 else
                 {
@@ -60,11 +58,11 @@ namespace Translation_And_Food.Services
             }
             catch (Exception ex)
             {
+               
                 Console.WriteLine($"Errore durante la ricerca dei food provider: {ex.Message}");
                 return "Si è verificato un errore durante la ricerca dei food provider.";
             }
         }
-
 
         public async Task<string> CreateOrder(MealType type, List<Product> products, FoodProvider provider)
         {
@@ -75,32 +73,34 @@ namespace Translation_And_Food.Services
             }
             catch (Exception ex)
             {
+              
                 Console.WriteLine($"{ex.Message}");
-                return "Si è verificato un erorre";
+                return "Si è verificato un errore";
             }
         }
 
-        public async Task<string> Menu(FoodProvider foodprovider)
+        public async Task<string> Menu(FoodProvider foodProvider)
         {
             try
             {
                 await Task.Delay(1000);
-                var menù = _foodDeliveryServices.FoodProviderMenu(foodprovider);
-                if (menù.Any())
-                {
-                    var productInfo = menù.Select(p => $"{p.Id} - {p.Name} - {p.Price}$").ToList();
-                    var result = string.Join(Environment.NewLine, productInfo);
 
-                    return result;
+                var menu = _foodDeliveryServices.FoodProviderMenu(foodProvider);
+
+                if (menu.Any())
+                {
+                    var productInfo = menu.Select(p => $"{p.Id} - {p.Name} - {p.Price}$");
+                    return string.Join(Environment.NewLine, productInfo);
                 }
                 else
                 {
-                    return "si è verificato un errore";
+                    return "Si è verificato un errore";
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error:{ex.Message}");
+                
+                throw new Exception($"Error: {ex.Message}");
             }
         }
 
@@ -108,12 +108,12 @@ namespace Translation_And_Food.Services
         {
             try
             {
-                await Task.Delay (1000);
-                var produtcs = _foodDeliveryServices.SelectProductFromProvider(foodProvider);
-                return produtcs.ToList();
+                await Task.Delay(1000);
+                return _foodDeliveryServices.SelectProductFromProvider(foodProvider)?.ToList();
             }
             catch (Exception ex)
             {
+              
                 Console.WriteLine($"Errore durante la selezione dei prodotti: {ex.Message}");
                 throw;
             }
@@ -123,6 +123,6 @@ namespace Translation_And_Food.Services
         {
             return _foodDeliveryServices.GetFoodProvider(providerName);
         }
-
     }
+
 }
