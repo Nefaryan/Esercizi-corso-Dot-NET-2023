@@ -34,14 +34,20 @@ namespace Translation_And_Food
             FoodProvider foodProvider = new FoodProvider();
             foodProvider.Menù = Colazione;
             foodProvider.Name = "Baretto";
+            foodProvider.Opening = new TimeSpan(7, 0, 0);
+            foodProvider.Closed = new TimeSpan(11, 0, 0);
 
             FoodProvider foodProvider1 = new FoodProvider();
             foodProvider1.Menù = Pranzo;
             foodProvider1.Name = "Cipollotta";
+            foodProvider1.Opening = new TimeSpan(11, 30, 0);
+            foodProvider1.Closed = new TimeSpan(16, 0, 0);
 
             FoodProvider foodProvider2 = new FoodProvider();
             foodProvider2.Menù = Cena;
             foodProvider2.Name = "Bestia Kebab";
+            foodProvider2.Opening = new TimeSpan(17, 30, 0);
+            foodProvider2.Closed = new TimeSpan(22, 0, 0);
 
             providers.Add(foodProvider1);
             providers.Add(foodProvider2);

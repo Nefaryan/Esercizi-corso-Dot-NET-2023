@@ -18,7 +18,7 @@ namespace Translation_And_Food.Services
             _foodDeliveryServices = foodDeliveryServices ?? throw new ArgumentNullException(nameof(foodDeliveryServices));
         }
 
-        public async Task<string> GetAllProviderInTime(DateTime time)
+        public async Task<string> GetAllProviderInTime(TimeSpan time)
         {
             try
             {

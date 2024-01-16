@@ -27,7 +27,7 @@ namespace Translation_And_Food.Services
             _mealProviderFactory = new MealProviderFactory(_foodProviders);
         }
 
-        public async Task<List<FoodProvider>> FindFoodProvidersForTime(DateTime time)
+        public async Task<List<FoodProvider>> FindFoodProvidersForTime(TimeSpan time)
         {
             try
             {
@@ -72,6 +72,7 @@ namespace Translation_And_Food.Services
         {
             try
             {
+                Console.WriteLine("Stiamo crando il tuo ordine");
                 Order order = _foodFactory.CreateOrder(mealType);
                 order.Products.AddRange(products);
 
@@ -86,6 +87,9 @@ namespace Translation_And_Food.Services
 
                 var bucket = new Bucket { Order = order };
                 await NotifyUserForOrderCreation(order);
+                Console.WriteLine($"Prezzo Totale: {order.TotalPrice}");
+                await Task.Delay(1000);
+                Console.WriteLine("Grazie per il pagamento!");
                 Console.WriteLine("Ordine creato");
                 await NotifyUserForShipping(order);
                 Console.Write("Grazie per averci scelto!");
@@ -172,7 +176,7 @@ namespace Translation_And_Food.Services
             }
         }
 
-        private bool IsProviderOpen(FoodProvider provider, DateTime time)
+        private bool IsProviderOpen(FoodProvider provider, TimeSpan time)
         {
             return provider?.Opening <= time && time <= provider?.Closed;
         }

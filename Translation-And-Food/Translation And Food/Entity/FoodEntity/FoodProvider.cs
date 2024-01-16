@@ -11,8 +11,8 @@ namespace Translation_And_Food.Entity.FoodEntity
 {
     internal class FoodProvider
     {
-        public DateTime Opening { get; set; }
-        public DateTime Closed { get; set; }
+        public TimeSpan Opening { get; set; }
+        public TimeSpan Closed { get; set; }
         public List<Product> Menù { get; set; }
         public string Name { get; set; }
         public Queue<Order> Orders { get; set; }
