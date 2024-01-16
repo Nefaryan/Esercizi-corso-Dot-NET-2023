@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Translation_And_Food
             {
                 Console.WriteLine("1. Cerca un traduttore");
                 Console.WriteLine("2. Ordina un pasto");
-                Console.WriteLine("3. Esci");
+                Console.WriteLine("X. Esci");
 
                 string choice = Console.ReadLine();
 
@@ -37,7 +38,7 @@ namespace Translation_And_Food
                     case "2":
                         FoodDeliveryMenu();
                         break;
-                    case "3":
+                    case "X":
                         Exit();
                         break;
                 }
@@ -73,18 +74,22 @@ namespace Translation_And_Food
                         MealType mealType;
                         if (Enum.TryParse(Console.ReadLine(), true, out mealType))
                         {
-                            Console.WriteLine(_appService.GetAllProviderForMealType(mealType));
+                            string result = await _appService.GetAllProviderForMealType(mealType);
+                            Console.WriteLine("-------------------");
+                            Console.WriteLine(result);
                         }
                         else
                         {
                             Console.WriteLine("Tipo di pasto non valido.");
                         }
                         break;
-                    case "3":
+                    case "3": //TODO FIX RETURN
                         Console.WriteLine("Inserisci il nome del ristorante: ");
                         string restaurantName = Console.ReadLine();
                         prov = _appService.GetProvider(restaurantName);
-                        Console.WriteLine(_appService.Menu(prov));
+                        var menus = await _appService.Menu(prov);
+                        Console.WriteLine("-------------------");
+                        Console.WriteLine(menus);
                         break;     
                     case "4":
                         Console.WriteLine("Inserisci il nome del ristorante: ");
@@ -92,7 +97,7 @@ namespace Translation_And_Food
                         prov = _appService.GetProvider(restaurantName1);
                         listOfProducts = await _appService.SelectProductForOrder(prov);
                         break;
-                    case "5":
+                    case "5"://TODO FIX 
                         Console.WriteLine("Inserisci il tipo di pasto (Colazione, Pranzo, Cena): ");
                         MealType mealType1;
                         if (Enum.TryParse(Console.ReadLine(), true, out mealType1))

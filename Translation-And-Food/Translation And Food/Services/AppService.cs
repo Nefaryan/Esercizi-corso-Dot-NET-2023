@@ -50,21 +50,21 @@ namespace Translation_And_Food.Services
 
                 if (providers.Any())
                 {
-                    return string.Join(Environment.NewLine, providers.Select(provider => provider.Name));
+                    string result = string.Join(Environment.NewLine, providers.Select(provider => provider.Name));
+                    return result;
                 }
                 else
                 {
                     return "Nessun food provider disponibile per la fascia oraria selezionata.";
                 }
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Errore durante la ricerca dei food provider: {ex.Message}");
                 return "Si è verificato un errore durante la ricerca dei food provider.";
-
             }
         }
+
 
         public async Task<string> CreateOrder(MealType type, List<Product> products, FoodProvider provider)
         {
