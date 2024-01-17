@@ -71,17 +71,15 @@ namespace Translation_And_Food.Services
             }
         }
 
-        public async Task<string> CreateOrder(User user,List<Product> products, FoodProvider provider)
+        public async Task<string> CreateOrder(User user, List<Product> products, FoodProvider provider)
         {
             try
             {
-                var order = await _foodDeliveryServices.CreateOrder(user,products, provider);
-
-                return order.ToString();
+                var order = await _foodDeliveryServices.CreateOrder(user, products, provider);
+                return order?.ToString() ?? "Si è verificato un errore durante la creazione dell'ordine.";
             }
             catch (Exception ex)
             {
-              
                 Console.WriteLine($"{ex.Message}");
                 return "Si è verificato un errore";
             }

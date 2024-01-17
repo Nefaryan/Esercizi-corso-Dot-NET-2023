@@ -15,8 +15,9 @@ namespace Translation_And_Food.Entity.FoodEntity
         public TimeSpan Closed { get; set; }
         public List<Product> Menù { get; set; }
         public string Name { get; set; }
-        public Queue<Order> Orders { get; set; }
-        public int OrderInQueue => Orders.Count;
+        public Queue<Order> Orders { get; set; } = new Queue<Order>();
+        public Queue<Product> ProductsInPrep { get; set; } = new Queue<Product> ();
+        public int ProductsInPreparationCount => ProductsInPrep.Count;
 
         public FoodProvider()
         {
@@ -25,16 +26,35 @@ namespace Translation_And_Food.Entity.FoodEntity
 
         public bool CanAcceptOder()
         {
-            return OrderInQueue < 4;
+            return ProductsInPreparationCount < 4;
         }
 
-        public async Task<bool> ProcessOrder(Order order)
+        public async Task<bool> ProcessOrders()
         {
-            await Task.Delay(order.TotalPreparationTime * 5);
-            order.Status = OrderStatusEnum.Ready;
-            Orders.Enqueue(order);
+            while (Orders.Count > 0 && CanAcceptOder())
+            {
+                Order order = Orders.Dequeue();
+                foreach (Product product in order.Products)
+                {
+                    if (!await ProcessProduct(product))
+                    {
+                        Console.WriteLine("Tutte i nostri dipendenti sono occupati sarai servito non appena possibile");
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
+
+        private async Task<bool> ProcessProduct(Product product)
+        {
+            await Task.Delay(product.preparationTime * 5);
+            ProductsInPrep.Enqueue(product);
+            return true;
+        }
+
+
     }
 }
 

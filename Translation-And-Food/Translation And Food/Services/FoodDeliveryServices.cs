@@ -74,17 +74,13 @@ namespace Translation_And_Food.Services
         {
             try
             {
-                Console.WriteLine("Stiamo crando il tuo ordine");
+                Console.WriteLine("Stiamo creando il tuo ordine");
                 Order order = _foodFactory.CreateOrder(products);
+                order.Products.AddRange(products);
 
-                foreach (var product in products)
-                {
-                    if (!await foodProv.ProcessOrder(order))
-                    {
-                        Console.WriteLine($"Il FoodProvider {foodProv.Name} non può accettare ulteriori ordini.");
-                        return null;
-                    }
-                }
+                foodProv.Orders.Enqueue(order);  // Aggiungi l'ordine alla coda degli ordini del provider
+
+                await foodProv.ProcessOrders();  // Processa gli ordini in attesa
 
                 var bucket = new Bucket { Order = order };
                 await NotifyUserForOrderCreation(order);
@@ -103,6 +99,7 @@ namespace Translation_And_Food.Services
                 throw new Exception($"Error: {ex.Message}");
             }
         }
+
 
 
         public List<Product> FoodProviderMenu(FoodProvider foodProv)
