@@ -136,21 +136,23 @@ namespace Translation_And_Food.Services
             try
             {
                 var translator = await _translationService.FindTransaltor(language);
-                if(translator == null)
+
+                if (translator != null)
                 {
-                    return translator.Name;
+                    return $"Traduttore trovato: {translator.Name}";
                 }
                 else
                 {
-                   return "Nessun Traduttore disponibile per la lingua selezionata";
+                    return "Nessun Traduttore disponibile per la lingua selezionata.";
                 }
             }
             catch (Exception ex)
             {
-                throw;
-            
+                Console.WriteLine($"Errore durante la ricerca del traduttore: {ex.Message}");
+                return "Si è verificato un errore durante la ricerca del traduttore.";
             }
         }
+
     }
 
 }

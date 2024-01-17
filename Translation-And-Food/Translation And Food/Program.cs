@@ -5,6 +5,7 @@ using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.TranslationEntity;
 using Translation_And_Food.Entity.Util;
+using Translation_And_Food.Factory.Translation;
 using Translation_And_Food.Services;
 
 namespace Translation_And_Food
@@ -66,7 +67,8 @@ namespace Translation_And_Food
             translators.Add(t1);
 
             FoodDeliveryServices foodDeliveryServices = new FoodDeliveryServices(providers,buckets);
-            TranslationService translationService = new TranslationService(translators);
+            var tranlatorsFactory = new TranslationFactory();
+            TranslationService translationService = new TranslationService(tranlatorsFactory,translators);
             AppService appService = new AppService(foodDeliveryServices,translationService);
             UIClass ui = new UIClass(appService);
 

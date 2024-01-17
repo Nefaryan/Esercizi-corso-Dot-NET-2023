@@ -7,7 +7,7 @@ using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Interfaces;
 
-namespace Translation_And_Food.Factory
+namespace Translation_And_Food.Factory.Food
 {
     internal class FoodFactory : IFoodFactory
     {

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
+using Translation_And_Food.Entity.TranslationEntity;
 using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Services;
 
@@ -85,7 +86,7 @@ namespace Translation_And_Food
                         SelectProductsForOrder();
                         break;
                     case "5":
-                        Task.Run(() => CreateOrder(user));
+                        CreateOrder(user);
                         break;
                     case "6":
                         return; // Torna al menù principale
@@ -100,7 +101,7 @@ namespace Translation_And_Food
             }
         }
 
-        private void RunTranslationMenu(User user)
+        private async void RunTranslationMenu(User user)
         {
             while(true)
             {
@@ -116,7 +117,8 @@ namespace Translation_And_Food
                     case "1":
                         Console.WriteLine("Inserisici la lingua per la quale cerchi un traduttore");
                         string trans = Console.ReadLine();
-                        Console.WriteLine(_appService.FindTranslator(trans));
+                        var trnls = await  _appService.FindTranslator(trans);
+                        Console.WriteLine(trnls);
                         break;
                     case "2":
                         Exit();
