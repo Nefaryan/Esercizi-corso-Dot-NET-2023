@@ -15,6 +15,8 @@ namespace Translation_And_Food.Services
         private readonly FoodDeliveryServices _foodDeliveryServices;
         private readonly TranslationService _translationService;
 
+        public TranslationService TranslationService => _translationService;
+
         public AppService(FoodDeliveryServices foodDeliveryServices, TranslationService translationService)
         {
             _foodDeliveryServices = foodDeliveryServices;

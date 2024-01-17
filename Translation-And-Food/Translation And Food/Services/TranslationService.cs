@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Translation_And_Food.Entity.TranslationEntity;
+using Translation_And_Food.Event;
 using Translation_And_Food.Factory.Translation;
 using Translation_And_Food.Interfaces;
 
@@ -28,6 +29,7 @@ namespace Translation_And_Food.Services
                 if (translator != null)
                 {
                     await Task.Delay(100);
+                    OnTranslatorFound(translator);
                     return translator;
                 }
                 else
@@ -40,6 +42,13 @@ namespace Translation_And_Food.Services
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
+
+        public event EventHandler<TranslatorFoundEventArgs> TranslatorFound;
+
+        protected virtual void OnTranslatorFound(Translator translator) 
+        {
+          TranslatorFound.Invoke(this, new TranslatorFoundEventArgs(translator));
         }
     }
 

@@ -9,6 +9,7 @@ using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.TranslationEntity;
 using Translation_And_Food.Entity.Util;
+using Translation_And_Food.Event;
 using Translation_And_Food.Services;
 
 namespace Translation_And_Food
@@ -22,6 +23,7 @@ namespace Translation_And_Food
         public UIClass(AppService appService)
         {
             _appService = appService;
+            _appService.TranslationService.TranslatorFound += OnTranlatorFound;
         }
 
         public void Run(User user)
@@ -173,6 +175,7 @@ namespace Translation_And_Food
             Console.WriteLine(_appService.CreateOrder(user,listOfProducts, prov).Result);
             Console.ReadLine();
         }
+
         private void DisplayFoodProvidersInTime()
         {
             Console.WriteLine("Inserisci l'orario nel formato HH:mm:ss: ");
@@ -187,11 +190,15 @@ namespace Translation_And_Food
             Console.ReadLine();
         }
 
-
         private void Exit()
         {
             Console.WriteLine("Thank you for using the application. Goodbye!");
             Environment.Exit(0);
+        }
+
+        private void OnTranlatorFound(object sender,TranslatorFoundEventArgs e)
+        {
+            Console.WriteLine($"Il troduttore trovato è : {e.Translator.Name} avvisa il giudice");
         }
     }
 
