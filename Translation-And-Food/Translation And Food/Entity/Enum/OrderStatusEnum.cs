@@ -13,4 +13,5 @@ namespace Translation_And_Food.Entity.Util
         OnTheGo = 2,
         Arrivals = 3
     }
+
 }

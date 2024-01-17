@@ -12,3 +12,4 @@ namespace Translation_And_Food.Interfaces
         List<Product> Products { get; }
     }
 }
+

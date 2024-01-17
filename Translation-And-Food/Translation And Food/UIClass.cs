@@ -37,8 +37,7 @@ namespace Translation_And_Food
                 switch (choice.ToUpper())
                 {
                     case "1":
-                        Console.WriteLine("Place holder for Traduttore");
-                        Console.ReadLine();
+                        RunTranslationMenu(user);
                         break;
                     case "2":
                         RunFoodDeliveryMenu(user);
@@ -101,8 +100,29 @@ namespace Translation_And_Food
             }
         }
 
-        private void RunTranslationService(User user)
+        private void RunTranslationMenu(User user)
         {
+            while(true)
+            {
+                Console.Clear();
+                Console.WriteLine("== Translator Menu ==");
+                Console.WriteLine("1. Cerca Il traduttore");
+                Console.WriteLine("2. Exit");
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Inserisici la lingua per la quale cerchi un traduttore");
+                        string trans = Console.ReadLine();
+                        Console.WriteLine(_appService.FindTranslator(trans));
+                        break;
+                    case "2":
+                        Exit();
+                        break;
+                }
+            }
 
         }
 

@@ -12,3 +12,4 @@ namespace Translation_And_Food.Entity.FoodEntity
         public Order Order { get; set; }
     }
 }
+

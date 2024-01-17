@@ -13,3 +13,4 @@ namespace Translation_And_Food.Entity.TranslationEntity
         public string Language { get; set; }
     }
 }
+

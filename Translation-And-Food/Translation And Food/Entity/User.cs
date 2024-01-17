@@ -13,3 +13,4 @@ namespace Translation_And_Food.Entity
         public UserType Type { get; set; }
     }
 }
+

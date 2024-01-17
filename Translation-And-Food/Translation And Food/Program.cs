@@ -71,6 +71,7 @@ namespace Translation_And_Food
             UIClass ui = new UIClass(appService);
 
             ui.Run(user);
+
         }
     }
 }

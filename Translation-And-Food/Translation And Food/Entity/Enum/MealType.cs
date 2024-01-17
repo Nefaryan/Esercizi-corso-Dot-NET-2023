@@ -13,3 +13,4 @@ namespace Translation_And_Food.Entity.Util
         Cena=2,
     }
 }
+
