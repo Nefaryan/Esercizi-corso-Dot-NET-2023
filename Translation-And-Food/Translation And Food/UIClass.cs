@@ -130,7 +130,6 @@ namespace Translation_And_Food
 
         }
 
-
         private void DisplayFoodProvidersByMealType()
         {
             Console.WriteLine("Inserisci il tipo di pasto (Colazione, Pranzo, Cena): ");
