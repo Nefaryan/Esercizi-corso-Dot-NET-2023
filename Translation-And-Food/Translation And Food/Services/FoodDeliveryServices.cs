@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Factory;
@@ -68,12 +69,12 @@ namespace Translation_And_Food.Services
             }
         }
 
-        public async Task<Order> CreateOrder(MealType mealType, List<Product> products, FoodProvider foodProv)
+        public async Task<Order> CreateOrder(User user, List<Product> products, FoodProvider foodProv)
         {
             try
             {
                 Console.WriteLine("Stiamo crando il tuo ordine");
-                Order order = _foodFactory.CreateOrder(mealType);
+                Order order = _foodFactory.CreateOrder();
                 order.Products.AddRange(products);
 
                 foreach (var product in products)
@@ -93,6 +94,7 @@ namespace Translation_And_Food.Services
                 Console.WriteLine("Ordine creato");
                 await NotifyUserForShipping(order);
                 Console.Write("Grazie per averci scelto!");
+                await NofifyUserForOrderIsArrivals(order,user);
 
                 return order;
             }
@@ -101,7 +103,6 @@ namespace Translation_And_Food.Services
                 throw new Exception($"Error: {ex.Message}");
             }
         }
-
 
         public List<Product> FoodProviderMenu(FoodProvider foodProv)
         {
@@ -194,11 +195,22 @@ namespace Translation_And_Food.Services
             Console.WriteLine("Il tuo ordine è stato spedito.");
         }
 
-        private async Task NofifyUserForOrderIsArrivals(Order order)
+        private async Task NofifyUserForOrderIsArrivals(Order order,User user)
         {
+
             await Task.Delay(500);
-            Console.WriteLine("Il tuo ordine è stato consegnato, Buon Appetito!");
+            order.Status = OrderStatusEnum.Arrivals;
+            if(user.Type == UserType.officeManager)
+            {
+                Console.WriteLine("Avvisa il giudice che il suo pasto è arrivato");
+            }
+            else
+            {
+                Console.WriteLine("Il tuo ordine è stato consegnato, Buon Appetito!");
+            }
+
         }
+            
 
         public FoodProvider GetFoodProvider(string name)
         {

@@ -4,6 +4,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.Util;
 
@@ -12,10 +13,12 @@ namespace Translation_And_Food.Services
     internal class AppService
     {
         private readonly FoodDeliveryServices _foodDeliveryServices;
+        private readonly TranslationService _translationService;
 
-        public AppService(FoodDeliveryServices foodDeliveryServices)
+        public AppService(FoodDeliveryServices foodDeliveryServices, TranslationService translationService)
         {
-            _foodDeliveryServices = foodDeliveryServices ?? throw new ArgumentNullException(nameof(foodDeliveryServices));
+            _foodDeliveryServices = foodDeliveryServices;
+            _translationService = translationService;
         }
 
         public async Task<string> GetAllProviderInTime(TimeSpan time)
@@ -26,7 +29,8 @@ namespace Translation_And_Food.Services
 
                 if (providers.Any())
                 {
-                    return string.Join(Environment.NewLine, providers.Select(provider => provider.Name));
+                    var prov = providers.Select(provider => provider.Name);
+                    return string.Join(Environment.NewLine, prov);
                 }
                 else
                 {
@@ -40,6 +44,7 @@ namespace Translation_And_Food.Services
                 return "Si è verificato un errore durante la ricerca dei food provider.";
             }
         }
+
 
         public async Task<string> GetAllProviderForMealType(MealType meal)
         {
@@ -64,11 +69,12 @@ namespace Translation_And_Food.Services
             }
         }
 
-        public async Task<string> CreateOrder(MealType type, List<Product> products, FoodProvider provider)
+        public async Task<string> CreateOrder(User user,List<Product> products, FoodProvider provider)
         {
             try
             {
-                var order = await _foodDeliveryServices.CreateOrder(type, products, provider);
+                var order = await _foodDeliveryServices.CreateOrder(user,products, provider);
+
                 return order.ToString();
             }
             catch (Exception ex)
@@ -122,6 +128,27 @@ namespace Translation_And_Food.Services
         public FoodProvider GetProvider(string providerName)
         {
             return _foodDeliveryServices.GetFoodProvider(providerName);
+        }
+
+        public async Task<string> FindTranslator(string language)
+        {
+            try
+            {
+                var translator = await _translationService.FindTransaltor(language);
+                if(translator == null)
+                {
+                    return translator.Name;
+                }
+                else
+                {
+                   return "Nessun Traduttore disponibile per la lingua selezionata";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            
+            }
         }
     }
 

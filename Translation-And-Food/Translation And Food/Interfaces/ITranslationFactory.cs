@@ -9,7 +9,7 @@ namespace Translation_And_Food.Interfaces
 {
     internal interface ITranslationFactory
     {
-        ITranslation FindTranslator(string language)
+       Translator FindTranslator(string language)
         {
             return new Translator();
         }

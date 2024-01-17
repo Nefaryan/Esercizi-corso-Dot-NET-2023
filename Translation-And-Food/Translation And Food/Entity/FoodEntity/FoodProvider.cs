@@ -30,7 +30,7 @@ namespace Translation_And_Food.Entity.FoodEntity
 
         public async Task<bool> ProcessOrder(Order order)
         {
-            await Task.Delay(order.TotalPreparationTime * 1000);
+            await Task.Delay(order.TotalPreparationTime * 5);
             order.Status = OrderStatusEnum.Ready;
             Orders.Enqueue(order);
             return true;

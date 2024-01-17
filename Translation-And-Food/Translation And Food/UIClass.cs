@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Services;
@@ -22,7 +23,7 @@ namespace Translation_And_Food
             _appService = appService;
         }
 
-        public void Run()
+        public void Run(User user)
         {
             while (true)
             {
@@ -40,7 +41,7 @@ namespace Translation_And_Food
                         Console.ReadLine();
                         break;
                     case "2":
-                        RunFoodDeliveryMenu();
+                        RunFoodDeliveryMenu(user);
                         break;
                     case "X":
                         Exit();
@@ -53,13 +54,14 @@ namespace Translation_And_Food
             }
         }
 
-        private void RunFoodDeliveryMenu()
+        private void RunFoodDeliveryMenu(User user)
         {
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("=== Food Menù ===");
-                Console.WriteLine("1. Visualizza tutti i ristoranti con servizio di food delivery");
+                Console.WriteLine("1. Visualizza tutti i ristoranti con servizio di food delivery\n " +
+                    "  disponibili per la tua fascia oraria");
                 Console.WriteLine("2. Visualizza ristoranti per tipo di pasto");
                 Console.WriteLine("3. Visualizza menu del ristorante");
                 Console.WriteLine("4. Seleziona i prodotti per l'ordine");
@@ -84,7 +86,7 @@ namespace Translation_And_Food
                         SelectProductsForOrder();
                         break;
                     case "5":
-                        Task.Run(() => CreateOrder());
+                        Task.Run(() => CreateOrder(user));
                         break;
                     case "6":
                         return; // Torna al menù principale
@@ -99,11 +101,11 @@ namespace Translation_And_Food
             }
         }
 
-        private void DisplayFoodProvidersInTime()
+        private void RunTranslationService(User user)
         {
-            Console.WriteLine(_appService.GetAllProviderInTime(new TimeSpan(0,0,0)));
-            Console.ReadLine();
+
         }
+
 
         private void DisplayFoodProvidersByMealType()
         {
@@ -142,19 +144,27 @@ namespace Translation_And_Food
             listOfProducts = _appService.SelectProductForOrder(prov).Result;
         }
 
-        private void CreateOrder()
+        private void CreateOrder(User user)
         {
-            Console.WriteLine("Inserisci il tipo di pasto (Colazione, Pranzo, Cena): ");
-            if (Enum.TryParse(Console.ReadLine(), true, out MealType mealType))
+            var products = listOfProducts.Select(p => p.Name).ToList();
+            Console.WriteLine($"I prodotti selezionati per il tuo ordine sono: {products}");
+            Console.WriteLine(_appService.CreateOrder(user,listOfProducts, prov).Result);
+            Console.ReadLine();
+        }
+        private void DisplayFoodProvidersInTime()
+        {
+            Console.WriteLine("Inserisci l'orario nel formato HH:mm:ss: ");
+            if (TimeSpan.TryParse(Console.ReadLine(), out TimeSpan selectedTime))
             {
-                Console.WriteLine(_appService.CreateOrder(mealType, listOfProducts, prov).Result);
+                Console.WriteLine(_appService.GetAllProviderInTime(selectedTime));
             }
             else
             {
-                Console.WriteLine("Tipo di pasto non valido.");
+                Console.WriteLine("Formato orario non valido. Riprova.");
             }
             Console.ReadLine();
         }
+
 
         private void Exit()
         {

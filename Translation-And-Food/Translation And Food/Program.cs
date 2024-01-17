@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
+using Translation_And_Food.Entity.TranslationEntity;
 using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Services;
 
@@ -8,8 +11,11 @@ namespace Translation_And_Food
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            User user = new User();
+            user.Name = "Giacomo";
+            user.Type = UserType.officeManager;
            
             
             List<FoodProvider> providers = new List<FoodProvider>();
@@ -21,14 +27,14 @@ namespace Translation_And_Food
             };
             List<Product> Pranzo = new List<Product>{
 
-                new Product("Amatriciana",1,MealType.Pranzo,1),
-                new Product("Tagliata di manzo",2,MealType.Pranzo,2)
+                new Product("Amatriciana",1,MealType.Pranzo,12),
+                new Product("Tagliata di manzo",2,MealType.Pranzo,42)
 
             };
             List<Product> Cena = new List<Product>()
             {
-                new Product("Pizza",1,MealType.Cena,1),
-                new Product("Kebab",2,MealType.Cena,2)
+                new Product("Pizza",1,MealType.Cena,35),
+                new Product("Kebab",2,MealType.Cena,20)
             };
 
             FoodProvider foodProvider = new FoodProvider();
@@ -53,11 +59,18 @@ namespace Translation_And_Food
             providers.Add(foodProvider2);
             providers.Add(foodProvider);
 
+            List<Translator> translators = new List<Translator>();
+            Translator t1 = new Translator();
+            t1.Name = "Pippo";
+            t1.Language = "Tedesco";
+            translators.Add(t1);
+
             FoodDeliveryServices foodDeliveryServices = new FoodDeliveryServices(providers,buckets);
-            AppService appService = new AppService(foodDeliveryServices);
+            TranslationService translationService = new TranslationService(translators);
+            AppService appService = new AppService(foodDeliveryServices,translationService);
             UIClass ui = new UIClass(appService);
 
-            ui.Run();
+            ui.Run(user);
         }
     }
 }

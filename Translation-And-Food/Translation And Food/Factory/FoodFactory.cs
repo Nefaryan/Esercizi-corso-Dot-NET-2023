@@ -11,7 +11,7 @@ namespace Translation_And_Food.Factory
 {
     internal class FoodFactory : IFoodFactory
     {
-        public Order CreateOrder(MealType type)
+        public Order CreateOrder()
         {
             return new Order { Products = new List<Product>(), Status = OrderStatusEnum.InPreparation };
         }
