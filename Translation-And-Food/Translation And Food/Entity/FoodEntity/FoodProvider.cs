@@ -16,8 +16,8 @@ namespace Translation_And_Food.Entity.FoodEntity
         public List<Product> Menù { get; set; }
         public string Name { get; set; }
         public Queue<Order> Orders { get; set; } = new Queue<Order>();
-        public Queue<Product> ProductsInPrep { get; set; } = new Queue<Product> ();
-        public int ProductsInPreparationCount => ProductsInPrep.Count;
+        public Queue<Product> ProductsInPrep { get; set; } = new Queue<Product>();
+        public int ProductsInPrepCount => ProductsInPrep.Count;
 
         public FoodProvider()
         {
@@ -26,16 +26,45 @@ namespace Translation_And_Food.Entity.FoodEntity
 
         public bool CanAcceptOder()
         {
-            return ProductsInPreparationCount < 4;
+            lock (ProductsInPrep)
+            {
+                return ProductsInPrepCount < 4;
+            }
         }
+
+        private async Task<bool> ProcessProduct(Product product)
+        {
+            await Task.Delay(product.preparationTime * 5);
+
+            lock (ProductsInPrep)
+            {
+                if (ProductsInPrepCount < 4)
+                {
+                    ProductsInPrep.Enqueue(product);
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Limite di prodotti in preparazione raggiunto.");
+                    Task.Delay(1000);
+                    return false;
+                }
+            }
+        }
+
 
         public async Task<bool> ProcessOrders()
         {
-            while (Orders.Count > 0 && CanAcceptOder())
-            {
-                Order order = Orders.Dequeue();
+            List<Order> ordersToProcess;
 
-                // Verifica se l'ordine è già stato elaborato
+            lock (Orders)
+            {
+                ordersToProcess = Orders.ToList();
+                Orders.Clear(); 
+            }
+
+            foreach (Order order in ordersToProcess)
+            {
                 if (!order.IsProcessed)
                 {
                     foreach (Product product in order.Products)
@@ -46,8 +75,6 @@ namespace Translation_And_Food.Entity.FoodEntity
                             return false;
                         }
                     }
-
-                    // Imposta lo stato dell'ordine come elaborato
                     order.IsProcessed = true;
                 }
             }
@@ -55,14 +82,7 @@ namespace Translation_And_Food.Entity.FoodEntity
             return true;
         }
 
-        private async Task<bool> ProcessProduct(Product product)
-        
-        {
-            await Task.Delay(product.preparationTime * 5);
-            ProductsInPrep.Enqueue(product);
-            return true;
-        }
-
     }
+
 }
 

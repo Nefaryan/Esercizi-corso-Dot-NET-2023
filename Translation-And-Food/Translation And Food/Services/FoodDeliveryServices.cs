@@ -71,47 +71,50 @@ namespace Translation_And_Food.Services
             }
         }
 
-        public async Task<Order> CreateOrder(User user,List<Product>products, FoodProvider foodProv)
+        public async Task<Order> CreateOrder(User user, List<Product> products, FoodProvider foodProv)
         {
             try
             {
                 Console.WriteLine("Stiamo creando il tuo ordine");
                 Order order = _foodFactory.CreateOrder();
-                order.Products = new List<Product>();
-                order.Products.AddRange(products);
-                // Verifica se l'ordine è già presente nella coda degli ordini
-                if (!foodProv.Orders.Any(existingOrder => existingOrder.Id == order.Id) && products.Any())
+
+                if (foodProv.Orders.Any(existingOrder => existingOrder.Id == order.Id))
                 {
-                    foodProv.Orders.Enqueue(order);  // Aggiungi l'ordine alla coda degli ordini del provider
-
-                    await foodProv.ProcessOrders();  // Processa gli ordini in attesa
-
-                    var bucket = new Bucket { Order = order };
-                    await NotifyUserForOrderCreation(order);
-                    Console.WriteLine($"Prezzo Totale: {order.TotalPrice}");
-                    await Task.Delay(1000);
-                    Console.WriteLine("Grazie per il pagamento!");
-                    Console.WriteLine("Ordine creato");
-                    await NotifyUserForShipping(order);
-                    Console.Write("Grazie per averci scelto!");
-                    await NofifyUserForOrderIsArrivals(order, user);
-
-                    return order;
-                }
-                else
-                {
-                    Console.WriteLine($"Errore durante la creazione dell'ordine");
+                    Console.WriteLine("Errore: L'ordine è già presente nella coda degli ordini.");
                     return null;
                 }
+
+                order.Products = new List<Product>(products);
+
+                if (products == null || !products.Any())
+                {
+                    Console.WriteLine("Errore: Nessun prodotto selezionato per l'ordine.");
+                    return null;
+                }
+
+                foodProv.Orders.Enqueue(order);  
+
+                await foodProv.ProcessOrders();
+
+                var bucket = new Bucket { Order = order };
+                await NotifyUserForOrderCreation(order);
+
+                Console.WriteLine($"Prezzo Totale: {order.TotalPrice}");
+                await Task.Delay(1000);
+                Console.WriteLine("Grazie per il pagamento!");
+                Console.WriteLine("Ordine creato");
+                await NotifyUserForShipping(order);
+                Console.Write("Grazie per averci scelto!");
+                await NofifyUserForOrderIsArrivals(order, user);
+
+                return order;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error: {ex.Message}");
+                Console.WriteLine($"Errore durante la creazione dell'ordine: {ex.Message}");
+                return null;
             }
         }
-
-
-
 
         public List<Product> FoodProviderMenu(FoodProvider foodProv)
         {
@@ -134,57 +137,44 @@ namespace Translation_And_Food.Services
             }
         }
 
-        public List<Product> SelectProductFromProvider(FoodProvider foodProvider)
+        public List<Product> SelectProductsFromMenu(FoodProvider foodProvider)
         {
-            try
+            Console.WriteLine($"Menu del FoodProvider {foodProvider.Name}:");
+            Console.WriteLine("-----------------------------");
+
+            DisplayMenu(foodProvider);
+
+            Console.WriteLine("-----------------------------");
+            Console.Write("Inserisci il numero del prodotto che desideri aggiungere (0 per terminare): ");
+            List<Product> selectedProducts = new List<Product>();
+
+            while (true)
             {
-                var menu = FoodProviderMenu(foodProvider);
-
-                if (menu != null && menu.Any())
+                if (int.TryParse(Console.ReadLine(), out int userInput) && userInput >= 0)
                 {
-                    Console.WriteLine($"Menu del FoodProvider {foodProvider.Name}:");
-                    Console.WriteLine("-----------------------------");
+                    if (userInput == 0)
+                        break;
 
-                    for (int i = 0; i < menu.Count; i++)
+                    var selectedProduct = GetProductFromMenu(foodProvider, userInput);
+                    if (selectedProduct != null)
                     {
-                        Console.WriteLine($"{i + 1}. {menu[i].Name} - {menu[i].Price}€");
+                        selectedProducts.Add(selectedProduct);
+                        Console.WriteLine($"Hai aggiunto {selectedProduct.Name} al tuo ordine.");
                     }
-
-                    Console.WriteLine("-----------------------------");
-                    Console.Write("Inserisci il numero del prodotto che desideri aggiungere (0 per terminare): ");
-                    List<Product> selectedProducts = new List<Product>();
-
-                    while (true)
+                    else
                     {
-                        if (int.TryParse(Console.ReadLine(), out int userInput) && userInput >= 0 && userInput <= menu.Count)
-                        {
-                            if (userInput == 0)
-                                break;
-
-                            var selectedProduct = menu[userInput - 1];
-                            selectedProducts.Add(selectedProduct);
-                            Console.WriteLine($"Hai aggiunto {selectedProduct.Name} al tuo ordine.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Inserimento non valido. Riprova.");
-                        }
+                        Console.WriteLine("Prodotto non valido. Riprova.");
                     }
-
-                    return selectedProducts;
                 }
                 else
                 {
-                    Console.WriteLine("Il FoodProvider non ha un menu disponibile.");
-                    return null;
+                    Console.WriteLine("Inserimento non valido. Riprova.");
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Errore durante la selezione dei prodotti: {ex.Message}");
-                return null;
-            }
+
+            return selectedProducts;
         }
+
 
         private bool IsProviderOpen(FoodProvider provider, TimeSpan time)
         {
@@ -232,6 +222,35 @@ namespace Translation_And_Food.Services
         public FoodProvider GetFoodProvider(string name)
         {
             return _foodProviders.FirstOrDefault(x => x.Name == name);
+        }
+
+        private void DisplayMenu(FoodProvider foodProvider)
+        {
+            var menu = FoodProviderMenu(foodProvider);
+
+            if (menu != null && menu.Any())
+            {
+                for (int i = 0; i < menu.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {menu[i].Name} - {menu[i].Price}€");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Il FoodProvider non ha un menu disponibile.");
+            }
+        }
+
+        private Product GetProductFromMenu(FoodProvider foodProvider, int userInput)
+        {
+            var menu = FoodProviderMenu(foodProvider);
+
+            if (menu != null && menu.Any() && userInput <= menu.Count)
+            {
+                return menu[userInput - 1];
+            }
+
+            return null;
         }
     }
 

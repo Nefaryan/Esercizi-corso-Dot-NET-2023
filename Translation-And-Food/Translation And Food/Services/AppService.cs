@@ -116,7 +116,7 @@ namespace Translation_And_Food.Services
             try
             {
                 await Task.Delay(1000);
-                return _foodDeliveryServices.SelectProductFromProvider(foodProvider)?.ToList();
+                return _foodDeliveryServices.SelectProductsFromMenu(foodProvider)?.ToList();
             }
             catch (Exception ex)
             {

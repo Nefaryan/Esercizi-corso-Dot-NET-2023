@@ -9,7 +9,7 @@ using Translation_And_Food.Interfaces;
 
 namespace Translation_And_Food.Entity.FoodEntity
 {
-    internal class Order: IFood
+    internal class Order: IFoodOwner
     {
         private static readonly Random random = new Random();
 
