@@ -59,7 +59,7 @@ namespace Translation_And_Food
 
         private void RunFoodDeliveryMenu(User user)
         {
-            List<Product> selectedProducts = new List<Product>();
+          
 
             while (true)
             {
@@ -88,10 +88,10 @@ namespace Translation_And_Food
                         DisplayRestaurantMenu();
                         break;
                     case "4":
-                       selectedProducts = SelectProductsForOrder();
+                       listOfProducts = SelectProductsForOrder();
                         break;
                     case "5":
-                        CreateOrder(user, selectedProducts);
+                        CreateOrder(user, listOfProducts);
                         break;
                     case "6":
                         return; // Torna al menù principale
@@ -168,16 +168,6 @@ namespace Translation_And_Food
             string restaurantName = Console.ReadLine();
             prov = _appService.GetProvider(restaurantName);
             List<Product> productsToAdd = _appService.SelectProductForOrder(prov).Result;
-
-            // Aggiungi solo prodotti non presenti nella lista
-            foreach (var product in productsToAdd)
-            {
-                if (!listOfProducts.Contains(product))
-                {
-                    listOfProducts.Add(product);
-                }
-            }
-
             return productsToAdd;
         }
 

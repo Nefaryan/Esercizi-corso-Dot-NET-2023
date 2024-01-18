@@ -70,12 +70,13 @@ namespace Translation_And_Food.Services
             }
         }
 
-        public async Task<Order> CreateOrder(User user, List<Product> products, FoodProvider foodProv)
+        public async Task<Order> CreateOrder(User user,List<Product>products, FoodProvider foodProv)
         {
             try
             {
                 Console.WriteLine("Stiamo creando il tuo ordine");
-                Order order = _foodFactory.CreateOrder(products);
+                Order order = _foodFactory.CreateOrder();
+                order.Products = new List<Product>();
                 order.Products.AddRange(products);
 
                 // Verifica se l'ordine è già presente nella coda degli ordini
