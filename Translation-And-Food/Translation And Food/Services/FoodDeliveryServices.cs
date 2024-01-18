@@ -78,7 +78,6 @@ namespace Translation_And_Food.Services
                 Order order = _foodFactory.CreateOrder();
                 order.Products = new List<Product>();
                 order.Products.AddRange(products);
-
                 // Verifica se l'ordine è già presente nella coda degli ordini
                 if (!foodProv.Orders.Any(existingOrder => existingOrder.Id == order.Id))
                 {

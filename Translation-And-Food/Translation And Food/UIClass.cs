@@ -176,7 +176,6 @@ namespace Translation_And_Food
         {
             var products = selectedProducts.Select(p => p.Name).ToList();
             Console.WriteLine($"I prodotti selezionati per il tuo ordine sono: {string.Join(", ", products)}");
-
             Console.WriteLine(_appService.CreateOrder(user, selectedProducts, prov).Result);
             Console.ReadLine();
         }
