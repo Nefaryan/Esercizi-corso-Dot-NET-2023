@@ -172,11 +172,11 @@ namespace Translation_And_Food
         }
 
 
-        private void CreateOrder(User user, List<Product> selectedProducts)
+        private async Task CreateOrder(User user, List<Product> selectedProducts)
         {
             var products = selectedProducts.Select(p => p.Name).ToList();
             Console.WriteLine($"I prodotti selezionati per il tuo ordine sono: {string.Join(", ", products)}");
-            Console.WriteLine(_appService.CreateOrder(user, selectedProducts, prov).Result);
+            Console.WriteLine(await _appService.CreateOrder(user, selectedProducts, prov));
             Console.ReadLine();
         }
 

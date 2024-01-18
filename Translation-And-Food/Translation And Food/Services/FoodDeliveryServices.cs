@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.Util;
+using Translation_And_Food.Event;
 using Translation_And_Food.Factory.Food;
 using Translation_And_Food.Interfaces;
 
@@ -79,7 +80,7 @@ namespace Translation_And_Food.Services
                 order.Products = new List<Product>();
                 order.Products.AddRange(products);
                 // Verifica se l'ordine è già presente nella coda degli ordini
-                if (!foodProv.Orders.Any(existingOrder => existingOrder.Id == order.Id))
+                if (!foodProv.Orders.Any(existingOrder => existingOrder.Id == order.Id) && products.Any())
                 {
                     foodProv.Orders.Enqueue(order);  // Aggiungi l'ordine alla coda degli ordini del provider
 
@@ -99,7 +100,7 @@ namespace Translation_And_Food.Services
                 }
                 else
                 {
-                    Console.WriteLine($"Ordine con ID {order.Id} già presente nella coda degli ordini.");
+                    Console.WriteLine($"Errore durante la creazione dell'ordine");
                     return null;
                 }
             }
@@ -194,6 +195,8 @@ namespace Translation_And_Food.Services
         {
             await Task.Delay(order.TotalPreparationTime * 1000);
             Console.WriteLine("L'ordine è stato creato e lo stiamo elaborando.");
+
+            OrderCreationEvent?.Invoke(this, new OrderEventsArgs(order));
         }
 
         private async Task NotifyUserForShipping(Order order)
@@ -201,14 +204,15 @@ namespace Translation_And_Food.Services
             await Task.Delay(500);
             order.Status = OrderStatusEnum.OnTheGo;
             Console.WriteLine("Il tuo ordine è stato spedito.");
+
+            OrderShippingEvent?.Invoke(this, new OrderEventsArgs(order));
         }
 
-        private async Task NofifyUserForOrderIsArrivals(Order order,User user)
+        private async Task NofifyUserForOrderIsArrivals(Order order, User user)
         {
-
             await Task.Delay(500);
             order.Status = OrderStatusEnum.Arrivals;
-            if(user.Type == UserType.officeManager)
+            if (user.Type == UserType.officeManager)
             {
                 Console.WriteLine("Avvisa il giudice che il suo pasto è arrivato");
             }
@@ -217,8 +221,13 @@ namespace Translation_And_Food.Services
                 Console.WriteLine("Il tuo ordine è stato consegnato, Buon Appetito!");
             }
 
+            OrderArrivalEvent?.Invoke(this, new OrderEventsArgs(order));
         }
-            
+
+        public event EventHandler<OrderEventsArgs> OrderCreationEvent;
+        public event EventHandler<OrderEventsArgs> OrderShippingEvent;
+        public event EventHandler<OrderEventsArgs> OrderArrivalEvent;
+
 
         public FoodProvider GetFoodProvider(string name)
         {

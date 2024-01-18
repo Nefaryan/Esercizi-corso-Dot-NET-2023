@@ -12,7 +12,7 @@ namespace Translation_And_Food
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             User user = new User();
             user.Name = "Giacomo";
