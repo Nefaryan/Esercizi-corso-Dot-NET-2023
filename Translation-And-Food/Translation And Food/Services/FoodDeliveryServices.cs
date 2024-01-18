@@ -75,6 +75,7 @@ namespace Translation_And_Food.Services
         {
             try
             {
+                Console.WriteLine("-----------------------------------------------------------------------");
                 Console.WriteLine("Stiamo creando il tuo ordine");
                 Order order = _foodFactory.CreateOrder();
 
@@ -106,6 +107,7 @@ namespace Translation_And_Food.Services
                 await NotifyUserForShipping(order);
                 Console.Write("Grazie per averci scelto!");
                 await NofifyUserForOrderIsArrivals(order, user);
+                Console.WriteLine("-----------------------------------------------------------------------");
 
                 return order;
             }
