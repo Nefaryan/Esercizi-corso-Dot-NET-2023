@@ -18,6 +18,7 @@ namespace Translation_And_Food.Entity.FoodEntity
         public List<Product> Products { get; set; }
         public int TotalPrice => Products.Sum(p => p.Price);
         public int TotalPreparationTime => Products.Sum(p => p.preparationTime);
+        public bool IsProcessed { get; set; }
 
         public Order() 
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Globalization;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using Translation_And_Food.Entity;
@@ -17,7 +18,7 @@ namespace Translation_And_Food
     internal class UIClass
     {
         private readonly AppService _appService;
-        private List<Product> listOfProducts = new List<Product>();
+        List<Product> listOfProducts = new List<Product>();
         private FoodProvider prov = new FoodProvider();
 
         public UIClass(AppService appService)
@@ -58,6 +59,8 @@ namespace Translation_And_Food
 
         private void RunFoodDeliveryMenu(User user)
         {
+            List<Product> selectedProducts = new List<Product>();
+
             while (true)
             {
                 Console.Clear();
@@ -85,10 +88,10 @@ namespace Translation_And_Food
                         DisplayRestaurantMenu();
                         break;
                     case "4":
-                        SelectProductsForOrder();
+                       selectedProducts = SelectProductsForOrder();
                         break;
                     case "5":
-                        CreateOrder(user);
+                        CreateOrder(user, selectedProducts);
                         break;
                     case "6":
                         return; // Torna al menù principale
@@ -159,21 +162,35 @@ namespace Translation_And_Food
             Console.ReadLine();
         }
 
-        private void SelectProductsForOrder()
+        private List<Product> SelectProductsForOrder()
         {
             Console.WriteLine("Inserisci il nome del ristorante: ");
             string restaurantName = Console.ReadLine();
             prov = _appService.GetProvider(restaurantName);
-            listOfProducts = _appService.SelectProductForOrder(prov).Result;
+            List<Product> productsToAdd = _appService.SelectProductForOrder(prov).Result;
+
+            // Aggiungi solo prodotti non presenti nella lista
+            foreach (var product in productsToAdd)
+            {
+                if (!listOfProducts.Contains(product))
+                {
+                    listOfProducts.Add(product);
+                }
+            }
+
+            return productsToAdd;
         }
 
-        private void CreateOrder(User user)
+
+        private void CreateOrder(User user, List<Product> selectedProducts)
         {
-            var products = listOfProducts.Select(p => p.Name).ToList();
-            Console.WriteLine($"I prodotti selezionati per il tuo ordine sono: {products}");
-            Console.WriteLine(_appService.CreateOrder(user,listOfProducts, prov).Result);
+            var products = selectedProducts.Select(p => p.Name).ToList();
+            Console.WriteLine($"I prodotti selezionati per il tuo ordine sono: {string.Join(", ", products)}");
+
+            Console.WriteLine(_appService.CreateOrder(user, selectedProducts, prov).Result);
             Console.ReadLine();
         }
+
 
         private void DisplayFoodProvidersInTime()
         {

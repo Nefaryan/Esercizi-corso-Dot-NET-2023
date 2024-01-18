@@ -34,13 +34,21 @@ namespace Translation_And_Food.Entity.FoodEntity
             while (Orders.Count > 0 && CanAcceptOder())
             {
                 Order order = Orders.Dequeue();
-                foreach (Product product in order.Products)
+
+                // Verifica se l'ordine è già stato elaborato
+                if (!order.IsProcessed)
                 {
-                    if (!await ProcessProduct(product))
+                    foreach (Product product in order.Products)
                     {
-                        Console.WriteLine("Tutte i nostri dipendenti sono occupati sarai servito non appena possibile");
-                        return false;
+                        if (!await ProcessProduct(product))
+                        {
+                            Console.WriteLine("Tutti i nostri dipendenti sono occupati, sarai servito non appena possibile");
+                            return false;
+                        }
                     }
+
+                    // Imposta lo stato dell'ordine come elaborato
+                    order.IsProcessed = true;
                 }
             }
 
@@ -48,6 +56,7 @@ namespace Translation_And_Food.Entity.FoodEntity
         }
 
         private async Task<bool> ProcessProduct(Product product)
+        
         {
             await Task.Delay(product.preparationTime * 5);
             ProductsInPrep.Enqueue(product);

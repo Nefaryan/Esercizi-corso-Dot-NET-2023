@@ -78,27 +78,37 @@ namespace Translation_And_Food.Services
                 Order order = _foodFactory.CreateOrder(products);
                 order.Products.AddRange(products);
 
-                foodProv.Orders.Enqueue(order);  // Aggiungi l'ordine alla coda degli ordini del provider
+                // Verifica se l'ordine è già presente nella coda degli ordini
+                if (!foodProv.Orders.Any(existingOrder => existingOrder.Id == order.Id))
+                {
+                    foodProv.Orders.Enqueue(order);  // Aggiungi l'ordine alla coda degli ordini del provider
 
-                await foodProv.ProcessOrders();  // Processa gli ordini in attesa
+                    await foodProv.ProcessOrders();  // Processa gli ordini in attesa
 
-                var bucket = new Bucket { Order = order };
-                await NotifyUserForOrderCreation(order);
-                Console.WriteLine($"Prezzo Totale: {order.TotalPrice}");
-                await Task.Delay(1000);
-                Console.WriteLine("Grazie per il pagamento!");
-                Console.WriteLine("Ordine creato");
-                await NotifyUserForShipping(order);
-                Console.Write("Grazie per averci scelto!");
-                await NofifyUserForOrderIsArrivals(order, user);
+                    var bucket = new Bucket { Order = order };
+                    await NotifyUserForOrderCreation(order);
+                    Console.WriteLine($"Prezzo Totale: {order.TotalPrice}");
+                    await Task.Delay(1000);
+                    Console.WriteLine("Grazie per il pagamento!");
+                    Console.WriteLine("Ordine creato");
+                    await NotifyUserForShipping(order);
+                    Console.Write("Grazie per averci scelto!");
+                    await NofifyUserForOrderIsArrivals(order, user);
 
-                return order;
+                    return order;
+                }
+                else
+                {
+                    Console.WriteLine($"Ordine con ID {order.Id} già presente nella coda degli ordini.");
+                    return null;
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error: {ex.Message}");
             }
         }
+
 
 
 
