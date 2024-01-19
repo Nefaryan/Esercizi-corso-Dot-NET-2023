@@ -27,9 +27,11 @@ namespace Translation_And_Food
             while (true)
             {
                 Console.Clear();
+                Console.WriteLine("----------Office Manager---------");
                 Console.WriteLine("1. Cerca un traduttore");
                 Console.WriteLine("2. Ordina un pasto");
                 Console.WriteLine("X. Esci");
+                Console.WriteLine("---------------------------------");
 
                 string choice = Console.ReadLine();
 
@@ -68,6 +70,7 @@ namespace Translation_And_Food
                 Console.WriteLine("5. Crea un ordine");
                 Console.WriteLine("6. Torna al menu principale");
                 Console.WriteLine("7. Esci");
+                Console.WriteLine("------------------------");
 
                 string choice = Console.ReadLine();
 
@@ -121,6 +124,7 @@ namespace Translation_And_Food
                         if (translator != null)
                         {
                             Console.WriteLine($"Traduttore trovato: {translator}");
+                            await Task.Delay(1000);
                         }
                         else
                         {
