@@ -119,17 +119,7 @@ namespace Translation_And_Food
                 {
                     case "1":
                         Console.WriteLine("Inserisici la lingua per la quale cerchi un traduttore");
-                        string trans = Console.ReadLine();
-                        var translator = await _appService.FindTranslator(trans);
-                        if (translator != null)
-                        {
-                            Console.WriteLine($"Traduttore trovato: {translator}");
-                            await Task.Delay(1000);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Nessun Traduttore disponibile per la lingua selezionata.");
-                        }
+                        Findtranslator();
                         break;
                     case "2":
                         Exit();
@@ -206,6 +196,20 @@ namespace Translation_And_Food
         {
             Console.WriteLine("Thank you for using the application. Goodbye!");
             Environment.Exit(0);
+        }
+
+        private async Task Findtranslator()
+        {
+            string trans = Console.ReadLine();
+            var translator = await _appService.FindTranslator(trans);
+            if (translator != null)
+            {
+                Console.WriteLine($"Traduttore trovato: {translator}");
+            }
+            else
+            {
+                Console.WriteLine("Nessun Traduttore disponibile per la lingua selezionata.");
+            }
         }
 
         private void OnTranlatorFound(object sender,TranslatorFoundEventArgs e)
