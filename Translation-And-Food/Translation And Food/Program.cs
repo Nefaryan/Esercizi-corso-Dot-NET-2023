@@ -12,12 +12,11 @@ namespace Translation_And_Food
 {
     internal class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             User user = new User();
             user.Name = "Giacomo";
-            user.Type = UserType.officeManager;
-           
+            user.Type = UserType.officeManager;    
             
             List<FoodProvider> providers = new List<FoodProvider>();
             List<Bucket> buckets = new List<Bucket>();
@@ -64,7 +63,16 @@ namespace Translation_And_Food
             Translator t1 = new Translator();
             t1.Name = "Pippo";
             t1.Language = "Tedesco";
+            var t2 = new Translator();
+            t2.Name = "Carlo";
+            t2.Language = "Inglese";
+            var t3 = new Translator();
+            t3.Name = "Mattia";
+            t3.Language = "Polacco";
+
             translators.Add(t1);
+            translators.Add(t2);
+            translators.Add(t3);
 
             FoodDeliveryServices foodDeliveryServices = new FoodDeliveryServices(providers,buckets);
             var tranlatorsFactory = new TranslationFactory();

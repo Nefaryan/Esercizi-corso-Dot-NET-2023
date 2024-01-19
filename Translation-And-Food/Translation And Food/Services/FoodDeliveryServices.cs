@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
 using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Event;
 using Translation_And_Food.Factory.Food;
-using Translation_And_Food.Interfaces;
+
 
 namespace Translation_And_Food.Services
 {

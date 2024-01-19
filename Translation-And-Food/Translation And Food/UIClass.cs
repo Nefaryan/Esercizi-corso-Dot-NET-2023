@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Globalization;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
 using System.Threading.Tasks;
 using Translation_And_Food.Entity;
 using Translation_And_Food.Entity.FoodEntity;
-using Translation_And_Food.Entity.TranslationEntity;
 using Translation_And_Food.Entity.Util;
 using Translation_And_Food.Event;
 using Translation_And_Food.Services;
@@ -122,8 +117,15 @@ namespace Translation_And_Food
                     case "1":
                         Console.WriteLine("Inserisici la lingua per la quale cerchi un traduttore");
                         string trans = Console.ReadLine();
-                        var trnls = await  _appService.FindTranslator(trans);
-                        Console.WriteLine(trnls);
+                        var translator = await _appService.FindTranslator(trans);
+                        if (translator != null)
+                        {
+                            Console.WriteLine($"Traduttore trovato: {translator}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nessun Traduttore disponibile per la lingua selezionata.");
+                        }
                         break;
                     case "2":
                         Exit();
@@ -181,12 +183,13 @@ namespace Translation_And_Food
         }
 
 
-        private void DisplayFoodProvidersInTime()
+        private async void DisplayFoodProvidersInTime()
         {
             Console.WriteLine("Inserisci l'orario nel formato HH:mm:ss: ");
             if (TimeSpan.TryParse(Console.ReadLine(), out TimeSpan selectedTime))
             {
-                Console.WriteLine(_appService.GetAllProviderInTime(selectedTime));
+                var res = await _appService.GetAllProviderInTime(selectedTime);
+                Console.WriteLine(res);
             }
             else
             {
